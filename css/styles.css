@@ -758,56 +758,58 @@ p:last-child { margin-bottom: 0; }
 }
 .modal-fotos img:hover { transform: scale(1.03); }
 
-/* Layout zigzag para modal Día del Niño */
-.modal-zigzag {
+/* Modal Día del Niño: dos videos lado a lado */
+.nino-videos {
   display: flex;
-  flex-direction: column;
-  gap: 32px;
+  gap: 14px;
+  max-width: 460px;
+  margin: 0 auto;
 }
-
-/* Cada fila: video + texto alineados al centro vertical */
-.modal-zz-row {
-  display: flex;
-  gap: 24px;
-  align-items: center;
+.nino-video-wrap {
+  flex: 1;
+  aspect-ratio: 9 / 16;
 }
-
-/* Fila 2: misma DOM (video primero), invertida visualmente */
-.modal-zz-row--reverse {
-  flex-direction: row-reverse;
-}
-
-/* Columna del video: ancho fijo, proporciones 9:16 */
-.modal-zz-video {
-  flex: 0 0 auto;
-  width: 42%;
-  max-width: 220px;
-}
-.modal-zz-video video {
+.nino-video-wrap video {
   display: block;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: var(--radio-sm);
   background: #000;
   box-shadow: 0 4px 18px rgba(0,0,0,0.18);
 }
 
-/* Columna del texto */
-.modal-zz-texto {
-  flex: 1;
-  min-width: 0;
+/* Grilla de 5 fotos: 3 en fila superior + 2 más anchas en fila inferior */
+.nino-fotos {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
 }
-.modal-zz-texto p {
-  color: var(--texto-medio);
-  font-size: 0.97rem;
-  line-height: 1.75;
-  margin: 0;
+.nino-fotos img {
+  display: block;
+  width: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+  border-radius: var(--radio-sm);
+  min-height: 0;
+}
+.nino-fotos img:nth-child(-n+3) {
+  grid-column: span 2;
+  aspect-ratio: 4 / 3;
+}
+.nino-fotos img:nth-child(n+4) {
+  grid-column: span 3;
+  aspect-ratio: 4 / 3;
 }
 
-/* Mobile: apila en columna, video arriba, texto abajo, siempre */
+/* Mobile: videos apilados, fotos en 2 columnas */
 @media (max-width: 620px) {
-  .modal-zz-row,
-  .modal-zz-row--reverse { flex-direction: column; }
-  .modal-zz-video { width: 100%; max-width: 240px; margin: 0 auto; }
+  .nino-videos        { flex-direction: column; align-items: center; max-width: 240px; }
+  .nino-video-wrap    { width: 100%; }
+  .nino-fotos         { grid-template-columns: 1fr 1fr; }
+  .nino-fotos img:nth-child(-n+3),
+  .nino-fotos img:nth-child(n+4) { grid-column: span 1; }
+  .nino-fotos img:nth-child(5)   { grid-column: span 2; }
 }
 
 /* Layout locro: video izquierda + grilla de fotos derecha */
