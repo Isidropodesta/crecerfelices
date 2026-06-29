@@ -461,31 +461,28 @@
         <p>El contexto es el de siempre, los chicos de siempre, pero con una energía distinta. Es un día en el que todo el esfuerzo del año vale la pena de un vistazo.</p>
       </div>
 
-      <!-- FILA 1: video explicativo izquierda + grilla 2×2 de fotos derecha -->
-      <div class="nino-fila">
-        <div class="nino-fila-video">
+      <!-- Grilla uniforme 4 columnas: 2 videos + 5 fotos, todas las celdas iguales -->
+      <div class="nino-grid">
+
+        <div class="nino-cell">
           <video controls playsinline preload="metadata" aria-label="De qué se trata el Día del Niño">
             <source src="videos/un-dia-para-recordar.mp4" type="video/mp4">
           </video>
         </div>
-        <div class="nino-fila-grid">
-          <img src="images/nino-3.jpeg" alt="Día del Niño – juego con cajas" loading="lazy">
-          <img src="images/nino-4.jpeg" alt="Día del Niño – chicos juntos" loading="lazy">
-          <img src="images/nino-2.jpeg" alt="Día del Niño – juegos y actividades" loading="lazy">
-          <img src="images/nino-5.jpeg" alt="Día del Niño – show para los chicos" loading="lazy">
-        </div>
-      </div>
 
-      <!-- FILA 2: foto ancha izquierda + video derecha (zigzag) -->
-      <div class="nino-fila nino-fila--reverse">
-        <div class="nino-fila-video">
+        <div class="nino-cell"><img src="images/nino-1.jpeg" alt="Día del Niño – voluntarios disfrazados" loading="lazy"></div>
+        <div class="nino-cell"><img src="images/nino-2.jpeg" alt="Día del Niño – juegos y actividades" loading="lazy"></div>
+        <div class="nino-cell"><img src="images/nino-3.jpeg" alt="Día del Niño – juego con cajas" loading="lazy"></div>
+        <div class="nino-cell"><img src="images/nino-4.jpeg" alt="Día del Niño – chicos juntos" loading="lazy"></div>
+
+        <div class="nino-cell">
           <video controls playsinline preload="metadata" aria-label="Así fue el Día del Niño">
             <source src="videos/un-dia-para-ellos.mp4" type="video/mp4">
           </video>
         </div>
-        <div class="nino-fila-foto">
-          <img src="images/nino-1.jpeg" alt="Día del Niño – voluntarios disfrazados" loading="lazy">
-        </div>
+
+        <div class="nino-cell nino-cell--wide"><img src="images/nino-5.jpeg" alt="Día del Niño – show para los chicos" loading="lazy"></div>
+
       </div>
 
     </div>

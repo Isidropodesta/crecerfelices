@@ -758,72 +758,40 @@ p:last-child { margin-bottom: 0; }
 }
 .modal-fotos img:hover { transform: scale(1.03); }
 
-/* Modal Día del Niño: fila video + fotos (igual patrón que Locro) */
-.nino-fila {
-  display: flex;
-  gap: 14px;
-  align-items: stretch;
-}
-.nino-fila--reverse { flex-direction: row-reverse; }
-
-/* Columna video: max-width 165px → ~293px de alto, compacto */
-.nino-fila-video {
-  flex: 0 0 auto;
-  width: 28%;
-  max-width: 165px;
-  aspect-ratio: 9 / 16;
-  border-radius: var(--radio-sm);
-  overflow: hidden;           /* necesario para que se aplique el border-radius al video */
-  box-shadow: 0 4px 18px rgba(0,0,0,0.18);
-}
-.nino-fila-video video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  background: #000;
-}
-
-/* 4 fotos en grilla 2×2 que llena el espacio restante */
-.nino-fila-grid {
-  flex: 1;
+/* Modal Día del Niño: grilla uniforme 4 columnas */
+.nino-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: repeat(4, 1fr);
   gap: 6px;
 }
-.nino-fila-grid img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  min-height: 0;
-  object-fit: cover;
-  object-position: center center;
-  border-radius: var(--radio-sm);
-}
 
-/* Foto única que iguala el alto del video */
-.nino-fila-foto {
-  flex: 1;
+/* Todas las celdas: mismo tamaño 4/3 con esquinas redondeadas */
+.nino-cell {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radio-sm);
+  overflow: hidden;
+  background: #000;
 }
-.nino-fila-foto img {
+.nino-cell img,
+.nino-cell video {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  border-radius: var(--radio-sm);
 }
 
-/* Mobile: apila en columna, video centrado */
+/* Última foto ocupa 2 columnas con aspect-ratio doble →
+   misma ALTURA que el resto, sin dejar celda vacía */
+.nino-cell--wide {
+  grid-column: span 2;
+  aspect-ratio: 8 / 3;
+}
+
+/* Mobile: 2 columnas; la celda ancha sigue ocupando ambas */
 @media (max-width: 620px) {
-  .nino-fila,
-  .nino-fila--reverse   { flex-direction: column; align-items: center; }
-  .nino-fila-video      { width: 100%; max-width: 180px; }
-  .nino-fila-grid       { width: 100%; grid-template-rows: auto; }
-  .nino-fila-grid img   { height: 100px; min-height: unset; }
-  .nino-fila-foto       { width: 100%; }
-  .nino-fila-foto img   { height: 160px; }
+  .nino-grid { grid-template-columns: repeat(2, 1fr); }
+  .nino-cell--wide { grid-column: span 2; aspect-ratio: 8 / 3; }
 }
 
 /* Layout locro: video izquierda + grilla de fotos derecha */
