@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proyecto Crecer Felices – Mendoza</title>
+  <meta name="description" content="Asociación civil de jóvenes voluntarios que acompañan a niños y adolescentes en los barrios de Godoy Cruz y Luján de Cuyo, Mendoza.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- =====================================================================
+     NAVBAR FIJA
+     ===================================================================== -->
+<nav id="navbar" role="navigation" aria-label="Navegación principal">
+  <div class="nav-container">
+    <a href="#quienes-somos" class="nav-logo" aria-label="Proyecto Crecer Felices">
+      <!--
+        Logo PNG con fondo transparente: logo-crecer-felices.png
+        Se muestra limpio, sin recorte circular, mostrando las manos + texto.
+      -->
+      <img src="images/logo-crecer-felices.png" alt="Proyecto Crecer Felices" class="logo-nav">
+    </a>
+
+    <ul class="nav-links" role="list">
+      <li><a href="#quienes-somos">Quiénes somos</a></li>
+      <li><a href="#talleres">Talleres</a></li>
+      <li><a href="#eventos">Eventos</a></li>
+      <li><a href="#voluntarios">Voluntarios</a></li>
+      <li><a href="#colaborar">Colaborar</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+
+    <a href="#colaborar" class="btn btn-donar">Donar</a>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <ul role="list">
+      <li><a href="#quienes-somos" class="mobile-link">Quiénes somos</a></li>
+      <li><a href="#talleres" class="mobile-link">Talleres</a></li>
+      <li><a href="#eventos" class="mobile-link">Eventos</a></li>
+      <li><a href="#voluntarios" class="mobile-link">Voluntarios</a></li>
+      <li><a href="#colaborar" class="mobile-link">Colaborar</a></li>
+      <li><a href="#contacto" class="mobile-link">Contacto</a></li>
+      <li><a href="#colaborar" class="btn btn-donar mobile-btn-donar">Donar</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+<!-- =====================================================================
+     SECCIÓN 1: QUIÉNES SOMOS
+     ===================================================================== -->
+<section id="quienes-somos" class="section section-quienes" aria-labelledby="quienes-titulo">
+
+  <div class="page-header">
+    <div class="container">
+      <h1 class="page-title">Proyecto<br><span class="script-accent">Crecer Felices</span></h1>
+      <p class="page-subtitle">Mendoza · Asociación Civil sin fines de lucro</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="quienes-layout">
+
+      <div class="quienes-texto reveal">
+        <span class="label-seccion" id="quienes-titulo">Quiénes somos</span>
+        <p class="lead">Crecer Felices es una organización civil sin fines de lucro que funciona en Mendoza desde 2008. Estamos formados por jóvenes voluntarios que cada semana asistimos a distintos centros de apoyo escolar de la municipalidad y merenderos, principalmente en Godoy Cruz y Luján de Cuyo.</p>
+        <p>A través de actividades semanales y encuentros recreativos mensuales, buscamos crear un vínculo real con los chicos: un espacio donde se sientan escuchados, valorados y apoyados, fomentando la inclusión y el desarrollo dentro de su comunidad.</p>
+        <p>En los talleres vemos cómo, de a poco, los chicos se van abriendo. Cómo mejoran su confianza, su forma de relacionarse con los demás y con su propia familia. Y todo eso pasa con algo tan simple como un espacio donde se sientan protegidos y escuchados.</p>
+        <p>Creemos que todo aporte cuenta. Ser parte de Crecer Felices no es solo ayudar: es crecer uno mismo, aprendiendo en equipo y, sobre todo, aprendiendo de los chicos. Por eso siempre hacen falta manos nuevas. Queremos seguir creciendo como organización y llegar a muchos más barrios para acompañar a más chicos.</p>
+      </div>
+
+      <div class="quienes-video reveal reveal-delay-1">
+        <p class="video-label">Conocenos en un minuto</p>
+        <!--
+          VIDEO: videos/video-quienes-somos.mp4
+          Vertical (9:16). Controles nativos, sin autoplay con sonido.
+          Para reemplazar: cambiar el src del <source>.
+        -->
+        <div class="video-wrapper video-vertical">
+          <video
+            controls
+            playsinline
+            preload="metadata"
+            poster=""
+            aria-label="Video institucional de Proyecto Crecer Felices">
+            <source src="videos/video-quienes-somos.mp4" type="video/mp4">
+            <p>Tu navegador no soporta video HTML5.
+               <a href="videos/video-quienes-somos.mp4">Descargar video</a>.</p>
+          </video>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     SECCIÓN 2: CÓMO TRABAJAMOS
+     ===================================================================== -->
+<section id="como-trabajamos" class="section section-como" aria-labelledby="como-titulo">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="label-seccion">Metodología</span>
+      <h2 id="como-titulo">Cómo trabajamos</h2>
+    </div>
+
+    <div class="como-texto reveal">
+      <p>Cada semana nos juntamos con los chicos en los talleres, en encuentros de más o menos dos horas. Una vez por mes nos reunimos entre los voluntarios para planificar: pensamos juegos y actividades recreativas, y las armamos alrededor de distintas temáticas que vamos diseñando.</p>
+      <p>La idea es que, entre juego y juego, los chicos también se lleven un aprendizaje. Cada temática que elegimos nos sirve para acercarles algo: una idea, una herramienta, una forma distinta de ver las cosas.</p>
+      <p>Para nosotros eso es lo lindo: pasarla bien con ellos, acompañarlos, y que cada uno se vaya un poquito más contento y habiendo aprendido algo.</p>
+    </div>
+
+    <div class="como-foto reveal">
+      <img
+        src="images/voluntarioss.jpeg"
+        alt="Equipo de voluntarios de Proyecto Crecer Felices"
+        class="foto-equipo"
+        loading="lazy">
+    </div>
+
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     SECCIÓN 3: TALLERES
+     ===================================================================== -->
+<section id="talleres" class="section section-talleres" aria-labelledby="talleres-titulo">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="label-seccion">Dónde estamos</span>
+      <h2 id="talleres-titulo">Talleres</h2>
+    </div>
+
+    <div class="filtros reveal" role="group" aria-label="Filtrar por departamento">
+      <button class="filtro-btn active" data-filtro="todos">Todos</button>
+      <button class="filtro-btn" data-filtro="godoy-cruz">Godoy Cruz</button>
+      <button class="filtro-btn" data-filtro="lujan-de-cuyo">Luján de Cuyo</button>
+    </div>
+
+    <div class="talleres-grid" id="talleresGrid">
+
+      <!-- Mi Solcito -->
+      <article class="taller-card reveal" data-depto="godoy-cruz" data-taller-id="mi-solcito">
+        <div class="taller-foto">
+          <!--
+            FOTO REAL: images/taller-mi-solcito.jpg · Ver FOTOS.md – FOTO_T01
+            Cambiar src a: images/taller-mi-solcito.jpg
+          -->
+          <img
+            src="images/taller-mi-solcito.jpeg"
+            alt="Taller Mi Solcito"
+            loading="lazy">
+          <span class="taller-badge badge-godoy">Godoy Cruz</span>
+        </div>
+        <div class="taller-body">
+          <h3>Mi Solcito</h3>
+          <p class="taller-horario">Martes · 10:00 – 11:30</p>
+          <a href="https://www.google.com/maps/search/Barrio+Tres+Estrellas+Godoy+Cruz+Mendoza"
+             target="_blank" rel="noopener noreferrer" class="taller-ubicacion">
+            <svg viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"><path d="M8 0C4.13 0 1 3.13 1 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C6.62 9.5 5.5 8.38 5.5 7S6.62 4.5 8 4.5 10.5 5.62 10.5 7 9.38 9.5 8 9.5z"/></svg>
+            Bº Tres Estrellas
+          </a>
+        </div>
+      </article>
+
+      <!-- Picardías -->
+      <article class="taller-card reveal reveal-delay-1" data-depto="godoy-cruz" data-taller-id="picardias">
+        <div class="taller-foto">
+          <!--
+            FOTO REAL: images/taller-picardias.jpg · Ver FOTOS.md – FOTO_T02
+          -->
+          <img
+            src="images/taller-picardias.jpeg"
+            alt="Taller Picardías"
+            loading="lazy">
+          <span class="taller-badge badge-godoy">Godoy Cruz</span>
+        </div>
+        <div class="taller-body">
+          <h3>Picardías</h3>
+          <p class="taller-horario">Martes · 15:00 – 16:30</p>
+          <a href="https://www.google.com/maps/search/Barrio+Dolores+Prats+de+Huisi+Godoy+Cruz+Mendoza"
+             target="_blank" rel="noopener noreferrer" class="taller-ubicacion">
+            <svg viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"><path d="M8 0C4.13 0 1 3.13 1 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C6.62 9.5 5.5 8.38 5.5 7S6.62 4.5 8 4.5 10.5 5.62 10.5 7 9.38 9.5 8 9.5z"/></svg>
+            Bº Dolores Prats de Huisi
+          </a>
+        </div>
+      </article>
+
+      <!-- Rinconcito de Luz -->
+      <article class="taller-card reveal reveal-delay-2" data-depto="lujan-de-cuyo" data-taller-id="rinconcito">
+        <div class="taller-foto">
+          <!--
+            FOTO REAL: images/taller-rinconcito.jpg · Ver FOTOS.md – FOTO_T03
+          -->
+          <img
+            src="images/taller-rinconcito.jpeg"
+            alt="Taller Rinconcito de Luz"
+            loading="lazy">
+          <span class="taller-badge badge-lujan">Luján de Cuyo</span>
+        </div>
+        <div class="taller-body">
+          <h3>Rinconcito de Luz</h3>
+          <p class="taller-horario">Miércoles · 14:00 – 16:00</p>
+          <p class="taller-horario">Viernes · 9:00 – 11:00</p>
+          <a href="https://www.google.com/maps/search/Barrio+Renacer+del+Plata+Perdriel+Lujan+de+Cuyo+Mendoza"
+             target="_blank" rel="noopener noreferrer" class="taller-ubicacion">
+            <svg viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"><path d="M8 0C4.13 0 1 3.13 1 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C6.62 9.5 5.5 8.38 5.5 7S6.62 4.5 8 4.5 10.5 5.62 10.5 7 9.38 9.5 8 9.5z"/></svg>
+            Bº Renacer del Plata, Perdriel
+          </a>
+        </div>
+      </article>
+
+      <!-- Multicolores -->
+      <article class="taller-card reveal" data-depto="godoy-cruz" data-taller-id="multicolores">
+        <div class="taller-foto">
+          <!--
+            FOTO REAL: images/taller-multicolores.jpg · Ver FOTOS.md – FOTO_T04
+          -->
+          <img
+            src="images/taller-multicolores.jpeg"
+            alt="Taller Multicolores"
+            loading="lazy">
+          <span class="taller-badge badge-godoy">Godoy Cruz</span>
+        </div>
+        <div class="taller-body">
+          <h3>Multicolores</h3>
+          <p class="taller-horario">Miércoles · 14:30 – 16:00</p>
+          <p class="taller-horario">Viernes · 10:00 – 11:30</p>
+          <a href="https://www.google.com/maps/search/Barrio+Sarmiento+Godoy+Cruz+Mendoza"
+             target="_blank" rel="noopener noreferrer" class="taller-ubicacion">
+            <svg viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"><path d="M8 0C4.13 0 1 3.13 1 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C6.62 9.5 5.5 8.38 5.5 7S6.62 4.5 8 4.5 10.5 5.62 10.5 7 9.38 9.5 8 9.5z"/></svg>
+            Bº Sarmiento
+          </a>
+        </div>
+      </article>
+
+      <!-- Mundo Explorador -->
+      <article class="taller-card reveal reveal-delay-1" data-depto="godoy-cruz" data-taller-id="mundo-explorador">
+        <div class="taller-foto">
+          <!--
+            FOTO REAL: images/taller-mundo.jpg · Ver FOTOS.md – FOTO_T05
+          -->
+          <img
+            src="images/taller-mundo-explorador.jpeg"
+            alt="Taller Mundo Explorador"
+            loading="lazy">
+          <span class="taller-badge badge-godoy">Godoy Cruz</span>
+        </div>
+        <div class="taller-body">
+          <h3>Mundo Explorador</h3>
+          <p class="taller-horario">Jueves · 15:00 – 17:00</p>
+          <a href="https://www.google.com/maps/search/Barrio+Sol+y+Sierra+Godoy+Cruz+Mendoza"
+             target="_blank" rel="noopener noreferrer" class="taller-ubicacion">
+            <svg viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"><path d="M8 0C4.13 0 1 3.13 1 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C6.62 9.5 5.5 8.38 5.5 7S6.62 4.5 8 4.5 10.5 5.62 10.5 7 9.38 9.5 8 9.5z"/></svg>
+            Bº Sol y Sierra
+          </a>
+        </div>
+      </article>
+
+      <!-- Mi Angelito -->
+      <article class="taller-card reveal reveal-delay-2" data-depto="godoy-cruz" data-taller-id="mi-angelito">
+        <div class="taller-foto">
+          <!--
+            FOTO REAL: images/taller-mi-angelito.jpg · Ver FOTOS.md – FOTO_T06
+          -->
+          <img
+            src="images/taller-mi-angelito.jpeg"
+            alt="Taller Mi Angelito"
+            loading="lazy">
+          <span class="taller-badge badge-godoy">Godoy Cruz</span>
+        </div>
+        <div class="taller-body">
+          <h3>Mi Angelito</h3>
+          <p class="taller-horario">Jueves · 16:00 – 17:30</p>
+          <a href="https://www.google.com/maps/search/Barrio+ATSA+Godoy+Cruz+Mendoza"
+             target="_blank" rel="noopener noreferrer" class="taller-ubicacion">
+            <svg viewBox="0 0 16 20" fill="currentColor" aria-hidden="true"><path d="M8 0C4.13 0 1 3.13 1 7c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5C6.62 9.5 5.5 8.38 5.5 7S6.62 4.5 8 4.5 10.5 5.62 10.5 7 9.38 9.5 8 9.5z"/></svg>
+            Bº ATSA
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     SECCIÓN 4: EVENTOS — Tarjetas que abren un modal al hacer clic
+     ===================================================================== -->
+<section id="eventos" class="section section-eventos" aria-labelledby="eventos-titulo">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="label-seccion">Lo que hacemos juntos</span>
+      <h2 id="eventos-titulo">Eventos</h2>
+    </div>
+
+    <div class="eventos-grid" id="eventosGrid">
+
+      <!-- 1. BIENVENIDA A VOLUNTARIOS -->
+      <article class="evento-card reveal" data-modal="modal-bienvenida" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="evento-thumb">
+          <!-- FOTO REAL: images/evento-bienvenida-1.jpg · Ver FOTOS.md – FOTO_E16 -->
+          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80&auto=format&fit=crop" alt="Bienvenida a voluntarios [FOTO TEMPORAL]" loading="lazy">
+        </div>
+        <div class="evento-info">
+          <h3>Bienvenida a voluntarios</h3>
+          <p>Cada año abrimos las puertas a nuevas personas que quieren sumarse al equipo.</p>
+          <span class="evento-ver-mas">Ver más →</span>
+        </div>
+      </article>
+
+      <!-- 2. LOCRO DEL 9 DE JULIO -->
+      <article class="evento-card reveal reveal-delay-1" data-modal="modal-locro" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="evento-thumb">
+          <!-- FOTO REAL: images/evento-locro-1.jpg · Ver FOTOS.md – FOTO_E10 -->
+          <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80&auto=format&fit=crop" alt="Locro del 9 de Julio [FOTO TEMPORAL]" loading="lazy">
+        </div>
+        <div class="evento-info">
+          <h3>Locro del 9 de Julio</h3>
+          <p>Una tradición que ya forma parte de la identidad del proyecto.</p>
+          <span class="evento-ver-mas">Ver más →</span>
+        </div>
+      </article>
+
+      <!-- 3. DÍA DEL NIÑO -->
+      <article class="evento-card reveal reveal-delay-2" data-modal="modal-dia-del-nino" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="evento-thumb">
+          <!-- FOTO REAL: images/evento-dia-nino-1.jpg · Ver FOTOS.md – FOTO_E01 -->
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Día del Niño [FOTO TEMPORAL]" loading="lazy">
+        </div>
+        <div class="evento-info">
+          <h3>Día del Niño</h3>
+          <p>Cada agosto, un festejo especial en cada taller para los chicos y chicas.</p>
+          <span class="evento-ver-mas">Ver más →</span>
+        </div>
+      </article>
+
+      <!-- 4. SALIDA DE CADA CAE -->
+      <article class="evento-card reveal" data-modal="modal-salida-cae" role="button" tabindex="0" aria-haspopup="dialog">
+        <div class="evento-thumb">
+          <!-- FOTO REAL: images/evento-salida-cae.jpg -->
+          <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=600&q=80&auto=format&fit=crop" alt="Salida de los chicos del CAE [FOTO TEMPORAL]" loading="lazy">
+        </div>
+        <div class="evento-info">
+          <h3>Salida de cada CAE</h3>
+          <p>Una vez al año, cada taller organiza una salida especial para sus chicos.</p>
+          <span class="evento-ver-mas">Ver más →</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     MODALES DE EVENTOS
+     Uno por evento. Se abren desde las tarjetas de arriba.
+     Para editar textos: modificar dentro de cada .modal-body.
+     Para reemplazar fotos: cambiar los src de las <img>.
+     Para reemplazar videos: cambiar los src de los <source>.
+     ===================================================================== -->
+
+<!-- MODAL: Bienvenida a voluntarios ----------------------------------- -->
+<div class="modal-overlay" id="modal-bienvenida" role="dialog" aria-modal="true" aria-labelledby="modal-bienvenida-titulo" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-header">
+      <h2 id="modal-bienvenida-titulo">Bienvenida a voluntarios</h2>
+    </div>
+    <div class="modal-body">
+      <!-- DESCRIPCIÓN: editá este texto libremente -->
+      <div class="modal-desc">
+        <p>El comienzo de cada ciclo anual trae consigo un momento especial: la bienvenida a los nuevos voluntarios. En este encuentro, quienes se suman por primera vez conocen el proyecto, los barrios donde trabajamos y al equipo con el que van a compartir el año.</p>
+        <p>Es un momento de presentaciones, de contar la historia del proyecto, y de generar el primer vínculo entre pares. Los que llevan más tiempo transmiten el espíritu; los nuevos traen energía fresca. Así se renueva el equipo año a año.</p>
+      </div>
+      <!-- FOTOS: reemplazar src por las reales. Ver FOTOS.md – FOTO_E16, E17, E18 -->
+      <div class="modal-fotos">
+        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80&auto=format&fit=crop" alt="Bienvenida a voluntarios [FOTO TEMPORAL]" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80&auto=format&fit=crop" alt="Nuevos voluntarios [FOTO TEMPORAL]" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?w=800&q=80&auto=format&fit=crop" alt="Grupo de voluntarios [FOTO TEMPORAL]" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL: Locro del 9 de Julio --------------------------------------- -->
+<div class="modal-overlay" id="modal-locro" role="dialog" aria-modal="true" aria-labelledby="modal-locro-titulo" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-header">
+      <h2 id="modal-locro-titulo">Locro del 9 de Julio</h2>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="modal-desc">
+        <p>Cada 9 de Julio preparamos locro para toda la comunidad. Voluntarios, familias y vecinos de los barrios se reúnen a compartir la comida y festejar la fecha patria juntos.</p>
+        <p>Lo que empezó como una iniciativa pequeña se convirtió en uno de los eventos más esperados del año: una excusa para juntarnos, para que los chicos vean a sus voluntarios también en un contexto festivo, y para fortalecer el vínculo con cada barrio.</p>
+      </div>
+
+      <!-- Video izquierda + collage de fotos derecha -->
+      <div class="locro-layout">
+
+        <div class="locro-video">
+          <video controls playsinline preload="metadata" aria-label="Video del Locro del 9 de Julio">
+            <source src="videos/locro-9-de-julio.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- Collage 2×2 con fotos reales del evento -->
+        <div class="locro-collage">
+          <img src="images/locro-1.jpeg" alt="Locro del 9 de Julio – grupo en la mesa" loading="lazy">
+          <img src="images/locro-3.jpeg" alt="Locro del 9 de Julio – disfraces gauchescos" loading="lazy">
+          <img src="images/locro-5.jpeg" alt="Locro del 9 de Julio – actividad interior" loading="lazy">
+          <img src="images/locro-6.jpeg" alt="Locro del 9 de Julio – grupo al aire libre" loading="lazy">
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL: Día del Niño ----------------------------------------------- -->
+<div class="modal-overlay" id="modal-dia-del-nino" role="dialog" aria-modal="true" aria-labelledby="modal-nino-titulo" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-header">
+      <h2 id="modal-nino-titulo">Día del Niño</h2>
+    </div>
+
+    <!-- Layout zigzag: video izq + texto der / texto izq + video der -->
+    <div class="modal-body modal-zigzag">
+
+      <!-- FILA 1: video a la izquierda, primer párrafo a la derecha -->
+      <div class="modal-zz-row">
+        <div class="modal-zz-video">
+          <!-- Para reemplazar: cambiar el src del <source> -->
+          <video controls playsinline preload="metadata" aria-label="Un día para ellos, pero que nos llena a todos">
+            <source src="videos/un-dia-para-ellos.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="modal-zz-texto">
+          <!-- TEXTO: editá libremente -->
+          <p>El Día del Niño es uno de los momentos más esperados del año en cada taller. Los voluntarios preparan actividades y juegos especiales para el festejo, y cada chico recibe un regalo.</p>
+        </div>
+      </div>
+
+      <!-- FILA 2: segundo párrafo a la izquierda, video a la derecha -->
+      <div class="modal-zz-row modal-zz-row--reverse">
+        <div class="modal-zz-video">
+          <!-- Para reemplazar: cambiar el src del <source> -->
+          <video controls playsinline preload="metadata" aria-label="Un día para recordar por siempre">
+            <source src="videos/un-dia-para-recordar.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="modal-zz-texto">
+          <!-- TEXTO: editá libremente -->
+          <p>El contexto es el de siempre, los chicos de siempre, pero con una energía distinta. Es un día en el que todo el esfuerzo del año vale la pena de un vistazo.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- MODAL: Salida de cada CAE ----------------------------------------- -->
+<div class="modal-overlay" id="modal-salida-cae" role="dialog" aria-modal="true" aria-labelledby="modal-salida-titulo" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="modal-header">
+      <h2 id="modal-salida-titulo">Salida de cada CAE</h2>
+    </div>
+    <div class="modal-body">
+      <!-- DESCRIPCIÓN: editá este texto libremente -->
+      <div class="modal-desc">
+        <p>Más allá de los talleres semanales, cada CAE organiza al menos una salida anual para sus chicos. Estas salidas son una oportunidad para que los niños y adolescentes vivan experiencias fuera del barrio: ir al parque, visitar un museo, conocer lugares de la ciudad que quizás nunca habían visto.</p>
+        <p>Para muchos chicos, es la primera vez que salen de su barrio para hacer algo recreativo. Esa mirada de asombro es difícil de olvidar.</p>
+      </div>
+      <!-- FOTOS: reemplazar src por las reales -->
+      <div class="modal-fotos">
+        <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&q=80&auto=format&fit=crop" alt="Salida del CAE [FOTO TEMPORAL]" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=800&q=80&auto=format&fit=crop" alt="Niños de paseo [FOTO TEMPORAL]" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80&auto=format&fit=crop" alt="Actividad de salida [FOTO TEMPORAL]" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- =====================================================================
+     SECCIÓN 6: TESTIMONIOS DE VOLUNTARIOS
+     ===================================================================== -->
+<section id="testimonios" class="section section-testimonios" aria-labelledby="test-titulo">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="label-seccion">En palabras de ellos</span>
+      <h2 id="test-titulo">Lo que dicen los voluntarios</h2>
+    </div>
+
+    <!--
+      TESTIMONIOS – reemplazar por testimonios reales.
+      Para cada uno, cambiar:
+        - src de la foto: images/testimonio-X.jpg (ver FOTOS.md – FOTO_H01, H02, H03)
+        - alt con el nombre real
+        - texto entre las comillas
+        - nombre y datos del pie
+    -->
+    <div class="testimonios-grid">
+
+      <div class="testimonio-card reveal">
+        <div class="testimonio-avatar">
+          <img
+            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80&auto=format&fit=crop&crop=face"
+            alt="María, voluntaria [FOTO TEMPORAL]"
+            loading="lazy">
+        </div>
+        <blockquote class="testimonio-texto">
+          <p>"Entré pensando que iba a 'ayudar', y lo que pasó fue que aprendí más de los chicos que de cualquier otra cosa. Cada martes me recarga. El proyecto cambia la vida del que da y del que recibe."</p>
+        </blockquote>
+        <footer class="testimonio-autor">
+          <strong>María G.</strong>
+          <span>Voluntaria en Mi Solcito · 2 años</span>
+        </footer>
+      </div>
+
+      <div class="testimonio-card reveal reveal-delay-1">
+        <div class="testimonio-avatar">
+          <img
+            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80&auto=format&fit=crop&crop=face"
+            alt="Lucas, voluntario [FOTO TEMPORAL]"
+            loading="lazy">
+        </div>
+        <blockquote class="testimonio-texto">
+          <p>"Lo que más me sorprendió es la regularidad. No es venir cuando podés, es comprometerte. Y ese compromiso se convierte en la razón por la que los chicos te esperan. Eso no tiene precio."</p>
+        </blockquote>
+        <footer class="testimonio-autor">
+          <strong>Lucas M.</strong>
+          <span>Voluntario en Multicolores · 1 año</span>
+        </footer>
+      </div>
+
+      <div class="testimonio-card reveal reveal-delay-2">
+        <div class="testimonio-avatar">
+          <img
+            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80&auto=format&fit=crop&crop=face"
+            alt="Valentina, voluntaria [FOTO TEMPORAL]"
+            loading="lazy">
+        </div>
+        <blockquote class="testimonio-texto">
+          <p>"Rinconcito de Luz me cambió el chip. Los chicos del barrio tienen una energía y una resiliencia que me da fuerza a mí. Ir cada semana dejó de ser una obligación y se convirtió en lo que más espero."</p>
+        </blockquote>
+        <footer class="testimonio-autor">
+          <strong>Valentina R.</strong>
+          <span>Voluntaria en Rinconcito de Luz · 3 años</span>
+        </footer>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     SECCIÓN 7: VOLUNTARIOS (formulario)
+     ===================================================================== -->
+<section id="voluntarios" class="section section-voluntarios" aria-labelledby="vol-titulo">
+  <div class="container">
+    <div class="voluntarios-layout">
+
+      <div class="voluntarios-info reveal">
+        <span class="label-seccion light">Sé parte</span>
+        <h2 id="vol-titulo" class="light">Sumate como<br>voluntario</h2>
+        <p class="light vol-intro">No hace falta experiencia previa, solo disponibilidad y ganas de estar.</p>
+
+        <div class="vol-items">
+          <div class="vol-item">
+            <div class="vol-num">01</div>
+            <div>
+              <strong>Compromiso semanal</strong>
+              <p>Asistir una vez por semana al taller que te asignen, de manera regular.</p>
+            </div>
+          </div>
+          <div class="vol-item">
+            <div class="vol-num">02</div>
+            <div>
+              <strong>Presencia real</strong>
+              <p>Ser un adulto de referencia para los chicos: escuchar, jugar y acompañar.</p>
+            </div>
+          </div>
+          <div class="vol-item">
+            <div class="vol-num">03</div>
+            <div>
+              <strong>Trabajo en equipo</strong>
+              <p>Participar de reuniones y preparar las actividades junto al resto del grupo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="proceso">
+          <p class="proceso-label light">¿Cómo es el proceso?</p>
+          <ol class="proceso-pasos">
+            <li><span>1</span>Completás el formulario</li>
+            <li><span>2</span>Te contactamos para conocernos</li>
+            <li><span>3</span>Visitás un taller como observador</li>
+            <li><span>4</span>Te sumás al equipo</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="form-card reveal reveal-delay-1">
+        <h3>Quiero sumarme</h3>
+        <form id="formVoluntarios" class="form" novalidate>
+          <input type="hidden" name="formulario" value="voluntarios">
+          <div class="form-group">
+            <label for="vol-nombre">Nombre y apellido *</label>
+            <input type="text" id="vol-nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre completo">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="vol-edad">Edad *</label>
+              <input type="number" id="vol-edad" name="edad" required min="16" max="99" placeholder="Tu edad">
+            </div>
+            <div class="form-group">
+              <label for="vol-telefono">Teléfono *</label>
+              <input type="tel" id="vol-telefono" name="telefono" required autocomplete="tel" placeholder="261 4567890">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="vol-email">Email *</label>
+            <input type="email" id="vol-email" name="email" required autocomplete="email" placeholder="tu@email.com">
+          </div>
+          <div class="form-group">
+            <label for="vol-disponibilidad">¿Qué día podés? *</label>
+            <select id="vol-disponibilidad" name="disponibilidad" required>
+              <option value="">Seleccioná un día...</option>
+              <option value="martes">Martes</option>
+              <option value="miercoles">Miércoles</option>
+              <option value="jueves">Jueves</option>
+              <option value="viernes">Viernes</option>
+              <option value="flexible">Flexible / Más de un día</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="vol-mensaje">¿Por qué querés sumarte? (opcional)</label>
+            <textarea id="vol-mensaje" name="mensaje" rows="3" placeholder="Contanos un poco..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-white btn-full">
+            <span class="btn-text">Enviar</span>
+            <span class="btn-loading" hidden>Enviando...</span>
+          </button>
+          <div class="form-success" hidden role="alert">Gracias, te contactaremos pronto.</div>
+          <div class="form-error" hidden role="alert">Algo falló. Escribinos por Instagram.</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     SECCIÓN 8: COLABORAR
+     ===================================================================== -->
+<section id="colaborar" class="section section-colaborar" aria-labelledby="colaborar-titulo">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="label-seccion">Tu aporte importa</span>
+      <h2 id="colaborar-titulo">Cómo colaborar</h2>
+    </div>
+
+    <div class="colaborar-grid">
+
+      <div class="colaborar-card reveal">
+        <div class="colab-num">01</div>
+        <h3>Donación de dinero</h3>
+        <p>Financiamos meriendas, materiales y todo lo que hace posible cada taller. Podés donar una vez o de manera recurrente a través de Mercado Pago.</p>
+        <a href="https://link.mercadopago.com.ar/asociacionpcf" class="btn btn-fucsia" target="_blank" rel="noopener noreferrer">Donar por Mercado Pago</a>
+      </div>
+
+      <div class="colaborar-card reveal reveal-delay-1">
+        <div class="colab-num">02</div>
+        <h3>Donación de materiales</h3>
+        <p>Siempre necesitamos:</p>
+        <ul class="cosas-lista">
+          <li><strong>Ropa</strong> — talles 4 al 14, por temporada</li>
+          <li><strong>Alimentos</strong> — leche en polvo, mate cocido, galletitas, harina, azúcar</li>
+          <li><strong>Útiles escolares</strong> — cuadernos, lapiceras, colores, tijeras</li>
+          <li><strong>Juguetes</strong> — en buen estado, juegos de mesa, pelotas</li>
+          <li><strong>Materiales de taller</strong> — papel, cartulina, temperas, plasticola</li>
+        </ul>
+        <a href="#contacto" class="btn btn-amarillo">Coordinar una donación</a>
+      </div>
+
+      <div class="colaborar-card reveal reveal-delay-2">
+        <div class="colab-num">03</div>
+        <h3>Colaboración puntual</h3>
+        <p>¿Tenés una habilidad para compartir? Podés venir un día a dar un taller especial o aportar desde tu profesión: salud, arte, deporte, educación.</p>
+        <!-- PLACEHOLDER: reemplazar con número de WhatsApp real -->
+        <a href="https://wa.me/5492614000000" class="btn btn-outline" target="_blank" rel="noopener noreferrer">Escribinos por WhatsApp</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     SECCIÓN 9: ALIANZAS
+     ===================================================================== -->
+<section id="alianzas" class="section section-alianzas" aria-labelledby="alianzas-titulo">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <h2 id="alianzas-titulo">Quienes nos acompañan</h2>
+    </div>
+
+    <!--
+      ALIADOS: cada <a class="alianza-logo"> es un logo clickeable.
+      Para agregar más: copiar un bloque <a class="alianza-logo">…</a> y ajustar href, src y alt.
+      La grilla se reacomoda sola (flex-wrap).
+      Para cambiar el link: reemplazar el href="" con la URL real.
+    -->
+    <div class="alianzas-grid reveal">
+
+      <a class="alianza-logo" href="#" target="_blank" rel="noopener noreferrer" aria-label="Oscar David Mayorista">
+        <!-- href: reemplazar con la web o Instagram de Oscar David Mayorista -->
+        <img src="images/oscardavid-nobg.png" alt="Oscar David Mayorista" loading="lazy">
+      </a>
+
+      <a class="alianza-logo" href="#" target="_blank" rel="noopener noreferrer" aria-label="JEBBS">
+        <!-- href: reemplazar con la web o Instagram de JEBBS -->
+        <img src="images/jebbs-nobg.png" alt="JEBBS – Desde 1992" loading="lazy">
+      </a>
+
+      <a class="alianza-logo" href="#" target="_blank" rel="noopener noreferrer" aria-label="Virgen del Valle">
+        <!-- href: reemplazar con la web o Instagram de Virgen del Valle -->
+        <img src="images/virgen-del-valle-nobg.png" alt="Virgen del Valle" loading="lazy">
+      </a>
+
+    </div>
+
+    <p class="alianzas-cta reveal">
+      ¿Tu organización o empresa quiere apoyarnos?
+      <a href="#contacto" class="link-underline">Contactanos.</a>
+    </p>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     SECCIÓN 10: CONTACTO
+     ===================================================================== -->
+<section id="contacto" class="section section-contacto" aria-labelledby="contacto-titulo">
+  <div class="container">
+
+    <div class="section-header reveal">
+      <span class="label-seccion">Escribinos</span>
+      <h2 id="contacto-titulo">Contacto</h2>
+    </div>
+
+    <div class="contacto-content">
+
+      <div class="contacto-info reveal">
+        <div class="contacto-dato">
+          <span class="dato-label">Instagram</span>
+          <a href="https://www.instagram.com/proyectocrecerfelices" target="_blank" rel="noopener noreferrer" class="dato-link">@proyectocrecerfelices</a>
+        </div>
+        <div class="contacto-dato">
+          <span class="dato-label">WhatsApp</span>
+          <!-- PLACEHOLDER: reemplazar con número real -->
+          <a href="https://wa.me/5492614000000" target="_blank" rel="noopener noreferrer" class="dato-link">+54 9 261 400-0000</a>
+        </div>
+        <div class="contacto-dato">
+          <span class="dato-label">Email</span>
+          <!-- PLACEHOLDER: reemplazar con email real -->
+          <a href="mailto:contacto@proyectocrecerfelices.org" class="dato-link">contacto@proyectocrecerfelices.org</a>
+        </div>
+        <div class="contacto-dato">
+          <span class="dato-label">Zonas</span>
+          <span class="dato-valor">Godoy Cruz · Luján de Cuyo (Perdriel), Mendoza</span>
+        </div>
+        <div class="contacto-redes">
+          <a href="https://www.instagram.com/proyectocrecerfelices" class="red-social red-ig" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://wa.me/5492614000000" class="red-social red-wa" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="form-card reveal reveal-delay-1">
+        <h3>Envianos un mensaje</h3>
+        <form id="formContacto" class="form" novalidate>
+          <input type="hidden" name="formulario" value="contacto">
+          <div class="form-group">
+            <label for="con-nombre">Nombre *</label>
+            <input type="text" id="con-nombre" name="nombre" required autocomplete="name" placeholder="Tu nombre">
+          </div>
+          <div class="form-group">
+            <label for="con-email">Email *</label>
+            <input type="email" id="con-email" name="email" required autocomplete="email" placeholder="tu@email.com">
+          </div>
+          <div class="form-group">
+            <label for="con-asunto">Asunto</label>
+            <select id="con-asunto" name="asunto">
+              <option value="">Seleccioná...</option>
+              <option value="voluntariado">Quiero ser voluntario</option>
+              <option value="donacion">Quiero hacer una donación</option>
+              <option value="alianza">Propuesta de alianza</option>
+              <option value="prensa">Prensa</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="con-mensaje">Mensaje *</label>
+            <textarea id="con-mensaje" name="mensaje" rows="4" required placeholder="¿En qué podemos ayudarte?"></textarea>
+          </div>
+          <button type="submit" class="btn btn-fucsia btn-full">
+            <span class="btn-text">Enviar mensaje</span>
+            <span class="btn-loading" hidden>Enviando...</span>
+          </button>
+          <div class="form-success" hidden role="alert">Mensaje enviado. Te respondemos pronto.</div>
+          <div class="form-error" hidden role="alert">Algo falló. Escribinos directamente por Instagram.</div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     FOOTER
+     ===================================================================== -->
+<footer class="footer" role="contentinfo">
+  <div class="container footer-content">
+
+    <div class="footer-brand">
+      <a href="#quienes-somos" class="footer-logo-link" aria-label="Proyecto Crecer Felices">
+        <img src="images/logo-crecer-felices.png" alt="Proyecto Crecer Felices" class="logo-footer">
+      </a>
+      <p>Asociación Civil sin fines de lucro<br>Mendoza, Argentina</p>
+    </div>
+
+    <nav class="footer-nav" aria-label="Navegación del pie de página">
+      <h4>El proyecto</h4>
+      <ul role="list">
+        <li><a href="#quienes-somos">Quiénes somos</a></li>
+        <li><a href="#como-trabajamos">Cómo trabajamos</a></li>
+        <li><a href="#talleres">Talleres</a></li>
+        <li><a href="#eventos">Eventos</a></li>
+        <li><a href="#voluntarios">Voluntarios</a></li>
+        <li><a href="#colaborar">Colaborar</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer-contacto">
+      <h4>Contacto</h4>
+      <ul role="list">
+        <li><a href="https://www.instagram.com/proyectocrecerfelices" target="_blank" rel="noopener noreferrer">@proyectocrecerfelices</a></li>
+        <li><a href="https://wa.me/5492614000000" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+        <li><a href="mailto:contacto@proyectocrecerfelices.org">contacto@proyectocrecerfelices.org</a></li>
+      </ul>
+      <p class="footer-zonas">Godoy Cruz · Luján de Cuyo, Mendoza</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>Proyecto Crecer Felices · Mendoza, Argentina</p>
+  </div>
+</footer>
+
+<button class="btn-scroll-top" id="scrollTopBtn" aria-label="Volver arriba" hidden>↑</button>
+
+<script src="js/main.js"></script>
+</body>
+</html>
