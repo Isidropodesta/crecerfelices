@@ -1138,6 +1138,59 @@ body.modal-open { overflow: hidden; }
 .cosas-lista li { font-size: 0.88rem; color: var(--texto-medio); }
 .cosas-lista strong { color: var(--texto); }
 
+/* Botón siempre al fondo de cada tarjeta */
+.colaborar-card .btn { margin-top: auto; }
+
+/* Alias de transferencia */
+.alias-box {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  background: var(--crema);
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+.alias-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--texto-suave);
+}
+.alias-valor {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--texto);
+  font-family: var(--fuente-titulo);
+  letter-spacing: 0.01em;
+}
+
+/* Botón WhatsApp */
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #25D366;
+  color: #fff;
+  border: 2px solid #25D366;
+  border-radius: var(--radio-sm);
+  padding: 13px 22px;
+  font-family: var(--fuente-titulo);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background var(--trans), border-color var(--trans), transform var(--trans);
+  cursor: pointer;
+}
+.btn-whatsapp:hover {
+  background: #1ebe5d;
+  border-color: #1ebe5d;
+  transform: translateY(-2px);
+}
+.btn-whatsapp svg { flex-shrink: 0; }
+
 
 /* =====================================================================
    16. ALIANZAS
