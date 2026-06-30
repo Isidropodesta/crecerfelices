@@ -529,65 +529,7 @@
       <h2 id="test-titulo">Lo que dicen los voluntarios</h2>
     </div>
 
-    <!--
-      TESTIMONIOS – reemplazar por testimonios reales.
-      Para cada uno, cambiar:
-        - src de la foto: images/testimonio-X.jpg (ver FOTOS.md – FOTO_H01, H02, H03)
-        - alt con el nombre real
-        - texto entre las comillas
-        - nombre y datos del pie
-    -->
-    <div class="testimonios-grid">
-
-      <div class="testimonio-card reveal">
-        <div class="testimonio-avatar">
-          <img
-            src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&q=80&auto=format&fit=crop&crop=face"
-            alt="María, voluntaria [FOTO TEMPORAL]"
-            loading="lazy">
-        </div>
-        <blockquote class="testimonio-texto">
-          <p>"Entré pensando que iba a 'ayudar', y lo que pasó fue que aprendí más de los chicos que de cualquier otra cosa. Cada martes me recarga. El proyecto cambia la vida del que da y del que recibe."</p>
-        </blockquote>
-        <footer class="testimonio-autor">
-          <strong>María G.</strong>
-          <span>Voluntaria en Mi Solcito · 2 años</span>
-        </footer>
-      </div>
-
-      <div class="testimonio-card reveal reveal-delay-1">
-        <div class="testimonio-avatar">
-          <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80&auto=format&fit=crop&crop=face"
-            alt="Lucas, voluntario [FOTO TEMPORAL]"
-            loading="lazy">
-        </div>
-        <blockquote class="testimonio-texto">
-          <p>"Lo que más me sorprendió es la regularidad. No es venir cuando podés, es comprometerte. Y ese compromiso se convierte en la razón por la que los chicos te esperan. Eso no tiene precio."</p>
-        </blockquote>
-        <footer class="testimonio-autor">
-          <strong>Lucas M.</strong>
-          <span>Voluntario en Multicolores · 1 año</span>
-        </footer>
-      </div>
-
-      <div class="testimonio-card reveal reveal-delay-2">
-        <div class="testimonio-avatar">
-          <img
-            src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80&auto=format&fit=crop&crop=face"
-            alt="Valentina, voluntaria [FOTO TEMPORAL]"
-            loading="lazy">
-        </div>
-        <blockquote class="testimonio-texto">
-          <p>"Rinconcito de Luz me cambió el chip. Los chicos del barrio tienen una energía y una resiliencia que me da fuerza a mí. Ir cada semana dejó de ser una obligación y se convirtió en lo que más espero."</p>
-        </blockquote>
-        <footer class="testimonio-autor">
-          <strong>Valentina R.</strong>
-          <span>Voluntaria en Rinconcito de Luz · 3 años</span>
-        </footer>
-      </div>
-
-    </div>
+    <div class="testimonios-grid" id="testimonios-grid"></div>
   </div>
 </section>
 
@@ -907,6 +849,41 @@
 <!-- Supabase SDK (debe ir antes de supabase-client.js) -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-client.js"></script>
+
+<script>
+/* Carga testimonios desde Supabase y los renderiza en el sitio público */
+(async function() {
+  const grid = document.getElementById('testimonios-grid');
+  if (!grid) return;
+
+  const { data, error } = await db
+    .from('testimonios')
+    .select('id, nombre, rol, texto, foto_url')
+    .eq('activo', true)
+    .order('orden')
+    .order('created_at');
+
+  if (error || !data || !data.length) return;
+
+  grid.innerHTML = data.map(t => `
+    <div class="testimonio-card">
+      <div class="testimonio-avatar">
+        ${t.foto_url
+          ? `<img src="${t.foto_url}" alt="${t.nombre}" loading="lazy">`
+          : `<div class="testimonio-iniciales">${(t.nombre[0] || '?').toUpperCase()}</div>`
+        }
+      </div>
+      <blockquote class="testimonio-texto">
+        <p>"${t.texto}"</p>
+      </blockquote>
+      <footer class="testimonio-autor">
+        <strong>${t.nombre}</strong>
+        ${t.rol ? `<span>${t.rol}</span>` : ''}
+      </footer>
+    </div>
+  `).join('');
+})();
+</script>
 
 <script src="js/main.js"></script>
 </body>
