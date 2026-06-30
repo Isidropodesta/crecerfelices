@@ -178,3 +178,152 @@ document.getElementById('tBtnCancelar').addEventListener('click', tResetForm);
 
 // Carga inicial (testimonios es el tab activo por defecto)
 tCargar();
+
+/* =====================================================================
+   ALIADOS
+   ===================================================================== */
+
+let aEditandoId      = null;
+let aEditandoLogoUrl = null;
+
+function aResetForm() {
+  aEditandoId      = null;
+  aEditandoLogoUrl = null;
+  document.getElementById('aFormTitulo').textContent = 'Agregar aliado';
+  document.getElementById('aNombre').value   = '';
+  document.getElementById('aLink').value     = '';
+  document.getElementById('aOrden').value    = '0';
+  document.getElementById('aActivo').checked = true;
+  document.getElementById('aLogo').value     = '';
+  const prev = document.getElementById('aLogoPreview');
+  prev.src = ''; prev.style.display = 'none';
+  document.getElementById('aBtnCancelar').style.display = 'none';
+}
+
+async function aCargar() {
+  const lista = document.getElementById('aLista');
+  lista.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Cargando…</p>';
+
+  const { data, error } = await db
+    .from('aliados')
+    .select('*')
+    .order('orden')
+    .order('created_at');
+
+  if (error) {
+    lista.innerHTML = '<p class="msg-err">Error al cargar los aliados.</p>';
+    return;
+  }
+  if (!data.length) {
+    lista.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Todavía no hay aliados. Usá el formulario de arriba para agregar el primero.</p>';
+    return;
+  }
+
+  window._aData = data;
+
+  lista.innerHTML = data.map(a => `
+    <div class="item-admin">
+      ${a.logo_url
+        ? `<img src="${a.logo_url}" style="width:80px;height:52px;object-fit:contain;border:1.5px solid var(--gris-borde);border-radius:8px;padding:4px;background:#fff;flex-shrink:0;" alt="">`
+        : `<div style="width:80px;height:52px;background:var(--gris-borde);border-radius:8px;flex-shrink:0;"></div>`
+      }
+      <div class="item-admin-info">
+        <div class="item-admin-nombre">${a.nombre}</div>
+        <div class="item-admin-sub">${a.link || 'Sin link'}</div>
+      </div>
+      <div class="item-admin-acciones">
+        <span class="${a.activo ? 'badge-activo' : 'badge-inactivo'}">${a.activo ? 'Visible' : 'Oculto'}</span>
+        <button class="btn-secundario" data-id="${a.id}" data-accion="editar">Editar</button>
+        <button class="btn-peligro"    data-id="${a.id}" data-accion="eliminar">Eliminar</button>
+      </div>
+    </div>
+  `).join('');
+
+  lista.querySelectorAll('button[data-accion]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.accion === 'editar')   aIniciarEdicion(btn.dataset.id);
+      if (btn.dataset.accion === 'eliminar') aEliminar(btn.dataset.id);
+    });
+  });
+}
+
+function aIniciarEdicion(id) {
+  const a = (window._aData || []).find(x => x.id === id);
+  if (!a) return;
+
+  aEditandoId      = id;
+  aEditandoLogoUrl = a.logo_url || null;
+
+  document.getElementById('aFormTitulo').textContent = 'Editar aliado';
+  document.getElementById('aNombre').value   = a.nombre;
+  document.getElementById('aLink').value     = a.link || '';
+  document.getElementById('aOrden').value    = a.orden;
+  document.getElementById('aActivo').checked = a.activo;
+  document.getElementById('aLogo').value     = '';
+
+  const prev = document.getElementById('aLogoPreview');
+  if (a.logo_url) { prev.src = a.logo_url; prev.style.display = 'block'; }
+  else              { prev.style.display = 'none'; }
+
+  document.getElementById('aBtnCancelar').style.display = '';
+  document.getElementById('aForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function aEliminar(id) {
+  if (!confirm('¿Eliminar este aliado? No se puede deshacer.')) return;
+  const { error } = await db.from('aliados').delete().eq('id', id);
+  if (error) { alert('Error al eliminar: ' + error.message); return; }
+  aCargar();
+}
+
+document.getElementById('aLogo').addEventListener('change', (e) => {
+  const archivo = e.target.files[0];
+  const prev    = document.getElementById('aLogoPreview');
+  if (archivo) { prev.src = URL.createObjectURL(archivo); prev.style.display = 'block'; }
+  else          { prev.style.display = 'none'; }
+});
+
+document.getElementById('aBtnGuardar').addEventListener('click', async () => {
+  const nombre = document.getElementById('aNombre').value.trim();
+  if (!nombre) {
+    mostrarMsg('aMsg', 'El nombre es obligatorio.', 'err');
+    return;
+  }
+
+  const btn = document.getElementById('aBtnGuardar');
+  btn.disabled = true; btn.textContent = 'Guardando…';
+
+  try {
+    let logo_url = aEditandoLogoUrl;
+    const archivo = document.getElementById('aLogo').files[0];
+    if (archivo) logo_url = await subirImagen(archivo, 'aliados');
+
+    const datos = {
+      nombre,
+      link:     document.getElementById('aLink').value.trim() || null,
+      logo_url: logo_url || null,
+      orden:    parseInt(document.getElementById('aOrden').value) || 0,
+      activo:   document.getElementById('aActivo').checked,
+    };
+
+    const { error } = aEditandoId
+      ? await db.from('aliados').update(datos).eq('id', aEditandoId)
+      : await db.from('aliados').insert(datos);
+
+    if (error) throw new Error(error.message);
+
+    mostrarMsg('aMsg', aEditandoId ? '✅ Aliado actualizado.' : '✅ Aliado agregado.', 'ok');
+    aResetForm();
+    aCargar();
+
+  } catch (e) {
+    mostrarMsg('aMsg', '❌ Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Guardar';
+  }
+});
+
+document.getElementById('aBtnCancelar').addEventListener('click', aResetForm);
+
+// Carga inicial de aliados
+aCargar();

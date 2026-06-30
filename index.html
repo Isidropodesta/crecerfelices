@@ -687,30 +687,7 @@
       <h2 id="alianzas-titulo">Quienes nos acompañan</h2>
     </div>
 
-    <!--
-      ALIADOS: cada <a class="alianza-logo"> es un logo clickeable.
-      Para agregar más: copiar un bloque <a class="alianza-logo">…</a> y ajustar href, src y alt.
-      La grilla se reacomoda sola (flex-wrap).
-      Para cambiar el link: reemplazar el href="" con la URL real.
-    -->
-    <div class="alianzas-grid reveal">
-
-      <a class="alianza-logo" href="#" target="_blank" rel="noopener noreferrer" aria-label="Oscar David Mayorista">
-        <!-- href: reemplazar con la web o Instagram de Oscar David Mayorista -->
-        <img src="images/oscardavid-nobg.png" alt="Oscar David Mayorista" loading="lazy">
-      </a>
-
-      <a class="alianza-logo" href="#" target="_blank" rel="noopener noreferrer" aria-label="JEBBS">
-        <!-- href: reemplazar con la web o Instagram de JEBBS -->
-        <img src="images/jebbs-nobg.png" alt="JEBBS – Desde 1992" loading="lazy">
-      </a>
-
-      <a class="alianza-logo" href="#" target="_blank" rel="noopener noreferrer" aria-label="Virgen del Valle">
-        <!-- href: reemplazar con la web o Instagram de Virgen del Valle -->
-        <img src="images/virgen-del-valle-nobg.png" alt="Virgen del Valle" loading="lazy">
-      </a>
-
-    </div>
+    <div class="alianzas-grid" id="aliados-grid"></div>
 
     <p class="alianzas-cta reveal">
       ¿Tu organización o empresa quiere apoyarnos?
@@ -851,6 +828,30 @@
 <script src="js/supabase-client.js"></script>
 
 <script>
+/* Carga aliados desde Supabase y los renderiza en el sitio público */
+(async function() {
+  const grid = document.getElementById('aliados-grid');
+  if (!grid) return;
+
+  const { data, error } = await db
+    .from('aliados')
+    .select('id, nombre, logo_url, link')
+    .eq('activo', true)
+    .order('orden')
+    .order('created_at');
+
+  if (error || !data || !data.length) return;
+
+  grid.innerHTML = data.map(a => {
+    const inner = a.logo_url
+      ? `<img src="${a.logo_url}" alt="${a.nombre}" loading="lazy">`
+      : `<span style="font-weight:700;font-size:0.9rem;text-align:center;">${a.nombre}</span>`;
+    return a.link
+      ? `<a class="alianza-logo" href="${a.link}" target="_blank" rel="noopener noreferrer" aria-label="${a.nombre}">${inner}</a>`
+      : `<div class="alianza-logo" aria-label="${a.nombre}" style="cursor:default;">${inner}</div>`;
+  }).join('');
+})();
+
 /* Carga testimonios desde Supabase y los renderiza en el sitio público */
 (async function() {
   const grid = document.getElementById('testimonios-grid');

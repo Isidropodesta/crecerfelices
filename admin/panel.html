@@ -84,7 +84,49 @@
     </section>
 
     <section class="tab-panel" id="tab-aliados">
-      <p class="coming-soon">Sección <strong>Aliados</strong> — se implementa en el paso 4.</p>
+      <h2 class="seccion-titulo">Aliados — Quienes nos acompañan</h2>
+
+      <!-- Formulario agregar / editar -->
+      <div class="form-admin" id="aForm">
+        <h3 id="aFormTitulo">Agregar aliado</h3>
+
+        <div class="field">
+          <label for="aNombre">Nombre *</label>
+          <input type="text" id="aNombre" placeholder="Ej: Oscar David Mayorista">
+        </div>
+
+        <div class="field">
+          <label for="aLink">Link (web o Instagram, opcional)</label>
+          <input type="url" id="aLink" placeholder="https://...">
+        </div>
+
+        <div class="field">
+          <label for="aLogo">Logo (imagen)</label>
+          <input type="file" id="aLogo" accept="image/*">
+          <img id="aLogoPreview" style="display:none;max-width:160px;max-height:80px;object-fit:contain;margin-top:10px;border:1.5px solid var(--gris-borde);border-radius:8px;padding:6px;background:#fff;" alt="Preview">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;">
+          <div class="field">
+            <label for="aOrden">Orden (menor = primero)</label>
+            <input type="number" id="aOrden" value="0" min="0">
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--texto-suave);padding-bottom:12px;">
+            <input type="checkbox" id="aActivo" checked style="width:auto;accent-color:var(--fucsia);"> Visible en el sitio
+          </label>
+        </div>
+
+        <p id="aMsg" style="display:none;"></p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="aBtnGuardar"  class="btn-primario">Guardar</button>
+          <button id="aBtnCancelar" class="btn-secundario" style="display:none;">Cancelar edición</button>
+        </div>
+      </div>
+
+      <!-- Lista de aliados guardados -->
+      <h3 class="seccion-titulo">Aliados guardados</h3>
+      <div id="aLista" class="lista-items"></div>
     </section>
 
     <section class="tab-panel" id="tab-talleres">
