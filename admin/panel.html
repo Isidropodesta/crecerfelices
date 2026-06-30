@@ -130,7 +130,67 @@
     </section>
 
     <section class="tab-panel" id="tab-talleres">
-      <p class="coming-soon">Sección <strong>Talleres</strong> — se implementa en el paso 5.</p>
+      <h2 class="seccion-titulo">Talleres</h2>
+
+      <div class="form-admin" id="tlForm">
+        <h3 id="tlFormTitulo">Agregar taller</h3>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="field">
+            <label for="tlNombre">Nombre *</label>
+            <input type="text" id="tlNombre" placeholder="Ej: Mi Solcito">
+          </div>
+          <div class="field">
+            <label for="tlDepto">Departamento *</label>
+            <select id="tlDepto">
+              <option value="godoy-cruz">Godoy Cruz</option>
+              <option value="lujan-de-cuyo">Luján de Cuyo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tlHorario">Horario(s) — una línea por horario</label>
+          <textarea id="tlHorario" rows="3" placeholder="Martes · 10:00 – 11:30&#10;Jueves · 15:00 – 17:00"></textarea>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div class="field">
+            <label for="tlBarrio">Barrio</label>
+            <input type="text" id="tlBarrio" placeholder="Ej: Bº Tres Estrellas">
+          </div>
+          <div class="field">
+            <label for="tlMapsUrl">Link a Google Maps (opcional)</label>
+            <input type="url" id="tlMapsUrl" placeholder="https://maps.google.com/...">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="tlFoto">Foto del taller</label>
+          <input type="file" id="tlFoto" accept="image/*">
+          <img id="tlFotoPreview" style="display:none;max-width:160px;max-height:100px;object-fit:cover;margin-top:10px;border-radius:8px;border:1.5px solid var(--gris-borde);" alt="Preview">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;">
+          <div class="field">
+            <label for="tlOrden">Orden (menor = primero)</label>
+            <input type="number" id="tlOrden" value="0" min="0">
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--texto-suave);padding-bottom:12px;">
+            <input type="checkbox" id="tlActivo" checked style="width:auto;accent-color:var(--fucsia);"> Visible en el sitio
+          </label>
+        </div>
+
+        <p id="tlMsg" style="display:none;"></p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="tlBtnGuardar"  class="btn-primario">Guardar</button>
+          <button id="tlBtnCancelar" class="btn-secundario" style="display:none;">Cancelar edición</button>
+        </div>
+      </div>
+
+      <h3 class="seccion-titulo">Talleres guardados</h3>
+      <div id="tlLista" class="lista-items"></div>
     </section>
 
     <section class="tab-panel" id="tab-eventos">

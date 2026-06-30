@@ -327,3 +327,162 @@ document.getElementById('aBtnCancelar').addEventListener('click', aResetForm);
 
 // Carga inicial de aliados
 aCargar();
+
+/* =====================================================================
+   TALLERES
+   ===================================================================== */
+
+let tlEditandoId      = null;
+let tlEditandoFotoUrl = null;
+
+function tlResetForm() {
+  tlEditandoId      = null;
+  tlEditandoFotoUrl = null;
+  document.getElementById('tlFormTitulo').textContent = 'Agregar taller';
+  document.getElementById('tlNombre').value   = '';
+  document.getElementById('tlDepto').value    = 'godoy-cruz';
+  document.getElementById('tlHorario').value  = '';
+  document.getElementById('tlBarrio').value   = '';
+  document.getElementById('tlMapsUrl').value  = '';
+  document.getElementById('tlOrden').value    = '0';
+  document.getElementById('tlActivo').checked = true;
+  document.getElementById('tlFoto').value     = '';
+  const prev = document.getElementById('tlFotoPreview');
+  prev.src = ''; prev.style.display = 'none';
+  document.getElementById('tlBtnCancelar').style.display = 'none';
+}
+
+async function tlCargar() {
+  const lista = document.getElementById('tlLista');
+  lista.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Cargando…</p>';
+
+  const { data, error } = await db
+    .from('talleres')
+    .select('*')
+    .order('orden')
+    .order('created_at');
+
+  if (error) {
+    lista.innerHTML = '<p class="msg-err">Error al cargar los talleres.</p>';
+    return;
+  }
+  if (!data.length) {
+    lista.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Todavía no hay talleres.</p>';
+    return;
+  }
+
+  const DEPTOS = { 'godoy-cruz': 'Godoy Cruz', 'lujan-de-cuyo': 'Luján de Cuyo' };
+  window._tlData = data;
+
+  lista.innerHTML = data.map(t => `
+    <div class="item-admin">
+      ${t.foto_url
+        ? `<img src="${t.foto_url}" style="width:80px;height:52px;object-fit:cover;border:1.5px solid var(--gris-borde);border-radius:8px;flex-shrink:0;" alt="">`
+        : `<div style="width:80px;height:52px;background:var(--gris-borde);border-radius:8px;flex-shrink:0;"></div>`
+      }
+      <div class="item-admin-info">
+        <div class="item-admin-nombre">${t.nombre}</div>
+        <div class="item-admin-sub">${DEPTOS[t.departamento] || t.departamento} · ${t.barrio || '—'}</div>
+      </div>
+      <div class="item-admin-acciones">
+        <span class="${t.activo ? 'badge-activo' : 'badge-inactivo'}">${t.activo ? 'Visible' : 'Oculto'}</span>
+        <button class="btn-secundario" data-id="${t.id}" data-accion="editar">Editar</button>
+        <button class="btn-peligro"    data-id="${t.id}" data-accion="eliminar">Eliminar</button>
+      </div>
+    </div>
+  `).join('');
+
+  lista.querySelectorAll('button[data-accion]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.dataset.accion === 'editar')   tlIniciarEdicion(btn.dataset.id);
+      if (btn.dataset.accion === 'eliminar') tlEliminar(btn.dataset.id);
+    });
+  });
+}
+
+function tlIniciarEdicion(id) {
+  const t = (window._tlData || []).find(x => x.id === id);
+  if (!t) return;
+
+  tlEditandoId      = id;
+  tlEditandoFotoUrl = t.foto_url || null;
+
+  document.getElementById('tlFormTitulo').textContent = 'Editar taller';
+  document.getElementById('tlNombre').value   = t.nombre;
+  document.getElementById('tlDepto').value    = t.departamento;
+  document.getElementById('tlHorario').value  = t.horario || '';
+  document.getElementById('tlBarrio').value   = t.barrio || '';
+  document.getElementById('tlMapsUrl').value  = t.maps_url || '';
+  document.getElementById('tlOrden').value    = t.orden;
+  document.getElementById('tlActivo').checked = t.activo;
+  document.getElementById('tlFoto').value     = '';
+
+  const prev = document.getElementById('tlFotoPreview');
+  if (t.foto_url) { prev.src = t.foto_url; prev.style.display = 'block'; }
+  else              { prev.style.display = 'none'; }
+
+  document.getElementById('tlBtnCancelar').style.display = '';
+  document.getElementById('tlForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+async function tlEliminar(id) {
+  if (!confirm('¿Eliminar este taller? No se puede deshacer.')) return;
+  const { error } = await db.from('talleres').delete().eq('id', id);
+  if (error) { alert('Error al eliminar: ' + error.message); return; }
+  tlCargar();
+}
+
+document.getElementById('tlFoto').addEventListener('change', (e) => {
+  const archivo = e.target.files[0];
+  const prev    = document.getElementById('tlFotoPreview');
+  if (archivo) { prev.src = URL.createObjectURL(archivo); prev.style.display = 'block'; }
+  else          { prev.style.display = 'none'; }
+});
+
+document.getElementById('tlBtnGuardar').addEventListener('click', async () => {
+  const nombre = document.getElementById('tlNombre').value.trim();
+  if (!nombre) {
+    mostrarMsg('tlMsg', 'El nombre es obligatorio.', 'err');
+    return;
+  }
+
+  const btn = document.getElementById('tlBtnGuardar');
+  btn.disabled = true; btn.textContent = 'Guardando…';
+
+  try {
+    let foto_url = tlEditandoFotoUrl;
+    const archivo = document.getElementById('tlFoto').files[0];
+    if (archivo) foto_url = await subirImagen(archivo, 'talleres');
+
+    const datos = {
+      nombre,
+      departamento: document.getElementById('tlDepto').value,
+      horario:      document.getElementById('tlHorario').value.trim() || null,
+      barrio:       document.getElementById('tlBarrio').value.trim() || null,
+      maps_url:     document.getElementById('tlMapsUrl').value.trim() || null,
+      foto_url:     foto_url || null,
+      orden:        parseInt(document.getElementById('tlOrden').value) || 0,
+      activo:       document.getElementById('tlActivo').checked,
+    };
+
+    const { error } = tlEditandoId
+      ? await db.from('talleres').update(datos).eq('id', tlEditandoId)
+      : await db.from('talleres').insert(datos);
+
+    if (error) throw new Error(error.message);
+
+    mostrarMsg('tlMsg', tlEditandoId ? '✅ Taller actualizado.' : '✅ Taller agregado.', 'ok');
+    tlResetForm();
+    tlCargar();
+
+  } catch (e) {
+    mostrarMsg('tlMsg', '❌ Error: ' + e.message, 'err');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Guardar';
+  }
+});
+
+document.getElementById('tlBtnCancelar').addEventListener('click', tlResetForm);
+
+// Carga inicial de talleres
+tlCargar();

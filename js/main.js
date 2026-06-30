@@ -161,6 +161,8 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/REEMPLAZAR_CON_TU_
 
       const filtro = btn.dataset.filtro;
 
+      // Re-query en cada click para capturar tarjetas cargadas dinámicamente
+      const tarjetas = document.querySelectorAll('.taller-card');
       tarjetas.forEach(tarjeta => {
         if (filtro === 'todos') {
           tarjeta.classList.remove('hidden');
