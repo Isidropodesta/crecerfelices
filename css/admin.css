@@ -1,0 +1,351 @@
+/* =====================================================================
+   PANEL DE ADMINISTRACIÓN — Crecer Felices
+   ===================================================================== */
+
+:root {
+  --fucsia:       #D6006E;
+  --fucsia-dark:  #b3005c;
+  --gris-claro:   #f4f4f6;
+  --gris-borde:   #e2e2e8;
+  --texto:        #1a1a2e;
+  --texto-suave:  #6b7280;
+  --radio:        10px;
+  --sombra:       0 2px 14px rgba(0,0,0,0.07);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--texto);
+  background: var(--gris-claro);
+  min-height: 100vh;
+}
+
+/* ─── LOGIN ──────────────────────────────────────────────── */
+
+.login-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: var(--sombra);
+  padding: 44px 36px;
+  width: 100%;
+  max-width: 390px;
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 32px;
+}
+.login-icon { font-size: 2.6rem; line-height: 1; }
+.login-logo h1 {
+  margin: 10px 0 4px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--fucsia);
+}
+.login-logo p {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.login-form { display: flex; flex-direction: column; gap: 18px; }
+
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+.field input,
+.field textarea,
+.field select {
+  padding: 11px 14px;
+  border: 1.5px solid var(--gris-borde);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.92rem;
+  outline: none;
+  transition: border-color 0.2s;
+  background: #fff;
+  color: var(--texto);
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus { border-color: var(--fucsia); }
+.field textarea { resize: vertical; min-height: 80px; }
+
+.error-msg {
+  font-size: 0.84rem;
+  color: #dc2626;
+  font-weight: 600;
+}
+
+.btn-login {
+  padding: 13px;
+  background: var(--fucsia);
+  color: #fff;
+  border: none;
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-login:hover:not(:disabled) { background: var(--fucsia-dark); transform: translateY(-1px); }
+.btn-login:disabled { opacity: 0.6; cursor: default; }
+
+/* ─── HEADER DEL PANEL ───────────────────────────────────── */
+
+.panel-header {
+  background: #fff;
+  border-bottom: 1px solid var(--gris-borde);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.panel-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 24px;
+  gap: 16px;
+}
+.panel-titulo strong {
+  display: block;
+  font-size: 0.98rem;
+  color: var(--fucsia);
+  font-weight: 700;
+}
+.panel-titulo span {
+  font-size: 0.72rem;
+  color: var(--texto-suave);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.btn-logout {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1.5px solid var(--gris-borde);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  white-space: nowrap;
+}
+.btn-logout:hover { border-color: var(--fucsia); color: var(--fucsia); }
+
+/* ─── TABS ───────────────────────────────────────────────── */
+
+.panel-tabs {
+  background: #fff;
+  border-bottom: 1px solid var(--gris-borde);
+  display: flex;
+  gap: 0;
+  padding: 0 24px;
+  overflow-x: auto;
+}
+.panel-tab-btn {
+  padding: 14px 22px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-family: inherit;
+  font-size: 0.87rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.panel-tab-btn:hover { color: var(--fucsia); }
+.panel-tab-btn.active { color: var(--fucsia); border-bottom-color: var(--fucsia); }
+
+/* ─── CONTENIDO PRINCIPAL ────────────────────────────────── */
+
+.panel-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ─── COMPONENTES REUTILIZABLES ──────────────────────────── */
+
+.seccion-titulo {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--texto);
+  margin-bottom: 20px;
+}
+
+.card-admin {
+  background: #fff;
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+.form-admin {
+  background: #fff;
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 28px;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-admin h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 4px;
+}
+
+.btn-primario {
+  align-self: flex-start;
+  padding: 11px 22px;
+  background: var(--fucsia);
+  color: #fff;
+  border: none;
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-primario:hover:not(:disabled) { background: var(--fucsia-dark); transform: translateY(-1px); }
+.btn-primario:disabled { opacity: 0.6; cursor: default; }
+
+.btn-secundario {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1.5px solid var(--gris-borde);
+  border-radius: var(--radio);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--texto-suave);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-secundario:hover { border-color: var(--fucsia); color: var(--fucsia); }
+
+.btn-peligro {
+  padding: 6px 13px;
+  background: transparent;
+  border: 1.5px solid #fca5a5;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #dc2626;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-peligro:hover { background: #fef2f2; }
+
+/* Lista de items existentes */
+.lista-items { display: flex; flex-direction: column; gap: 10px; }
+
+.item-admin {
+  background: #fff;
+  border: 1.5px solid var(--gris-borde);
+  border-radius: var(--radio);
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.item-admin-info { flex: 1; min-width: 0; }
+.item-admin-nombre {
+  font-weight: 700;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item-admin-sub {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  margin-top: 2px;
+}
+.item-admin-acciones { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+.badge-activo {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #d1fae5;
+  color: #065f46;
+}
+.badge-inactivo {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #f3f4f6;
+  color: var(--texto-suave);
+}
+
+/* Mensajes de estado */
+.msg-ok  { font-size: 0.85rem; color: #059669; font-weight: 600; }
+.msg-err { font-size: 0.85rem; color: #dc2626; font-weight: 600; }
+
+/* Placeholder "próximamente" */
+.coming-soon {
+  padding: 48px;
+  text-align: center;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  background: #fff;
+  border-radius: var(--radio);
+  border: 2px dashed var(--gris-borde);
+}
+
+/* Imagen preview en forms */
+.img-preview {
+  max-width: 120px;
+  max-height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1.5px solid var(--gris-borde);
+}
+
+/* Separador */
+.divisor {
+  border: none;
+  border-top: 1px solid var(--gris-borde);
+  margin: 4px 0;
+}

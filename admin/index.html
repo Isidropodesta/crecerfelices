@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acceso — Panel Crecer Felices</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="login-body">
+
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-icon">🌱</div>
+      <h1>Crecer Felices</h1>
+      <p>Panel de administración</p>
+    </div>
+
+    <form id="loginForm" class="login-form" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="email" placeholder="admin@ejemplo.com" required>
+      </div>
+      <div class="field">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" autocomplete="current-password" placeholder="••••••••" required>
+      </div>
+
+      <p id="loginError" class="error-msg" hidden></p>
+
+      <button type="submit" id="loginBtn" class="btn-login">
+        <span class="btn-text">Ingresar</span>
+        <span class="btn-loading" hidden>Verificando…</span>
+      </button>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script>
+    // Si ya hay sesión activa, ir directo al panel
+    db.auth.getSession().then(({ data: { session } }) => {
+      if (session) window.location.href = 'panel.html';
+    });
+
+    const form    = document.getElementById('loginForm');
+    const btn     = document.getElementById('loginBtn');
+    const errEl   = document.getElementById('loginError');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      // Mostrar estado cargando
+      btn.disabled = true;
+      btn.querySelector('.btn-text').hidden    = true;
+      btn.querySelector('.btn-loading').hidden = false;
+      errEl.hidden = true;
+
+      const { error } = await db.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        errEl.textContent = 'Email o contraseña incorrectos.';
+        errEl.hidden = false;
+        btn.disabled = false;
+        btn.querySelector('.btn-text').hidden    = false;
+        btn.querySelector('.btn-loading').hidden = true;
+      } else {
+        window.location.href = 'panel.html';
+      }
+    });
+  </script>
+</body>
+</html>

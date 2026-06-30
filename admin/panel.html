@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel — Crecer Felices</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body class="panel-body">
+
+  <!-- HEADER -->
+  <header class="panel-header">
+    <div class="panel-header-inner">
+      <div class="panel-titulo">
+        <strong>Crecer Felices</strong>
+        <span>Panel de administración</span>
+      </div>
+      <button id="btnLogout" class="btn-logout">Cerrar sesión</button>
+    </div>
+  </header>
+
+  <!-- TABS DE NAVEGACIÓN -->
+  <nav class="panel-tabs" role="tablist">
+    <button class="panel-tab-btn active" data-tab="testimonios" role="tab">Testimonios</button>
+    <button class="panel-tab-btn" data-tab="aliados"     role="tab">Aliados</button>
+    <button class="panel-tab-btn" data-tab="talleres"    role="tab">Talleres</button>
+    <button class="panel-tab-btn" data-tab="eventos"     role="tab">Eventos</button>
+  </nav>
+
+  <!-- CONTENIDO -->
+  <main class="panel-main">
+
+    <section class="tab-panel active" id="tab-testimonios">
+      <p class="coming-soon">Sección <strong>Testimonios</strong> — se implementa en el paso 3.</p>
+    </section>
+
+    <section class="tab-panel" id="tab-aliados">
+      <p class="coming-soon">Sección <strong>Aliados</strong> — se implementa en el paso 4.</p>
+    </section>
+
+    <section class="tab-panel" id="tab-talleres">
+      <p class="coming-soon">Sección <strong>Talleres</strong> — se implementa en el paso 5.</p>
+    </section>
+
+    <section class="tab-panel" id="tab-eventos">
+      <p class="coming-soon">Sección <strong>Eventos</strong> — se implementa en el paso 6.</p>
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase-client.js"></script>
+  <script>
+    // Protección de ruta: solo accesible con sesión activa
+    db.auth.getSession().then(({ data: { session } }) => {
+      if (!session) window.location.href = 'index.html';
+    });
+
+    // Cerrar sesión
+    document.getElementById('btnLogout').addEventListener('click', async () => {
+      await db.auth.signOut();
+      window.location.href = 'index.html';
+    });
+
+    // Navegación entre tabs
+    const tabBtns   = document.querySelectorAll('.panel-tab-btn');
+    const tabPanels = document.querySelectorAll('.tab-panel');
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabPanels.forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
