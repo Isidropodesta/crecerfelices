@@ -28,7 +28,7 @@
   --texto-suave:   #888888;
   --borde:         #E8E0D5;
   --borde-fucsia:  rgba(214,0,110,0.2);
-  --sombra:        rgba(0, 0, 0, 0.06);
+  --sombra:        rgba(214, 0, 110, 0.08);
 
   --fuente-titulo: 'Montserrat', sans-serif;
   --fuente-cuerpo: 'Nunito', sans-serif;
@@ -91,7 +91,9 @@ p { margin-bottom: 1rem; color: var(--texto-medio); }
 p:last-child { margin-bottom: 0; }
 
 .label-seccion {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 9px;
   font-family: var(--fuente-titulo);
   font-size: 0.67rem;
   font-weight: 800;
@@ -100,7 +102,17 @@ p:last-child { margin-bottom: 0; }
   color: var(--fucsia);
   margin-bottom: 12px;
 }
+.label-seccion::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--amarillo);
+  flex-shrink: 0;
+}
 .label-seccion.light { color: rgba(255,255,255,0.7); }
+.label-seccion.light::before { background: rgba(255,255,255,0.5); }
 
 .light, .light h2, .light h3 { color: var(--blanco) !important; }
 
@@ -401,6 +413,32 @@ p:last-child { margin-bottom: 0; }
 .section-quienes {
   background: var(--blanco);
   padding-top: 0;
+  position: relative;
+}
+
+/* Divisor orgánico entre el hero y el contenido, en vez del corte recto.
+   .page-header no es una sección aparte: es el primer hijo de
+   .section-quienes. El contenido blanco arranca en el .container que le
+   sigue, así que el divisor se ancla a ESE (selector de hermano
+   adyacente) y se estira a todo el ancho de la pantalla con el truco
+   100vw/-50vw, sin importar que .container esté centrado y sea angosto. */
+.page-header + .container { position: relative; }
+.page-header + .container::before {
+  content: '';
+  position: absolute;
+  top: -56px;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  height: 56px;
+  background-color: var(--blanco);
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'><path d='M0,32 C 360,86 1080,-14 1440,34 L1440,90 L0,90 Z'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'><path d='M0,32 C 360,86 1080,-14 1440,34 L1440,90 L0,90 Z'/></svg>");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  pointer-events: none;
 }
 
 /* Page header – primera impresión */
@@ -449,8 +487,8 @@ p:last-child { margin-bottom: 0; }
   gap: 48px;
   padding: 64px 0 44px;
 }
-.quienes-texto .lead { color: var(--texto); margin-bottom: 18px; }
-.quienes-texto p { color: var(--texto-medio); font-size: 1.06rem; line-height: 1.82; }
+.quienes-texto .lead { color: var(--texto); margin-bottom: 18px; max-width: 62ch; }
+.quienes-texto p { color: var(--texto-medio); font-size: 1.06rem; line-height: 1.82; max-width: 62ch; }
 
 .quienes-video { display: flex; flex-direction: column; gap: 10px; }
 .video-label {
@@ -516,11 +554,16 @@ p:last-child { margin-bottom: 0; }
 /* =====================================================================
    9. CÓMO TRABAJAMOS
    ===================================================================== */
-.section-como { background: var(--amarillo-pale); }
+.section-como {
+  background:
+    radial-gradient(560px circle at 92% 6%, rgba(214,0,110,0.05), transparent 62%),
+    var(--amarillo-pale);
+}
 .section-como h2 { color: var(--texto); }
 
 .como-texto {
   margin-bottom: 48px;
+  max-width: 680px;
 }
 .como-texto p {
   color: var(--texto-medio);
@@ -536,7 +579,12 @@ p:last-child { margin-bottom: 0; }
 /* =====================================================================
    10. TALLERES
    ===================================================================== */
-.section-talleres { background: var(--crema); }
+.section-talleres {
+  background:
+    radial-gradient(620px circle at 6% 100%, rgba(214,0,110,0.05), transparent 55%),
+    radial-gradient(480px circle at 96% 0%, rgba(242,194,0,0.10), transparent 55%),
+    var(--crema);
+}
 
 .filtros {
   display: flex;
@@ -1102,7 +1150,9 @@ body.modal-open { overflow: hidden; }
    14. VOLUNTARIOS
    ===================================================================== */
 .section-voluntarios {
-  background: linear-gradient(140deg, var(--fucsia) 0%, #9B004F 100%);
+  background:
+    radial-gradient(560px circle at 96% 4%, rgba(242,194,0,0.14), transparent 55%),
+    linear-gradient(140deg, var(--fucsia) 0%, #9B004F 100%);
 }
 
 .voluntarios-layout {
@@ -1365,7 +1415,11 @@ body.modal-open { overflow: hidden; }
 /* =====================================================================
    17. CONTACTO
    ===================================================================== */
-.section-contacto { background: var(--fucsia-pale); }
+.section-contacto {
+  background:
+    radial-gradient(520px circle at 100% 100%, rgba(242,194,0,0.12), transparent 55%),
+    var(--fucsia-pale);
+}
 .section-contacto h2 { color: var(--fucsia); }
 
 .contacto-content {
@@ -1804,51 +1858,6 @@ body.modal-open { overflow: hidden; }
 
 
 /* =====================================================================
-   26. CURSOR PERSONALIZADO
-   Solo en dispositivos con mouse real (nunca en touch). Un anillo que
-   sigue al cursor con una leve demora (lerp) y crece sobre elementos
-   interactivos; el punto central lo sigue exacto.
-   ===================================================================== */
-/* Los campos de formulario conservan el cursor nativo (I-beam) por
-   usabilidad; todo lo demás usa el cursor personalizado. */
-body.cf-cursor-on,
-body.cf-cursor-on *:not(input):not(textarea):not(select) { cursor: none !important; }
-
-.cf-cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 34px; height: 34px;
-  margin: -17px 0 0 -17px;
-  border: 1.5px solid var(--fucsia);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate3d(-100px, -100px, 0);
-  transition: width 0.25s cubic-bezier(.22,1,.36,1), height 0.25s cubic-bezier(.22,1,.36,1),
-              margin 0.25s cubic-bezier(.22,1,.36,1), background 0.25s ease, border-color 0.25s ease;
-  will-change: transform;
-}
-.cf-cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 5px; height: 5px;
-  margin: -2.5px 0 0 -2.5px;
-  background: var(--fucsia);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate3d(-100px, -100px, 0);
-  will-change: transform;
-}
-.cf-cursor.cf-cursor--hover {
-  width: 58px; height: 58px;
-  margin: -29px 0 0 -29px;
-  background: rgba(214,0,110,0.1);
-  border-color: transparent;
-}
-
-
-/* =====================================================================
    27. TEXTO QUE SE ARMA PALABRA POR PALABRA (split-text reveal)
    Generado en JS (ver initSplitText en main.js): cada palabra queda
    envuelta en dos spans, el externo recorta el overflow y el interno
@@ -1882,50 +1891,6 @@ body.cf-cursor-on *:not(input):not(textarea):not(select) { cursor: none !importa
   display: inline-block;
   transition: transform 0.3s cubic-bezier(.22,1,.36,1);
 }
-
-
-/* =====================================================================
-   29. CORTINA DE REVELADO EN FOTOS/VIDEO
-   Un velo fucsia que barre la imagen de lado a lado al entrar en vista,
-   como si se corriera una cortina. Se dispara junto con el reveal normal
-   (misma clase .visible), sin pisar la animación propia del elemento
-   porque corre en un pseudo-elemento aparte.
-   ===================================================================== */
-.como-foto, .quienes-video .video-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-.como-foto::after, .quienes-video .video-wrapper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--fucsia), var(--fucsia-dark));
-  transform: scaleX(0);
-  transform-origin: left;
-  z-index: 2;
-  pointer-events: none;
-}
-.como-foto.visible::after,
-.quienes-video.visible .video-wrapper::after {
-  animation: cf-curtain 0.9s cubic-bezier(.76,0,.24,1) both;
-}
-@keyframes cf-curtain {
-  0%      { transform: scaleX(0); transform-origin: left; }
-  50%     { transform: scaleX(1); transform-origin: left; }
-  50.01%  { transform-origin: right; }
-  100%    { transform: scaleX(0); transform-origin: right; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .como-foto.visible::after,
-  .quienes-video.visible .video-wrapper::after { animation: none; display: none; }
-}
-
-
-/* =====================================================================
-   30. PARALLAX SUAVE EN FOTOS DE TARJETAS (hover, solo con mouse)
-   ===================================================================== */
-.taller-foto img, .evento-thumb img { transition: transform 0.5s ease; }
-.cf-parallax-active img { transition: transform 0.08s linear; }
 
 
 /* =====================================================================
