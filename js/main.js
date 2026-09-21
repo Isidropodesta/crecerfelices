@@ -24,28 +24,39 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/REEMPLAZAR_CON_TU_
     navbar.classList.toggle('scrolled', window.scrollY > 20);
   }, { passive: true });
 
-  // Hamburguesa
+  // Hamburguesa — abre/cierra con una transición suave (alto + opacidad)
+  function abrirMobileMenu() {
+    toggle.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    mobileMenu.hidden = false;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => mobileMenu.classList.add('mobile-menu-open'));
+    });
+  }
+
+  function cerrarMobileMenu() {
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('mobile-menu-open');
+    mobileMenu.addEventListener('transitionend', () => {
+      if (!mobileMenu.classList.contains('mobile-menu-open')) mobileMenu.hidden = true;
+    }, { once: true });
+  }
+
   toggle.addEventListener('click', () => {
-    const isOpen = toggle.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', isOpen);
-    mobileMenu.hidden = !isOpen;
+    if (toggle.classList.contains('open')) cerrarMobileMenu();
+    else abrirMobileMenu();
   });
 
   // Cerrar menú al hacer clic en un link
   mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      mobileMenu.hidden = true;
-    });
+    link.addEventListener('click', cerrarMobileMenu);
   });
 
   // Cerrar con Escape
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && !mobileMenu.hidden) {
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      mobileMenu.hidden = true;
+      cerrarMobileMenu();
       toggle.focus();
     }
   });
@@ -70,6 +81,20 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/REEMPLAZAR_CON_TU_
 
 
 /* =====================================================================
+   SALUDO DEL LOGO
+   Las manitos del logo hacen un pequeño saludo apenas carga la página
+   (una sola vez), además de saludar cada vez que se les pasa el mouse
+   (ver CSS: .nav-logo:hover .logo-nav).
+   ===================================================================== */
+(function initLogoSaludo() {
+  const logo = document.querySelector('.logo-nav');
+  if (!logo || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  setTimeout(() => logo.classList.add('logo-welcome'), 700);
+})();
+
+
+/* =====================================================================
    BOTÓN "VOLVER ARRIBA"
    ===================================================================== */
 (function initScrollTop() {
@@ -87,20 +112,50 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/REEMPLAZAR_CON_TU_
 
 /* =====================================================================
    ANIMACIONES DE APARICIÓN EN SCROLL (Intersection Observer)
+   Soporta 4 variantes (.reveal, .reveal-scale, .reveal-left, .reveal-right)
+   y aplica un stagger automático según la posición del elemento entre sus
+   hermanos animados, para que las grillas de tarjetas entren en cascada.
+   window.CFReveal.observe(root) permite enganchar contenido agregado
+   después (por ejemplo, tarjetas cargadas desde Supabase).
    ===================================================================== */
 (function initReveal() {
-  const elements = document.querySelectorAll('.reveal');
+  const SELECTOR    = '.reveal, .reveal-scale, .reveal-left, .reveal-right';
+  const STAGGER_MS  = 70;
+  const STAGGER_MAX = 6;
 
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target); // solo animar una vez
-      }
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      el.classList.add('visible', 'revealing');
+      el.addEventListener('animationend', () => el.classList.remove('revealing'), { once: true });
+      observer.unobserve(el);
     });
   }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-  elements.forEach(el => observer.observe(el));
+  function observeReveal(root) {
+    const scope = root || document;
+    const elements = scope.matches && scope.matches(SELECTOR)
+      ? [scope]
+      : Array.from(scope.querySelectorAll(SELECTOR));
+
+    elements.forEach(el => {
+      if (el.dataset.cfObserved) return;
+      el.dataset.cfObserved = '1';
+
+      const parent = el.parentElement;
+      if (parent) {
+        const siblings = Array.from(parent.children).filter(s => s.matches && s.matches(SELECTOR));
+        const idx = siblings.indexOf(el);
+        if (idx > 0) el.style.animationDelay = `${Math.min(idx, STAGGER_MAX) * STAGGER_MS}ms`;
+      }
+
+      observer.observe(el);
+    });
+  }
+
+  observeReveal();
+  window.CFReveal = { observe: observeReveal };
 })();
 
 

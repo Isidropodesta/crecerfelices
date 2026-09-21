@@ -78,7 +78,7 @@
         <p>Creemos que todo aporte cuenta. Ser parte de Crecer Felices no es solo ayudar: es crecer uno mismo, aprendiendo en equipo y, sobre todo, aprendiendo de los chicos. Por eso siempre hacen falta manos nuevas. Queremos seguir creciendo como organización y llegar a muchos más barrios para acompañar a más chicos.</p>
       </div>
 
-      <div class="quienes-video reveal reveal-delay-1">
+      <div class="quienes-video reveal-scale">
         <p class="video-label">Conocenos en un minuto</p>
         <!--
           VIDEO: videos/video-quienes-somos.mp4
@@ -121,7 +121,7 @@
       <p>Para nosotros eso es lo lindo: pasarla bien con ellos, acompañarlos, y que cada uno se vaya un poquito más contento y habiendo aprendido algo.</p>
     </div>
 
-    <div class="como-foto reveal">
+    <div class="como-foto reveal-scale">
       <img
         src="images/voluntarioss.jpeg"
         alt="Equipo de voluntarios de Proyecto Crecer Felices"
@@ -169,7 +169,7 @@
     <div class="eventos-grid" id="eventosGrid">
 
       <!-- 1. BIENVENIDA A VOLUNTARIOS -->
-      <article class="evento-card reveal" data-modal="modal-bienvenida" role="button" tabindex="0" aria-haspopup="dialog">
+      <article class="evento-card reveal-scale" data-modal="modal-bienvenida" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="evento-thumb">
           <!-- FOTO REAL: images/evento-bienvenida-1.jpg · Ver FOTOS.md – FOTO_E16 -->
           <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80&auto=format&fit=crop" alt="Bienvenida a voluntarios [FOTO TEMPORAL]" loading="lazy">
@@ -182,7 +182,7 @@
       </article>
 
       <!-- 2. LOCRO DEL 9 DE JULIO -->
-      <article class="evento-card reveal reveal-delay-1" data-modal="modal-locro" role="button" tabindex="0" aria-haspopup="dialog">
+      <article class="evento-card reveal-scale" data-modal="modal-locro" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="evento-thumb">
           <!-- FOTO REAL: images/evento-locro-1.jpg · Ver FOTOS.md – FOTO_E10 -->
           <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80&auto=format&fit=crop" alt="Locro del 9 de Julio [FOTO TEMPORAL]" loading="lazy">
@@ -195,7 +195,7 @@
       </article>
 
       <!-- 3. DÍA DEL NIÑO -->
-      <article class="evento-card reveal reveal-delay-2" data-modal="modal-dia-del-nino" role="button" tabindex="0" aria-haspopup="dialog">
+      <article class="evento-card reveal-scale" data-modal="modal-dia-del-nino" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="evento-thumb">
           <!-- FOTO REAL: images/evento-dia-nino-1.jpg · Ver FOTOS.md – FOTO_E01 -->
           <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Día del Niño [FOTO TEMPORAL]" loading="lazy">
@@ -208,7 +208,7 @@
       </article>
 
       <!-- 4. SALIDA DE CADA CAE -->
-      <article class="evento-card reveal" data-modal="modal-salida-cae" role="button" tabindex="0" aria-haspopup="dialog">
+      <article class="evento-card reveal-scale" data-modal="modal-salida-cae" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="evento-thumb">
           <!-- FOTO REAL: images/evento-salida-cae.jpg -->
           <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=600&q=80&auto=format&fit=crop" alt="Salida de los chicos del CAE [FOTO TEMPORAL]" loading="lazy">
@@ -429,7 +429,7 @@
 
       </div>
 
-      <div class="form-card reveal reveal-delay-1">
+      <div class="form-card reveal-scale">
         <h3>Quiero sumarme</h3>
         <form id="formVoluntarios" class="form" novalidate>
           <input type="hidden" name="formulario" value="voluntarios">
@@ -493,7 +493,7 @@
 
     <div class="colaborar-grid">
 
-      <div class="colaborar-card reveal">
+      <div class="colaborar-card reveal-scale">
         <div class="colab-num">01</div>
         <h3>Donación de dinero</h3>
         <p>Financiamos meriendas, materiales y todo lo que hace posible cada taller. Podés donar una vez o de manera recurrente.</p>
@@ -504,7 +504,7 @@
         <a href="https://link.mercadopago.com.ar/asociacionpcf" class="btn btn-fucsia" target="_blank" rel="noopener noreferrer">Donar por Mercado Pago</a>
       </div>
 
-      <div class="colaborar-card reveal reveal-delay-1">
+      <div class="colaborar-card reveal-scale">
         <div class="colab-num">02</div>
         <h3>Donación de materiales</h3>
         <p>Siempre necesitamos:</p>
@@ -518,7 +518,7 @@
         <a href="#contacto" class="btn btn-amarillo">Coordinar una donación</a>
       </div>
 
-      <div class="colaborar-card reveal reveal-delay-2">
+      <div class="colaborar-card reveal-scale">
         <div class="colab-num">03</div>
         <h3>Colaboración puntual</h3>
         <p>¿Tenés una habilidad para compartir? Podés venir un día a dar un taller especial o aportar desde tu profesión: salud, arte, deporte, educación.</p>
@@ -596,7 +596,7 @@
         </div>
       </div>
 
-      <div class="form-card reveal reveal-delay-1">
+      <div class="form-card reveal-scale">
         <h3>Envianos un mensaje</h3>
         <form id="formContacto" class="form" novalidate>
           <input type="hidden" name="formulario" value="contacto">
@@ -718,7 +718,7 @@
       ? `<img src="${t.foto_url}" alt="Taller ${t.nombre}" loading="lazy">`
       : '';
     return `
-      <article class="taller-card" data-depto="${t.departamento}">
+      <article class="taller-card reveal-scale" data-depto="${t.departamento}">
         <div class="taller-foto">
           ${foto}
           <span class="taller-badge ${d.clase}">${d.texto}</span>
@@ -730,6 +730,7 @@
         </div>
       </article>`;
   }).join('');
+  window.CFReveal && window.CFReveal.observe(grid);
 })();
 
 /* Carga aliados desde Supabase y los renderiza en el sitio público */
@@ -751,9 +752,10 @@
       ? `<img src="${a.logo_url}" alt="${a.nombre}" loading="lazy">`
       : `<span style="font-weight:700;font-size:0.9rem;text-align:center;">${a.nombre}</span>`;
     return a.link
-      ? `<a class="alianza-logo" href="${a.link}" target="_blank" rel="noopener noreferrer" aria-label="${a.nombre}">${inner}</a>`
-      : `<div class="alianza-logo" aria-label="${a.nombre}" style="cursor:default;">${inner}</div>`;
+      ? `<a class="alianza-logo reveal-scale" href="${a.link}" target="_blank" rel="noopener noreferrer" aria-label="${a.nombre}">${inner}</a>`
+      : `<div class="alianza-logo reveal-scale" aria-label="${a.nombre}" style="cursor:default;">${inner}</div>`;
   }).join('');
+  window.CFReveal && window.CFReveal.observe(grid);
 })();
 
 /* Carga testimonios desde Supabase y los renderiza en el sitio público */
@@ -771,7 +773,7 @@
   if (error || !data || !data.length) return;
 
   grid.innerHTML = data.map(t => `
-    <div class="testimonio-card">
+    <div class="testimonio-card reveal-scale">
       <div class="testimonio-avatar">
         ${t.foto_url
           ? `<img src="${t.foto_url}" alt="${t.nombre}" loading="lazy">`
@@ -787,6 +789,7 @@
       </footer>
     </div>
   `).join('');
+  window.CFReveal && window.CFReveal.observe(grid);
 })();
 </script>
 
