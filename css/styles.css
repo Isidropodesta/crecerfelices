@@ -490,7 +490,19 @@ p:last-child { margin-bottom: 0; }
 .quienes-texto .lead { color: var(--texto); margin-bottom: 18px; max-width: 62ch; }
 .quienes-texto p { color: var(--texto-medio); font-size: 1.06rem; line-height: 1.82; max-width: 62ch; }
 
-.quienes-video { display: flex; flex-direction: column; gap: 10px; }
+/* Antes el video flotaba solo, chiquito, en medio de mucho blanco.
+   Ahora tiene un marco propio (tarjeta con degradé suave de marca) que le
+   da presencia y lo ancla visualmente, en vez de perderse en la columna. */
+.quienes-video {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: linear-gradient(160deg, var(--fucsia-pale) 0%, var(--amarillo-pale) 100%);
+  padding: 22px;
+  border-radius: 24px;
+  box-shadow: 0 14px 40px -14px rgba(214,0,110,0.28);
+  width: 100%;
+}
 .video-label {
   font-family: var(--fuente-titulo);
   font-size: 0.7rem;
@@ -531,9 +543,10 @@ p:last-child { margin-bottom: 0; }
   height: auto;
 }
 
-/* Video vertical (9:16) – acotado a un ancho razonable para que no ocupe toda la pantalla */
+/* Video vertical (9:16) – llena el marco de .quienes-video; el propio
+   ancho de esa tarjeta es lo que lo acota, no un max-width fijo acá */
 .video-vertical {
-  max-width: 340px;
+  max-width: 100%;
 }
 /* En el evento expandido, un poco más compacto */
 .video-evento {
@@ -1579,7 +1592,7 @@ body.modal-open { overflow: hidden; }
 
   /* Quiénes Somos: texto a la izquierda centrado vert., video a la derecha */
   .quienes-layout {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 344px;
     gap: 56px;
     align-items: center;
     padding: 64px 0;
