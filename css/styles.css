@@ -1625,13 +1625,8 @@ body.modal-open { overflow: hidden; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  animation: bot-slide-up 0.22s ease;
 }
 .chatbot-panel[hidden] { display: none; }
-@keyframes bot-slide-up {
-  from { opacity: 0; transform: translateY(14px) scale(0.97); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
 
 .chatbot-header {
   background: linear-gradient(135deg, var(--fucsia) 0%, #a3004f 100%);
@@ -1791,4 +1786,213 @@ body.modal-open { overflow: hidden; }
 /* Botones de acción en colaborar: ancho completo en mobile */
 @media (max-width: 480px) {
   .colaborar-card .btn { display: flex; width: 100%; justify-content: center; }
+}
+
+
+/* =====================================================================
+   25. BARRA DE PROGRESO DE SCROLL
+   ===================================================================== */
+.cf-scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--fucsia), var(--amarillo));
+  z-index: 1100;
+  pointer-events: none;
+}
+
+
+/* =====================================================================
+   26. CURSOR PERSONALIZADO
+   Solo en dispositivos con mouse real (nunca en touch). Un anillo que
+   sigue al cursor con una leve demora (lerp) y crece sobre elementos
+   interactivos; el punto central lo sigue exacto.
+   ===================================================================== */
+/* Los campos de formulario conservan el cursor nativo (I-beam) por
+   usabilidad; todo lo demás usa el cursor personalizado. */
+body.cf-cursor-on,
+body.cf-cursor-on *:not(input):not(textarea):not(select) { cursor: none !important; }
+
+.cf-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 34px; height: 34px;
+  margin: -17px 0 0 -17px;
+  border: 1.5px solid var(--fucsia);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate3d(-100px, -100px, 0);
+  transition: width 0.25s cubic-bezier(.22,1,.36,1), height 0.25s cubic-bezier(.22,1,.36,1),
+              margin 0.25s cubic-bezier(.22,1,.36,1), background 0.25s ease, border-color 0.25s ease;
+  will-change: transform;
+}
+.cf-cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 5px; height: 5px;
+  margin: -2.5px 0 0 -2.5px;
+  background: var(--fucsia);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate3d(-100px, -100px, 0);
+  will-change: transform;
+}
+.cf-cursor.cf-cursor--hover {
+  width: 58px; height: 58px;
+  margin: -29px 0 0 -29px;
+  background: rgba(214,0,110,0.1);
+  border-color: transparent;
+}
+
+
+/* =====================================================================
+   27. TEXTO QUE SE ARMA PALABRA POR PALABRA (split-text reveal)
+   Generado en JS (ver initSplitText en main.js): cada palabra queda
+   envuelta en dos spans, el externo recorta el overflow y el interno
+   se desliza hacia arriba. El texto real para lectores de pantalla
+   se preserva vía aria-label en el contenedor.
+   ===================================================================== */
+.cf-split-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+.cf-split-word-inner {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform 0.75s cubic-bezier(.22,1,.36,1);
+}
+.cf-split-in .cf-split-word-inner { transform: translateY(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-split-word-inner { transform: none; transition: none; }
+}
+
+
+/* =====================================================================
+   28. BOTONES MAGNÉTICOS
+   El JS envuelve cada botón en un <span class="cf-magnetic"> y anima SU
+   transform (no el del botón), así el propio hover del botón (scale,
+   rotate) se sigue viendo encima, sin pisarse.
+   ===================================================================== */
+.cf-magnetic {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(.22,1,.36,1);
+}
+
+
+/* =====================================================================
+   29. CORTINA DE REVELADO EN FOTOS/VIDEO
+   Un velo fucsia que barre la imagen de lado a lado al entrar en vista,
+   como si se corriera una cortina. Se dispara junto con el reveal normal
+   (misma clase .visible), sin pisar la animación propia del elemento
+   porque corre en un pseudo-elemento aparte.
+   ===================================================================== */
+.como-foto, .quienes-video .video-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+.como-foto::after, .quienes-video .video-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--fucsia), var(--fucsia-dark));
+  transform: scaleX(0);
+  transform-origin: left;
+  z-index: 2;
+  pointer-events: none;
+}
+.como-foto.visible::after,
+.quienes-video.visible .video-wrapper::after {
+  animation: cf-curtain 0.9s cubic-bezier(.76,0,.24,1) both;
+}
+@keyframes cf-curtain {
+  0%      { transform: scaleX(0); transform-origin: left; }
+  50%     { transform: scaleX(1); transform-origin: left; }
+  50.01%  { transform-origin: right; }
+  100%    { transform: scaleX(0); transform-origin: right; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .como-foto.visible::after,
+  .quienes-video.visible .video-wrapper::after { animation: none; display: none; }
+}
+
+
+/* =====================================================================
+   30. PARALLAX SUAVE EN FOTOS DE TARJETAS (hover, solo con mouse)
+   ===================================================================== */
+.taller-foto img, .evento-thumb img { transition: transform 0.5s ease; }
+.cf-parallax-active img { transition: transform 0.08s linear; }
+
+
+/* =====================================================================
+   31. HERO: entrada + indicador de scroll
+   ===================================================================== */
+.page-subtitle {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition-delay: 0.5s;
+}
+.page-header.cf-hero-in .page-subtitle { opacity: 1; transform: translateY(0); }
+
+.page-header::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 22px;
+  width: 20px; height: 20px;
+  margin-left: -10px;
+  border-right: 2.5px solid rgba(255,255,255,0.55);
+  border-bottom: 2.5px solid rgba(255,255,255,0.55);
+  transform: rotate(45deg);
+  animation: cf-scroll-cue 2s ease-in-out infinite;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.page-header.cf-scrolled::after { opacity: 0; }
+@keyframes cf-scroll-cue {
+  0%, 100% { transform: rotate(45deg) translate(0,0); opacity: 0.55; }
+  50%      { transform: rotate(45deg) translate(5px,5px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-subtitle { opacity: 1; transform: none; transition: none; }
+  .page-header::after { animation: none; }
+}
+
+
+/* =====================================================================
+   32. CHATBOT: apertura/cierre y transición de mensajes más vivas
+   Sustituye el bloque simple de la sección 23 (bot-slide-up en [hidden])
+   por un patrón de dos pasos (igual que los modales de eventos): se saca
+   [hidden] primero, se agrega .cf-abierto un frame después para animar,
+   y al cerrar se espera a que termine la transición antes de re-ocultar.
+   ===================================================================== */
+.chatbot-panel {
+  transform-origin: bottom right;
+  animation: none;
+  opacity: 0;
+  transform: translateY(18px) scale(0.85);
+  transition: opacity 0.32s cubic-bezier(.34,1.56,.64,1), transform 0.32s cubic-bezier(.34,1.56,.64,1);
+}
+.chatbot-panel.cf-abierto { opacity: 1; transform: translateY(0) scale(1); }
+
+.chatbot-body { transition: opacity 0.16s ease, transform 0.16s ease; }
+
+.chatbot-bubble:not(.abierto):not(:hover) {
+  animation: cf-bot-breathe 3.2s ease-in-out 3;
+}
+@keyframes cf-bot-breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.055); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chatbot-panel { transition: opacity 0.2s ease; transform: none !important; }
+  .chatbot-bubble:not(.abierto):not(:hover) { animation: none; }
 }
