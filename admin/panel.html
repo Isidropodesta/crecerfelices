@@ -27,6 +27,8 @@
     <button class="panel-tab-btn" data-tab="aliados"     role="tab">Aliados</button>
     <button class="panel-tab-btn" data-tab="talleres"    role="tab">Talleres</button>
     <button class="panel-tab-btn" data-tab="eventos"     role="tab">Eventos</button>
+    <button class="panel-tab-btn" data-tab="mensajes"    role="tab">Mensajes</button>
+    <button class="panel-tab-btn" data-tab="config"      role="tab">Configuración</button>
   </nav>
 
   <!-- CONTENIDO -->
@@ -194,7 +196,150 @@
     </section>
 
     <section class="tab-panel" id="tab-eventos">
-      <p class="coming-soon">Sección <strong>Eventos</strong> — se implementa en el paso 6.</p>
+      <h2 class="seccion-titulo">Eventos</h2>
+
+      <!-- Formulario agregar / editar evento -->
+      <div class="form-admin" id="evForm">
+        <h3 id="evFormTitulo">Agregar evento</h3>
+
+        <div class="field">
+          <label for="evTitulo">Título *</label>
+          <input type="text" id="evTitulo" placeholder="Ej: Día del Niño">
+        </div>
+
+        <div class="field">
+          <label for="evDesc">Descripción — separá párrafos con una línea en blanco</label>
+          <textarea id="evDesc" rows="5" placeholder="Texto que aparece en el modal del evento…"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="evPortada">Foto de portada (miniatura en la grilla de la web)</label>
+          <input type="file" id="evPortada" accept="image/*">
+          <img id="evPortadaPreview" style="display:none;max-width:200px;max-height:120px;object-fit:cover;margin-top:10px;border-radius:8px;border:1.5px solid var(--gris-borde);" alt="Preview">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;">
+          <div class="field">
+            <label for="evOrden">Orden (menor = primero)</label>
+            <input type="number" id="evOrden" value="0" min="0">
+          </div>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--texto-suave);padding-bottom:12px;">
+            <input type="checkbox" id="evActivo" checked style="width:auto;accent-color:var(--fucsia);"> Visible en el sitio
+          </label>
+        </div>
+
+        <p id="evMsg" style="display:none;"></p>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button id="evBtnGuardar"  class="btn-primario">Guardar</button>
+          <button id="evBtnCancelar" class="btn-secundario" style="display:none;">Cancelar edición</button>
+        </div>
+      </div>
+
+      <!-- Sección de media (visible solo al editar un evento) -->
+      <div id="evMediaSection" style="display:none;">
+        <h3 class="seccion-titulo" style="margin-top:32px;">Fotos y videos de este evento</h3>
+        <p style="color:var(--texto-suave);font-size:0.85rem;margin-bottom:16px;">Aparecen en el modal cuando el visitante hace clic en la tarjeta del evento.</p>
+
+        <div id="evMLista" class="lista-items"></div>
+
+        <!-- Mini formulario para agregar media -->
+        <div class="form-admin" style="margin-top:20px;border-top:2px solid var(--gris-borde);padding-top:24px;">
+          <h4 style="margin:0 0 16px;font-size:0.95rem;color:var(--texto);">Agregar foto o video</h4>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+            <div class="field">
+              <label for="evMTipo">Tipo</label>
+              <select id="evMTipo">
+                <option value="foto">Foto</option>
+                <option value="video">Video</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="evMOrden">Orden</label>
+              <input type="number" id="evMOrden" value="0" min="0">
+            </div>
+          </div>
+
+          <div class="field">
+            <label style="font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--texto-suave);margin-bottom:8px;display:block;">Fuente</label>
+            <div style="display:flex;gap:20px;margin-bottom:12px;">
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.9rem;">
+                <input type="radio" name="evMFuente" value="archivo" checked style="accent-color:var(--fucsia);"> Subir archivo
+              </label>
+              <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.9rem;">
+                <input type="radio" name="evMFuente" value="url" style="accent-color:var(--fucsia);"> Usar URL existente
+              </label>
+            </div>
+            <div id="evMArchivoField">
+              <input type="file" id="evMArchivo" accept="image/*,video/*">
+            </div>
+            <div id="evMUrlField" style="display:none;">
+              <input type="url" id="evMUrl" placeholder="https://crecerfelices.vercel.app/videos/...">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="evMAlt">Descripción breve (texto alternativo)</label>
+            <input type="text" id="evMAlt" placeholder="Ej: Voluntarios preparando el locro">
+          </div>
+
+          <p id="evMMsg" style="display:none;"></p>
+          <button id="evMBtnAgregar" class="btn-primario">Agregar</button>
+        </div>
+      </div>
+
+      <!-- Lista de eventos -->
+      <h3 class="seccion-titulo" style="margin-top:40px;">Eventos guardados</h3>
+      <div id="evLista" class="lista-items"></div>
+    </section>
+
+    <section class="tab-panel" id="tab-mensajes">
+      <h2 class="seccion-titulo">Mensajes recibidos</h2>
+
+      <h3 class="seccion-titulo">Inscripciones de voluntarios</h3>
+      <p style="color:var(--texto-suave);font-size:0.85rem;margin-bottom:16px;">Del más nuevo al más viejo. Marcalos como leído o respondido para llevar el seguimiento.</p>
+      <div id="msVLista" class="lista-items"></div>
+
+      <h3 class="seccion-titulo" style="margin-top:48px;">Mensajes de contacto</h3>
+      <p style="color:var(--texto-suave);font-size:0.85rem;margin-bottom:16px;">Del más nuevo al más viejo.</p>
+      <div id="msCLista" class="lista-items"></div>
+    </section>
+
+    <section class="tab-panel" id="tab-config">
+      <h2 class="seccion-titulo">Configuración</h2>
+      <p style="color:var(--texto-suave);font-size:0.85rem;margin-bottom:24px;">Los cambios se reflejan en el sitio al instante. Los campos vacíos no se actualizan.</p>
+
+      <div class="form-admin">
+        <h3>Datos de contacto</h3>
+
+        <div class="field">
+          <label for="cfgWhatsapp">WhatsApp — número sin espacios ni +, ej: 5492614001234</label>
+          <input type="text" id="cfgWhatsapp" placeholder="5492617257242">
+        </div>
+        <div class="field">
+          <label for="cfgEmail">Email de contacto</label>
+          <input type="email" id="cfgEmail" placeholder="contacto@ejemplo.org">
+        </div>
+        <div class="field">
+          <label for="cfgInstagram">Instagram (URL completa)</label>
+          <input type="url" id="cfgInstagram" placeholder="https://www.instagram.com/...">
+        </div>
+
+        <h3 style="margin-top:8px;">Donaciones</h3>
+
+        <div class="field">
+          <label for="cfgAlias">Alias Ualá</label>
+          <input type="text" id="cfgAlias" placeholder="proyectocrecerf.uala">
+        </div>
+        <div class="field">
+          <label for="cfgMercadoPago">Link de Mercado Pago (URL completa)</label>
+          <input type="url" id="cfgMercadoPago" placeholder="https://link.mercadopago.com.ar/...">
+        </div>
+
+        <p id="cfgMsg" hidden style="margin-top:4px;"></p>
+        <button id="cfgBtnGuardar" class="btn-primario">Guardar cambios</button>
+      </div>
     </section>
 
   </main>
@@ -229,3 +374,4 @@
   </script>
 </body>
 </html>
+

@@ -895,6 +895,31 @@ p:last-child { margin-bottom: 0; }
   .nino-cell--wide { grid-column: span 2; aspect-ratio: 8 / 3; }
 }
 
+/* Grilla uniforme de media para todos los modales de eventos */
+.evento-media-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-top: 24px;
+}
+.evento-media-cell {
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radio-sm);
+  overflow: hidden;
+  background: #000;
+}
+.evento-media-cell img,
+.evento-media-cell video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+@media (max-width: 620px) {
+  .evento-media-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* Layout locro: video izquierda + grilla de fotos derecha */
 .locro-layout {
   display: flex;
@@ -1444,7 +1469,7 @@ body.modal-open { overflow: hidden; }
    ===================================================================== */
 .btn-scroll-top {
   position: fixed;
-  bottom: 24px; right: 24px;
+  bottom: 24px; left: 24px;
   width: 46px; height: 46px;
   background: var(--fucsia);
   color: var(--blanco);
@@ -1542,4 +1567,228 @@ body.modal-open { overflow: hidden; }
 
   /* Footer */
   .footer-content { grid-template-columns: 2fr 1fr 1.5fr; gap: 56px; }
+}
+
+
+/* =====================================================================
+   23. CHAT BOT ASISTENTE
+   ===================================================================== */
+.chatbot-wrap {
+  position: fixed;
+  bottom: 24px; right: 24px;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.chatbot-bubble {
+  width: 56px; height: 56px;
+  background: var(--fucsia);
+  color: var(--blanco);
+  border-radius: 50%;
+  box-shadow: 0 4px 22px rgba(214,0,110,0.42);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform var(--trans), background var(--trans);
+  border: none;
+  cursor: pointer;
+}
+.chatbot-bubble:hover { transform: scale(1.08); background: var(--fucsia-dark); }
+.chatbot-bubble .icon-close { display: none; }
+.chatbot-bubble.abierto .icon-open  { display: none; }
+.chatbot-bubble.abierto .icon-close { display: block; }
+
+.chatbot-bubble:not(.abierto)::after {
+  content: '';
+  position: absolute;
+  top: 4px; right: 4px;
+  width: 11px; height: 11px;
+  background: var(--amarillo);
+  border-radius: 50%;
+  border: 2px solid #fff;
+  animation: bot-ping 2.4s ease-in-out infinite;
+}
+@keyframes bot-ping {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  55%       { transform: scale(1.5); opacity: 0.5; }
+}
+
+.chatbot-panel {
+  width: 320px;
+  max-height: 490px;
+  background: var(--blanco);
+  border-radius: 18px;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.18);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: bot-slide-up 0.22s ease;
+}
+.chatbot-panel[hidden] { display: none; }
+@keyframes bot-slide-up {
+  from { opacity: 0; transform: translateY(14px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.chatbot-header {
+  background: linear-gradient(135deg, var(--fucsia) 0%, #a3004f 100%);
+  color: var(--blanco);
+  padding: 14px 18px;
+  font-family: var(--fuente-titulo);
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex-shrink: 0;
+}
+
+.chatbot-body {
+  padding: 15px 14px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overscroll-behavior: contain;
+}
+
+.chatbot-saludo {
+  font-size: 0.88rem;
+  color: var(--texto-medio);
+  margin-bottom: 2px;
+}
+
+.chatbot-preguntas {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.chatbot-pregunta-btn {
+  text-align: left;
+  padding: 10px 13px;
+  background: var(--fucsia-pale);
+  border: 1.5px solid var(--borde-fucsia);
+  border-radius: 10px;
+  font-family: var(--fuente-cuerpo);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--fucsia);
+  cursor: pointer;
+  transition: background var(--trans), transform 0.15s ease;
+}
+.chatbot-pregunta-btn:hover {
+  background: var(--fucsia-light);
+  transform: translateX(3px);
+}
+
+.chatbot-back-btn {
+  font-size: 0.79rem;
+  color: var(--fucsia);
+  font-weight: 700;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 2px 0 6px;
+  flex-shrink: 0;
+  font-family: var(--fuente-cuerpo);
+}
+.chatbot-back-btn:hover { text-decoration: underline; }
+
+.chatbot-respuesta {
+  font-size: 0.875rem;
+  color: var(--texto-medio);
+  line-height: 1.65;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.chatbot-respuesta p { margin: 0; }
+.chatbot-respuesta strong { color: var(--texto); }
+
+.chatbot-lista {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 4px;
+}
+.chatbot-lista li {
+  padding: 8px 10px;
+  background: var(--crema);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.chatbot-lista li span { color: var(--texto-suave); font-size: 0.76rem; }
+
+.chatbot-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.chatbot-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 11px 18px;
+  background: var(--fucsia);
+  color: var(--blanco);
+  border-radius: var(--radio-pill);
+  font-size: 0.84rem;
+  font-weight: 700;
+  font-family: var(--fuente-titulo);
+  transition: background var(--trans), transform 0.15s ease;
+  text-decoration: none;
+}
+.chatbot-action-btn:hover { background: var(--fucsia-dark); transform: translateY(-1px); }
+.chatbot-btn-wa { background: #25D366; }
+.chatbot-btn-wa:hover { background: #1da851; }
+
+
+/* =====================================================================
+   24. MOBILE FIXES
+   ===================================================================== */
+
+/* Ocultar botón Donar del navbar en móvil */
+@media (max-width: 1023px) {
+  .nav-container > .btn-donar { display: none; }
+}
+
+/* Chat bot en mobile */
+@media (max-width: 480px) {
+  .chatbot-wrap  { bottom: 16px; right: 16px; }
+  .chatbot-panel { width: calc(100vw - 32px); max-height: 430px; }
+  .btn-scroll-top { left: 16px; bottom: 16px; }
+}
+
+/* Modal: reducir padding en pantallas chicas */
+@media (max-width: 520px) {
+  .modal-overlay { padding: 10px 8px 20px; }
+  .modal-header  { padding: 20px 16px 16px; }
+  .modal-body    { padding: 16px 14px; gap: 18px; }
+  .modal-close   { top: 10px; right: 10px; }
+}
+
+/* Evento cards: thumb más angosto en mobile para dar espacio al texto */
+@media (max-width: 480px) {
+  .evento-card                { grid-template-columns: 90px 1fr; }
+  .evento-thumb               { height: 76px; }
+  .evento-info                { padding: 10px 12px; }
+  .evento-info h3             { font-size: 0.88rem; }
+  .evento-info > p            { font-size: 0.78rem; -webkit-line-clamp: 1; }
+}
+
+/* Botones de acción en colaborar: ancho completo en mobile */
+@media (max-width: 480px) {
+  .colaborar-card .btn { display: flex; width: 100%; justify-content: center; }
 }

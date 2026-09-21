@@ -236,38 +236,24 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/REEMPLAZAR_CON_TU_
    Cada tarjeta tiene data-modal="modal-ID" que apunta al overlay correspondiente.
    ===================================================================== */
 (function initModalEventos() {
-  const cards    = document.querySelectorAll('.evento-card[data-modal]');
-  const overlays = document.querySelectorAll('.modal-overlay');
-  if (!cards.length) return;
-
-  let anteriorFoco = null; // para devolver el foco al cerrar
+  let anteriorFoco = null;
 
   function abrirModal(id) {
     const overlay = document.getElementById(id);
     if (!overlay) return;
-
     anteriorFoco = document.activeElement;
-
     overlay.hidden = false;
     document.body.classList.add('modal-open');
-
-    // Animación de entrada (un tick después para que el display:flex se aplique)
     requestAnimationFrame(() => {
       requestAnimationFrame(() => overlay.classList.add('modal-visible'));
     });
-
-    // Foco al botón de cerrar
     const closeBtn = overlay.querySelector('.modal-close');
     if (closeBtn) closeBtn.focus();
   }
 
   function cerrarModal(overlay) {
     overlay.classList.remove('modal-visible');
-
-    // Pausar todos los videos dentro del modal al cerrar
     overlay.querySelectorAll('video').forEach(v => { v.pause(); });
-
-    // Esperar la transición antes de ocultar
     overlay.addEventListener('transitionend', () => {
       overlay.hidden = true;
       document.body.classList.remove('modal-open');
@@ -275,28 +261,27 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/REEMPLAZAR_CON_TU_
     }, { once: true });
   }
 
-  // Abrir modal al hacer clic o Enter/Espacio en la tarjeta
-  cards.forEach(card => {
-    const openModal = () => abrirModal(card.dataset.modal);
-    card.addEventListener('click', openModal);
-    card.addEventListener('keydown', e => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(); }
-    });
+  // Delegación de eventos — funciona con tarjetas y modales generados dinámicamente
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('.evento-card[data-modal]');
+    if (card) { abrirModal(card.dataset.modal); return; }
+
+    const closeBtn = e.target.closest('.modal-close');
+    if (closeBtn) {
+      const overlay = closeBtn.closest('.modal-overlay');
+      if (overlay) { cerrarModal(overlay); return; }
+    }
+
+    if (e.target.classList.contains('modal-overlay')) {
+      cerrarModal(e.target);
+    }
   });
 
-  // Cerrar con botón X
-  overlays.forEach(overlay => {
-    const closeBtn = overlay.querySelector('.modal-close');
-    if (closeBtn) closeBtn.addEventListener('click', () => cerrarModal(overlay));
-
-    // Cerrar al hacer clic en el fondo oscuro (fuera del panel)
-    overlay.addEventListener('click', e => {
-      if (e.target === overlay) cerrarModal(overlay);
-    });
-  });
-
-  // Cerrar con Escape
   document.addEventListener('keydown', e => {
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.evento-card[data-modal]')) {
+      e.preventDefault();
+      abrirModal(e.target.dataset.modal);
+    }
     if (e.key === 'Escape') {
       const abierto = document.querySelector('.modal-overlay.modal-visible');
       if (abierto) cerrarModal(abierto);
@@ -414,33 +399,97 @@ function manejarEnvio(form, submitBtn, successEl, errorEl) {
   });
 }
 
-// Formulario de voluntarios
+// Formulario de voluntarios — guarda en Supabase
 (function initFormVoluntarios() {
-  const form      = document.getElementById('formVoluntarios');
+  const form = document.getElementById('formVoluntarios');
   if (!form) return;
 
   const submitBtn = form.querySelector('[type="submit"]');
   const successEl = form.querySelector('.form-success');
   const errorEl   = form.querySelector('.form-error');
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    manejarEnvio(form, submitBtn, successEl, errorEl);
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.btn-text').hidden    = true;
+    submitBtn.querySelector('.btn-loading').hidden = false;
+
+    const datos = {
+      nombre:         form.querySelector('[name="nombre"]').value.trim(),
+      edad:           parseInt(form.querySelector('[name="edad"]').value) || null,
+      telefono:       form.querySelector('[name="telefono"]').value.trim(),
+      email:          form.querySelector('[name="email"]').value.trim(),
+      disponibilidad: form.querySelector('[name="disponibilidad"]').value || null,
+      mensaje:        form.querySelector('[name="mensaje"]').value.trim() || null,
+    };
+
+    const { error } = await db.from('voluntarios_inscripciones').insert(datos);
+
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.btn-text').hidden    = false;
+    submitBtn.querySelector('.btn-loading').hidden = true;
+
+    if (error) {
+      errorEl.hidden   = false;
+      successEl.hidden = true;
+    } else {
+      successEl.hidden = false;
+      errorEl.hidden   = true;
+      form.reset();
+      fetch('https://eixjvwaneetpebcelgcb.supabase.co/functions/v1/enviar-aviso', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'voluntarios_inscripciones', record: datos }),
+      }).catch(() => {});
+    }
   });
 })();
 
-// Formulario de contacto
+// Formulario de contacto — guarda en Supabase
 (function initFormContacto() {
-  const form      = document.getElementById('formContacto');
+  const form = document.getElementById('formContacto');
   if (!form) return;
 
   const submitBtn = form.querySelector('[type="submit"]');
   const successEl = form.querySelector('.form-success');
   const errorEl   = form.querySelector('.form-error');
 
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    manejarEnvio(form, submitBtn, successEl, errorEl);
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.querySelector('.btn-text').hidden    = true;
+    submitBtn.querySelector('.btn-loading').hidden = false;
+
+    const datos = {
+      nombre:  form.querySelector('[name="nombre"]').value.trim(),
+      email:   form.querySelector('[name="email"]').value.trim(),
+      asunto:  form.querySelector('[name="asunto"]').value || null,
+      mensaje: form.querySelector('[name="mensaje"]').value.trim(),
+    };
+
+    const { error } = await db.from('contacto_mensajes').insert(datos);
+
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.btn-text').hidden    = false;
+    submitBtn.querySelector('.btn-loading').hidden = true;
+
+    if (error) {
+      errorEl.hidden   = false;
+      successEl.hidden = true;
+    } else {
+      successEl.hidden = false;
+      errorEl.hidden   = true;
+      form.reset();
+      fetch('https://eixjvwaneetpebcelgcb.supabase.co/functions/v1/enviar-aviso', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ table: 'contacto_mensajes', record: datos }),
+      }).catch(() => {});
+    }
   });
 })();
 
@@ -495,4 +544,123 @@ function manejarEnvio(form, submitBtn, successEl, errorEl) {
   });
 
   imgs.forEach(img => observer.observe(img));
+})();
+
+
+/* =====================================================================
+   CHAT BOT ASISTENTE
+   Sin backend · Sin IA · Respuestas hardcodeadas
+   ===================================================================== */
+(function initChatBot() {
+  const toggle = document.getElementById('chatBotToggle');
+  const panel  = document.getElementById('chatBotPanel');
+  const body   = document.getElementById('chatBotBody');
+  if (!toggle || !panel || !body) return;
+
+  const PREGUNTAS = [
+    '¿Cómo me sumo como voluntario?',
+    '¿Qué días y horarios son los talleres?',
+    '¿Necesito experiencia para ser voluntario?',
+    '¿Cómo puedo colaborar o donar?',
+    '¿Cómo los contacto?',
+  ];
+
+  const WA_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>';
+
+  function waHref() {
+    const el = document.querySelector('a[data-cfg="wa"]');
+    return (el && el.href) ? el.href : 'https://wa.me/5492617257242';
+  }
+
+  function getRespuesta(idx) {
+    const RESP = [
+      {
+        html: '<p>¡Nos encanta que quieras sumarte! Completá el formulario con tus datos y nos ponemos en contacto con vos.</p>',
+        btns: [{ label: 'Ir al formulario', href: '#voluntarios' }],
+      },
+      {
+        html: `<p><strong>Nuestros talleres:</strong></p>
+<ul class="chatbot-lista">
+  <li><strong>Mi Solcito</strong><br>Martes 10:00 – 11:30<br><span>Bº Tres Estrellas, Godoy Cruz</span></li>
+  <li><strong>Picardías</strong><br>Martes 15:00 – 16:30<br><span>Bº Dolores Prats de Huisi, Godoy Cruz</span></li>
+  <li><strong>Rinconcito de Luz</strong><br>Miérc. 14:00–16:00 y Viernes 9:00–11:00<br><span>Bº Renacer del Plata, Perdriel, Luján</span></li>
+  <li><strong>Multicolores</strong><br>Miérc. 14:30–16:00 y Viernes 10:00–11:30<br><span>Bº Sarmiento, Godoy Cruz</span></li>
+  <li><strong>Mundo Explorador</strong><br>Jueves 15:00 – 17:00<br><span>Bº Sol y Sierra, Godoy Cruz</span></li>
+  <li><strong>Mi Angelito</strong><br>Jueves 16:00 – 17:30<br><span>Bº ATSA, Godoy Cruz</span></li>
+</ul>`,
+        btns: [],
+      },
+      {
+        html: '<p>¡Para nada! No hace falta experiencia previa. Lo importante son las ganas de acompañar a los chicos. El equipo te va guiando en todo.</p>',
+        btns: [],
+      },
+      {
+        html: '<p>Podés donar dinero por Mercado Pago o al alias de Ualá: <strong>proyectocrecerf.uala</strong>. También podés donar cosas o dar una mano puntual.</p>',
+        btns: [{ label: 'Ver cómo colaborar', href: '#colaborar' }],
+      },
+      {
+        html: '<p>Escribinos por WhatsApp y te respondemos lo antes posible.</p>',
+        btns: [{ label: WA_SVG + ' Escribir por WhatsApp', href: waHref(), cls: 'chatbot-btn-wa', external: true }],
+      },
+    ];
+    return RESP[idx];
+  }
+
+  function mostrarPreguntas() {
+    body.innerHTML =
+      '<p class="chatbot-saludo">¡Hola! ¿En qué te podemos ayudar? 👋</p>' +
+      '<div class="chatbot-preguntas">' +
+      PREGUNTAS.map((p, i) => '<button class="chatbot-pregunta-btn" data-idx="' + i + '">' + p + '</button>').join('') +
+      '</div>';
+  }
+
+  function mostrarRespuesta(idx) {
+    const r = getRespuesta(idx);
+    const btnsHTML = r.btns.map(function(b) {
+      const ext = b.external ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return '<a href="' + b.href + '" class="chatbot-action-btn ' + (b.cls || '') + '"' + ext + '>' + b.label + '</a>';
+    }).join('');
+    body.innerHTML =
+      '<button class="chatbot-back-btn">← Volver a las preguntas</button>' +
+      '<div class="chatbot-respuesta">' + r.html +
+      (btnsHTML ? '<div class="chatbot-btns">' + btnsHTML + '</div>' : '') +
+      '</div>';
+    body.scrollTop = 0;
+  }
+
+  function abrir() {
+    panel.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.classList.add('abierto');
+    mostrarPreguntas();
+  }
+
+  function cerrar() {
+    panel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.classList.remove('abierto');
+  }
+
+  toggle.addEventListener('click', function() { panel.hidden ? abrir() : cerrar(); });
+
+  body.addEventListener('click', function(e) {
+    const pregBtn = e.target.closest('.chatbot-pregunta-btn');
+    if (pregBtn) { mostrarRespuesta(parseInt(pregBtn.dataset.idx, 10)); return; }
+
+    if (e.target.closest('.chatbot-back-btn')) { mostrarPreguntas(); return; }
+
+    const actionBtn = e.target.closest('.chatbot-action-btn:not([target="_blank"])');
+    if (actionBtn) {
+      e.preventDefault();
+      const dest = document.querySelector(actionBtn.getAttribute('href'));
+      if (dest) {
+        cerrar();
+        setTimeout(function() { dest.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 220);
+      }
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !panel.hidden) cerrar();
+  });
 })();
