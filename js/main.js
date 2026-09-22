@@ -860,3 +860,30 @@ function manejarEnvio(form, submitBtn, successEl, errorEl) {
     header.classList.toggle('cf-scrolled', window.scrollY > 60);
   }, { passive: true });
 })();
+
+
+/* =====================================================================
+   PORTADA DE VIDEO
+   Los <video> del sitio no tienen un poster real, así que el navegador
+   muestra un rectángulo negro hasta que se le da play. En vez de eso,
+   se cubre con un botón de play con la marca; al hacer clic reproduce
+   y se desvanece.
+   ===================================================================== */
+(function initVideoCover() {
+  const PLAY_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+  document.querySelectorAll('.video-wrapper video').forEach(video => {
+    if (video.dataset.cfCover) return;
+    video.dataset.cfCover = '1';
+
+    const cover = document.createElement('button');
+    cover.type = 'button';
+    cover.className = 'cf-video-cover';
+    cover.setAttribute('aria-label', 'Reproducir video');
+    cover.innerHTML = '<span class="cf-video-play">' + PLAY_SVG + '</span>';
+    video.insertAdjacentElement('afterend', cover);
+
+    cover.addEventListener('click', () => video.play());
+    video.addEventListener('play', () => cover.classList.add('cf-video-cover--oculto'), { once: true });
+  });
+})();
