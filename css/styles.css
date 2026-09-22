@@ -444,13 +444,13 @@ p:last-child { margin-bottom: 0; }
 /* Page header – primera impresión */
 .page-header {
   padding: calc(var(--navbar-h) + 64px) 0 64px;
-  /* Degradé de marca semitransparente sobre una foto real del equipo,
-     en vez de un color liso — le da presencia y sigue siendo legible */
+  /* La foto entera, clara — solo un oscurecido de izquierda a derecha
+     (donde va el texto) para que se lea, sin taparla con un color */
   background:
-    linear-gradient(140deg, rgba(214,0,110,0.90) 0%, rgba(176,0,90,0.90) 55%, rgba(123,0,58,0.94) 100%),
+    linear-gradient(100deg, rgba(10,4,8,0.72) 0%, rgba(10,4,8,0.42) 38%, rgba(10,4,8,0.05) 68%, transparent 85%),
     url('../images/voluntarioss.webp');
   background-size: cover;
-  background-position: center 32%;
+  background-position: center 30%;
   position: relative;
   overflow: hidden;
 }
@@ -476,14 +476,16 @@ p:last-child { margin-bottom: 0; }
   line-height: 1.08;
   margin-bottom: 16px;
   position: relative;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.35);
 }
 .page-subtitle {
   font-size: 0.82rem;
   font-weight: 700;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.85);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   position: relative;
+  text-shadow: 0 1px 10px rgba(0,0,0,0.4);
 }
 
 /* Layout texto + reel */
