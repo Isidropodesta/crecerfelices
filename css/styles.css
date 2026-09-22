@@ -444,7 +444,13 @@ p:last-child { margin-bottom: 0; }
 /* Page header – primera impresión */
 .page-header {
   padding: calc(var(--navbar-h) + 64px) 0 64px;
-  background: linear-gradient(140deg, var(--fucsia) 0%, var(--fucsia-dark) 55%, #7B003A 100%);
+  /* Degradé de marca semitransparente sobre una foto real del equipo,
+     en vez de un color liso — le da presencia y sigue siendo legible */
+  background:
+    linear-gradient(140deg, rgba(214,0,110,0.90) 0%, rgba(176,0,90,0.90) 55%, rgba(123,0,58,0.94) 100%),
+    url('../images/voluntarioss.webp');
+  background-size: cover;
+  background-position: center 32%;
   position: relative;
   overflow: hidden;
 }
