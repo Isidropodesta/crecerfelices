@@ -66,6 +66,15 @@
 </head>
 <body>
 
+<!-- Filtro SVG de nitidez (unsharp mask) para el video del hero: el archivo
+     es de baja resolución y se estira a pantalla completa, esto realza los
+     bordes existentes para que se perciba más nítido sin agregar peso. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="heroSharpen" color-interpolation-filters="sRGB">
+    <feConvolveMatrix order="3" preserveAlpha="true" divisor="1" kernelMatrix="0 -1 0 -1 5 -1 0 -1 0"/>
+  </filter>
+</svg>
+
 <!-- =====================================================================
      NAVBAR FIJA
      ===================================================================== -->
