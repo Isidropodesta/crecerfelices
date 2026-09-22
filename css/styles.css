@@ -1659,11 +1659,13 @@ body.modal-open { overflow: hidden; }
   .nav-links  { display: flex; }
   .menu-toggle { display: none; }
 
-  /* Hero a pantalla casi completa con video de fondo en loop, texto
-     abajo — solo en desktop, para no gastar datos de más en mobile. */
+  /* Hero a pantalla completa con video de fondo en loop, texto abajo —
+     solo en desktop, para no gastar datos de más en mobile. Más alto que
+     antes (100vh y más padding) para que el video tenga más protagonismo
+     y el texto quede con más aire arriba y abajo. */
   .page-header {
-    min-height: 90vh;
-    padding: calc(var(--navbar-h) + 40px) 0 88px;
+    min-height: 100vh;
+    padding: calc(var(--navbar-h) + 72px) 0 120px;
     background-image: none;
   }
   .hero-video {
