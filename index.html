@@ -118,6 +118,13 @@
 <section id="quienes-somos" class="section section-quienes" aria-labelledby="quienes-titulo">
 
   <div class="page-header">
+    <!-- Video de fondo a pantalla completa (solo desktop; en mobile se
+         oculta y queda la foto de respaldo definida en CSS, para no
+         gastar datos de más a quien entra desde el celular) -->
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="images/voluntarioss.webp">
+      <source src="videos/un-dia-para-recordar.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video-overlay"></div>
     <div class="container">
       <h1 class="page-title">Proyecto<br><span class="script-accent">Crecer Felices</span></h1>
       <p class="page-subtitle">Mendoza · Asociación Civil sin fines de lucro</p>
