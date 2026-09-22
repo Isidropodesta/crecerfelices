@@ -134,6 +134,14 @@
       <source src="videos/un-dia-para-recordar.mp4" type="video/mp4">
     </video>
     <div class="hero-video-overlay"></div>
+    <!-- Divisor ondulado hacia la sección blanca de abajo. Antes era un
+         CSS mask-image sobre un pseudo-elemento del container siguiente,
+         pero el mask no pintaba blanco sólido (quedaba gris) — un SVG
+         real con fill directo es más simple y no depende de cómo cada
+         motor de render interprete el mask. -->
+    <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,32 C 360,86 1080,-14 1440,34 L1440,90 L0,90 Z" fill="#FFFFFF"/>
+    </svg>
     <div class="container">
       <h1 class="page-title">Proyecto<br><span class="script-accent">Crecer Felices</span></h1>
       <p class="page-subtitle">Mendoza · Asociación Civil sin fines de lucro</p>

@@ -417,27 +417,17 @@ p:last-child { margin-bottom: 0; }
 }
 
 /* Divisor orgánico entre el hero y el contenido, en vez del corte recto.
-   .page-header no es una sección aparte: es el primer hijo de
-   .section-quienes. El contenido blanco arranca en el .container que le
-   sigue, así que el divisor se ancla a ESE (selector de hermano
-   adyacente) y se estira a todo el ancho de la pantalla con el truco
-   100vw/-50vw, sin importar que .container esté centrado y sea angosto. */
-.page-header + .container { position: relative; }
-.page-header + .container::before {
-  content: '';
+   SVG real (no CSS mask: no pintaba blanco sólido de forma confiable),
+   como último hijo de .page-header, anclado a su borde inferior. */
+.hero-wave {
+  display: block;
   position: absolute;
-  top: -56px;
-  left: 50%;
-  width: 100vw;
-  margin-left: -50vw;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
   height: 56px;
-  background-color: var(--blanco);
-  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'><path d='M0,32 C 360,86 1080,-14 1440,34 L1440,90 L0,90 Z'/></svg>");
-  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 90' preserveAspectRatio='none'><path d='M0,32 C 360,86 1080,-14 1440,34 L1440,90 L0,90 Z'/></svg>");
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
+  z-index: 2;
   pointer-events: none;
 }
 
@@ -1659,38 +1649,51 @@ body.modal-open { overflow: hidden; }
   .nav-links  { display: flex; }
   .menu-toggle { display: none; }
 
-  /* Hero a pantalla completa con video de fondo en loop, texto abajo —
-     solo en desktop, para no gastar datos de más en mobile. Más alto que
-     antes (100vh y más padding) para que el video tenga más protagonismo
-     y el texto quede con más aire arriba y abajo. */
+  /* Hero a pantalla completa, sin franja de navbar y sin hueco al pie —
+     solo en desktop, para no gastar datos de más en mobile. */
   .page-header {
     min-height: 100vh;
-    padding: calc(var(--navbar-h) + 72px) 0 120px;
-    background-image: none;
+    padding: 0 0 120px;
+    display: flex;
+    align-items: flex-end;
+    /* Fondo oscuro con tinte de marca: se ve en los costados del video
+       (ver .hero-video abajo) y detrás de la navbar transparente. */
+    background: radial-gradient(120% 90% at 50% 0%, rgba(214,0,110,0.22) 0%, transparent 55%),
+                linear-gradient(165deg, #170710 0%, #0e0508 100%);
   }
+  /* El video es vertical (9:16, archivo de celular). Antes se estiraba a
+     lo ANCHO de toda la pantalla (object-fit:cover), lo que lo agrandaba
+     ~4-5x respecto a su resolución real y por eso se veía tan borroso.
+     Ahora se dimensiona por ALTO (llena el 100vh) y el ancho sigue su
+     proporción real (aspect-ratio), quedando centrado — el agrandado baja
+     a ~1.4x, mucho menos notorio. Los costados que quedan libres muestran
+     el fondo oscuro de .page-header de arriba. */
   .hero-video {
     display: block;
     position: absolute;
-    inset: 0;
-    width: 100%;
+    top: 0;
+    left: 50%;
     height: 100%;
-    object-fit: cover;
+    width: auto;
+    aspect-ratio: 9 / 16;
+    transform: translateX(-50%);
     z-index: 0;
-    /* El archivo es de baja resolución de origen (celular) estirado a
-       pantalla completa: el sharpen realza bordes y el contraste/saturación
-       disimula el aspecto "lavado" del upscaling. No sustituye resolución
-       real, pero ayuda a que se perciba más nítido. */
+    /* El archivo sigue siendo de baja resolución de origen: el sharpen
+       realza bordes y el contraste/saturación disimula el aspecto
+       "lavado" del upscaling que queda. No sustituye resolución real,
+       pero ahora parte de un agrandado mucho menor (ver arriba). */
     filter: url(#heroSharpen) contrast(1.06) saturate(1.14);
   }
-  /* Oscurecido de izquierda a derecha (mismo criterio que la foto de
-     respaldo en mobile) para que el texto quede legible sobre el video. */
+  /* Oscurecido para que el texto quede legible, ya sea que caiga sobre el
+     video o sobre el fondo de los costados. */
   .hero-video-overlay {
     display: block;
     position: absolute;
     inset: 0;
     z-index: 1;
     pointer-events: none;
-    background: linear-gradient(100deg, rgba(10,4,8,0.62) 0%, rgba(10,4,8,0.30) 42%, rgba(10,4,8,0.04) 70%, transparent 85%);
+    background: linear-gradient(100deg, rgba(10,4,8,0.55) 0%, rgba(10,4,8,0.32) 45%, rgba(10,4,8,0.30) 100%),
+                linear-gradient(0deg, rgba(10,4,8,0.55) 0%, transparent 30%);
   }
   /* Grano fotográfico muy sutil: agrega textura de alta frecuencia que
      disimula el aspecto "blocky" del video estirado — un truco típico de
@@ -1705,6 +1708,20 @@ body.modal-open { overflow: hidden; }
     opacity: 0.05;
     mix-blend-mode: overlay;
   }
+  /* Navbar transparente mientras estamos arriba del todo (sobre el hero) y
+     sólida en cuanto se hace scroll — reutiliza la clase .scrolled que ya
+     agrega el JS a los 20px. Solo en desktop: en mobile no hay hero-video
+     y la navbar siempre necesita fondo sólido. */
+  #navbar:not(.scrolled) {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+  #navbar:not(.scrolled) .nav-links a { color: rgba(255,255,255,0.92); }
+  #navbar:not(.scrolled) .nav-links a:hover,
+  #navbar:not(.scrolled) .nav-links a.active { background: rgba(255,255,255,0.16); color: var(--blanco); }
+  #navbar:not(.scrolled) .nav-links a.active::after { background: var(--blanco); }
 
   /* Quiénes Somos: texto a la izquierda, video a la derecha estirado a la
      misma altura del texto (stretch, no center) para que no quede
