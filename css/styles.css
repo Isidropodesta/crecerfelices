@@ -1656,32 +1656,23 @@ body.modal-open { overflow: hidden; }
     padding: 0 0 120px;
     display: flex;
     align-items: flex-end;
-    /* Fondo oscuro con tinte de marca: se ve en los costados del video
-       (ver .hero-video abajo) y detrás de la navbar transparente. */
-    background: radial-gradient(120% 90% at 50% 0%, rgba(214,0,110,0.22) 0%, transparent 55%),
-                linear-gradient(165deg, #170710 0%, #0e0508 100%);
+    background: #0e0508;
   }
-  /* El video es vertical (9:16, archivo de celular). Antes se estiraba a
-     lo ANCHO de toda la pantalla (object-fit:cover), lo que lo agrandaba
-     ~4-5x respecto a su resolución real y por eso se veía tan borroso.
-     Ahora se dimensiona por ALTO (llena el 100vh) y el ancho sigue su
-     proporción real (aspect-ratio), quedando centrado — el agrandado baja
-     a ~1.4x, mucho menos notorio. Los costados que quedan libres muestran
-     el fondo oscuro de .page-header de arriba. */
+  /* El video cubre TODA la pantalla (ancho y alto), sin franjas a los
+     costados — es la prioridad por sobre la nitidez: el archivo es de
+     baja resolución de origen (celular) así que estirado a pantalla
+     completa se va a ver borroso, es un límite físico del archivo. El
+     sharpen/contraste/saturación ayudan un poco pero no lo resuelven —
+     la mejora real depende de pasar el archivo por una IA de upscaling
+     de video antes de subirlo (fuera de este sitio). */
   .hero-video {
     display: block;
     position: absolute;
-    top: 0;
-    left: 50%;
+    inset: 0;
+    width: 100%;
     height: 100%;
-    width: auto;
-    aspect-ratio: 9 / 16;
-    transform: translateX(-50%);
+    object-fit: cover;
     z-index: 0;
-    /* El archivo sigue siendo de baja resolución de origen: el sharpen
-       realza bordes y el contraste/saturación disimula el aspecto
-       "lavado" del upscaling que queda. No sustituye resolución real,
-       pero ahora parte de un agrandado mucho menor (ver arriba). */
     filter: url(#heroSharpen) contrast(1.06) saturate(1.14);
   }
   /* Oscurecido para que el texto quede legible, ya sea que caiga sobre el
