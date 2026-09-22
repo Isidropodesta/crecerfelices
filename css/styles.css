@@ -560,11 +560,22 @@ p:last-child { margin-bottom: 0; }
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(150deg, var(--fucsia) 0%, #7B003A 100%);
+  /* Degradé oscuro neutro por defecto (no fucsia plano) para que el botón
+     de play siempre se lea bien encima */
+  background: linear-gradient(165deg, #1a1a1a 0%, #3a1a28 100%);
+  background-size: cover;
+  background-position: center;
   border: none;
   cursor: pointer;
   z-index: 3;
   transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+/* El video de "Conócenos en un minuto" usa la foto del equipo de fondo,
+   como una vista previa real en vez de un color plano */
+.quienes-video .cf-video-cover {
+  background-image:
+    linear-gradient(165deg, rgba(20,8,14,0.32) 0%, rgba(20,8,14,0.78) 100%),
+    url('../images/voluntarioss.webp');
 }
 .cf-video-play {
   width: 60px;
@@ -633,19 +644,22 @@ p:last-child { margin-bottom: 0; }
    ===================================================================== */
 .section-talleres {
   background:
-    radial-gradient(620px circle at 6% 100%, rgba(214,0,110,0.05), transparent 55%),
-    radial-gradient(480px circle at 96% 0%, rgba(242,194,0,0.10), transparent 55%),
-    var(--crema);
+    radial-gradient(680px circle at 4% 102%, rgba(214,0,110,0.14), transparent 58%),
+    radial-gradient(560px circle at 98% -4%, rgba(242,194,0,0.24), transparent 55%),
+    linear-gradient(165deg, var(--amarillo-pale) 0%, var(--crema) 45%, var(--crema) 100%);
 }
 
 .filtros {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 40px;
 }
 .filtro-btn {
-  padding: 8px 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px 10px 16px;
   border-radius: var(--radio-pill);
   font-family: var(--fuente-titulo);
   font-size: 0.78rem;
@@ -653,17 +667,31 @@ p:last-child { margin-bottom: 0; }
   color: var(--texto-medio);
   background: var(--blanco);
   border: 2px solid var(--borde);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
   transition: all var(--trans);
   letter-spacing: 0.01em;
 }
+.filtro-btn::before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--fucsia), #7C3AED);
+  flex-shrink: 0;
+}
+.filtro-btn[data-filtro="godoy-cruz"]::before { background: var(--fucsia); }
+.filtro-btn[data-filtro="lujan-de-cuyo"]::before { background: #7C3AED; }
 .filtro-btn.active,
 .filtro-btn:hover {
   background: var(--fucsia);
   color: var(--blanco);
   border-color: var(--fucsia);
-  box-shadow: 0 3px 12px rgba(214,0,110,0.25);
+  box-shadow: 0 6px 18px rgba(214,0,110,0.32);
   transform: translateY(-2px);
 }
+.filtro-btn.active::before,
+.filtro-btn:hover::before { background: var(--blanco); }
 .filtro-btn:active { transform: translateY(0) scale(0.96); transition-duration: 0.1s; }
 
 .talleres-grid {
