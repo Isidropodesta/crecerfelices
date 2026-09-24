@@ -66,6 +66,15 @@
 </head>
 <body>
 
+<!-- Filtro SVG de nitidez (unsharp mask) para el video del hero: el archivo
+     es de baja resolución y se estira a pantalla completa, esto realza los
+     bordes existentes para que se perciba más nítido sin agregar peso. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="heroSharpen" color-interpolation-filters="sRGB">
+    <feConvolveMatrix order="3" preserveAlpha="true" divisor="1" kernelMatrix="0 -1 0 -1 5 -1 0 -1 0"/>
+  </filter>
+</svg>
+
 <!-- =====================================================================
      NAVBAR FIJA
      ===================================================================== -->
@@ -118,9 +127,13 @@
 <section id="quienes-somos" class="section section-quienes" aria-labelledby="quienes-titulo">
 
   <div class="page-header">
-    <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="images/voluntarioss.webp">
       <source src="videos/dia-del-nino-roadfilms-hero.mp4" type="video/mp4">
     </video>
+    <div class="hero-video-overlay"></div>
+    <svg class="hero-wave" viewBox="0 0 1440 90" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,32 C 360,86 1080,-14 1440,34 L1440,90 L0,90 Z" fill="#FFFFFF"/>
+    </svg>
     <div class="container">
       <h1 class="page-title">Proyecto<br><span class="script-accent">Crecer Felices</span></h1>
       <p class="page-subtitle">Mendoza · Asociación Civil sin fines de lucro</p>

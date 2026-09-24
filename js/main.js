@@ -719,60 +719,6 @@ function manejarEnvio(form, submitBtn, successEl, errorEl) {
 
 
 /* =====================================================================
-   CURSOR PERSONALIZADO
-   Solo en dispositivos con mouse real. El anillo sigue con una leve
-   demora (lerp) para que se sienta "vivo"; el punto lo sigue exacto.
-   Crece sobre links, botones y tarjetas.
-   ===================================================================== */
-(function initCustomCursor() {
-  const esMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!esMouse || sinMovimiento) return;
-
-  const ring = document.createElement('div');
-  ring.className = 'cf-cursor';
-  const dot = document.createElement('div');
-  dot.className = 'cf-cursor-dot';
-  document.body.appendChild(ring);
-  document.body.appendChild(dot);
-  document.body.classList.add('cf-cursor-on');
-
-  let mouseX = -100, mouseY = -100;
-  let ringX = -100, ringY = -100;
-  let activo = false;
-
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
-    if (!activo) { activo = true; requestAnimationFrame(loop); }
-  });
-
-  const HOVER_SELECTOR = 'a, button, .taller-card, .evento-card, .colaborar-card, input, textarea, select, [role="button"]';
-  document.addEventListener('mouseover', e => {
-    if (e.target.closest(HOVER_SELECTOR)) ring.classList.add('cf-cursor--hover');
-  });
-  document.addEventListener('mouseout', e => {
-    if (e.target.closest(HOVER_SELECTOR)) ring.classList.remove('cf-cursor--hover');
-  });
-  document.addEventListener('mouseleave', () => {
-    ring.style.transform = dot.style.transform = 'translate3d(-100px, -100px, 0)';
-  });
-
-  function loop() {
-    ringX += (mouseX - ringX) * 0.18;
-    ringY += (mouseY - ringY) * 0.18;
-    ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
-    if (Math.abs(mouseX - ringX) > 0.3 || Math.abs(mouseY - ringY) > 0.3) {
-      requestAnimationFrame(loop);
-    } else {
-      activo = false;
-    }
-  }
-})();
-
-
-/* =====================================================================
    TEXTO QUE SE ARMA PALABRA POR PALABRA (split-text reveal)
    Envuelve cada palabra de un elemento en spans animables sin tocar el
    texto real: el contenedor recibe aria-label con el texto original y
@@ -895,41 +841,6 @@ function manejarEnvio(form, submitBtn, successEl, errorEl) {
 })();
 
 
-/* =====================================================================
-   PARALLAX SUAVE EN FOTOS DE TARJETAS (solo con mouse)
-   Funciona por delegación en document, así cubre también las tarjetas
-   de talleres y eventos que se generan después, desde Supabase.
-   ===================================================================== */
-(function initCardParallax() {
-  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  const SELECTOR = '.taller-foto, .evento-thumb';
-  let activo = null;
-
-  document.addEventListener('mousemove', e => {
-    const wrap = e.target.closest(SELECTOR);
-
-    if (activo && activo !== wrap) {
-      activo.classList.remove('cf-parallax-active');
-      const img = activo.querySelector('img');
-      if (img) img.style.transform = '';
-      activo = null;
-    }
-
-    if (!wrap) return;
-    const img = wrap.querySelector('img');
-    if (!img) return;
-
-    wrap.classList.add('cf-parallax-active');
-    activo = wrap;
-
-    const rect = wrap.getBoundingClientRect();
-    const relX = (e.clientX - rect.left) / rect.width - 0.5;
-    const relY = (e.clientY - rect.top) / rect.height - 0.5;
-    img.style.transform = `scale(1.12) translate(${relX * -10}px, ${relY * -10}px)`;
-  });
-})();
 
 
 /* =====================================================================
@@ -948,4 +859,31 @@ function manejarEnvio(form, submitBtn, successEl, errorEl) {
   window.addEventListener('scroll', () => {
     header.classList.toggle('cf-scrolled', window.scrollY > 60);
   }, { passive: true });
+})();
+
+
+/* =====================================================================
+   PORTADA DE VIDEO
+   Los <video> del sitio no tienen un poster real, así que el navegador
+   muestra un rectángulo negro hasta que se le da play. En vez de eso,
+   se cubre con un botón de play con la marca; al hacer clic reproduce
+   y se desvanece.
+   ===================================================================== */
+(function initVideoCover() {
+  const PLAY_SVG = '<svg viewBox="0 0 24 24" fill="currentColor" width="26" height="26" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+  document.querySelectorAll('.video-wrapper video').forEach(video => {
+    if (video.dataset.cfCover) return;
+    video.dataset.cfCover = '1';
+
+    const cover = document.createElement('button');
+    cover.type = 'button';
+    cover.className = 'cf-video-cover';
+    cover.setAttribute('aria-label', 'Reproducir video');
+    cover.innerHTML = '<span class="cf-video-play">' + PLAY_SVG + '</span>';
+    video.insertAdjacentElement('afterend', cover);
+
+    cover.addEventListener('click', () => video.play());
+    video.addEventListener('play', () => cover.classList.add('cf-video-cover--oculto'), { once: true });
+  });
 })();

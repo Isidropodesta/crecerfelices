@@ -28,7 +28,7 @@
   --texto-suave:   #888888;
   --borde:         #E8E0D5;
   --borde-fucsia:  rgba(214,0,110,0.2);
-  --sombra:        rgba(0, 0, 0, 0.06);
+  --sombra:        rgba(214, 0, 110, 0.08);
 
   --fuente-titulo: 'Montserrat', sans-serif;
   --fuente-cuerpo: 'Nunito', sans-serif;
@@ -91,7 +91,9 @@ p { margin-bottom: 1rem; color: var(--texto-medio); }
 p:last-child { margin-bottom: 0; }
 
 .label-seccion {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 9px;
   font-family: var(--fuente-titulo);
   font-size: 0.67rem;
   font-weight: 800;
@@ -100,7 +102,17 @@ p:last-child { margin-bottom: 0; }
   color: var(--fucsia);
   margin-bottom: 12px;
 }
+.label-seccion::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--amarillo);
+  flex-shrink: 0;
+}
 .label-seccion.light { color: rgba(255,255,255,0.7); }
+.label-seccion.light::before { background: rgba(255,255,255,0.5); }
 
 .light, .light h2, .light h3 { color: var(--blanco) !important; }
 
@@ -401,53 +413,58 @@ p:last-child { margin-bottom: 0; }
 .section-quienes {
   background: var(--blanco);
   padding-top: 0;
+  position: relative;
+}
+
+/* Divisor orgánico entre el hero y el contenido, en vez del corte recto.
+   SVG real (no CSS mask: no pintaba blanco sólido de forma confiable),
+   como último hijo de .page-header, anclado a su borde inferior. */
+.hero-wave {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 56px;
+  z-index: 2;
+  pointer-events: none;
 }
 
 /* Page header – primera impresión */
 .page-header {
   padding: calc(var(--navbar-h) + 64px) 0 64px;
-  background: linear-gradient(140deg, var(--fucsia) 0%, var(--fucsia-dark) 55%, #7B003A 100%);
+  /* Foto de respaldo (mobile, o si el video no carga): entera y clara,
+     con un oscurecido de izquierda a derecha donde va el texto */
+  background:
+    linear-gradient(100deg, rgba(10,4,8,0.72) 0%, rgba(10,4,8,0.42) 38%, rgba(10,4,8,0.05) 68%, transparent 85%),
+    url('../images/voluntarioss.webp');
+  background-size: cover;
+  background-position: center 30%;
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: flex-end;
 }
-.hero-bg-video {
-  position: absolute;
-  inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  object-position: center 25%;
-  filter: contrast(1.08) saturate(1.18) brightness(0.62);
-  z-index: 0;
-  pointer-events: none;
-}
-.page-header > .container {
-  position: relative;
-  z-index: 2;
-}
-.page-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background-image:
-    url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.06'/></svg>"),
-    linear-gradient(140deg, rgba(224,21,112,0.68) 0%, rgba(181,0,77,0.75) 55%, rgba(123,0,58,0.85) 100%);
-  background-size: 200px 200px, 100% 100%;
-  pointer-events: none;
-}
+.page-header .container { position: relative; z-index: 2; }
+
+.hero-video { display: none; }
+.hero-video-overlay { display: none; }
 .page-title {
   color: var(--blanco);
   line-height: 1.08;
   margin-bottom: 16px;
   position: relative;
+  text-shadow: 0 2px 18px rgba(0,0,0,0.35);
 }
 .page-subtitle {
   font-size: 0.82rem;
   font-weight: 700;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.85);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   position: relative;
+  text-shadow: 0 1px 10px rgba(0,0,0,0.4);
 }
 
 /* Layout texto + reel */
@@ -457,10 +474,23 @@ p:last-child { margin-bottom: 0; }
   gap: 48px;
   padding: 64px 0 44px;
 }
-.quienes-texto .lead { color: var(--texto); margin-bottom: 18px; }
-.quienes-texto p { color: var(--texto-medio); font-size: 1.06rem; line-height: 1.82; }
+.quienes-texto .lead { color: var(--texto); margin-bottom: 18px; max-width: 62ch; }
+.quienes-texto p { color: var(--texto-medio); font-size: 1.06rem; line-height: 1.82; max-width: 62ch; }
 
-.quienes-video { display: flex; flex-direction: column; gap: 10px; }
+/* Antes el video flotaba solo, chiquito, en medio de mucho blanco.
+   Ahora tiene un marco propio (tarjeta con degradé suave de marca) que le
+   da presencia y lo ancla visualmente, en vez de perderse en la columna. */
+.quienes-video {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  background: linear-gradient(160deg, var(--fucsia-pale) 0%, var(--amarillo-pale) 100%);
+  padding: 22px;
+  border-radius: 24px;
+  box-shadow: 0 14px 40px -14px rgba(214,0,110,0.28);
+  width: 100%;
+  height: 100%;
+}
 .video-label {
   font-family: var(--fuente-titulo);
   font-size: 0.7rem;
@@ -494,16 +524,66 @@ p:last-child { margin-bottom: 0; }
   overflow: hidden;
   background: #000;
   box-shadow: 0 6px 28px rgba(0,0,0,0.22);
+  position: relative;
+  /* Por defecto (mobile, apilado) mantiene su proporción natural 9:16.
+     En desktop, dentro de .quienes-video lado a lado con el texto, se
+     estira parejo (ver breakpoint ≥1024px) para no quedar chico. */
+  aspect-ratio: 9 / 16;
+  max-height: 520px;
 }
 .video-wrapper video {
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* Video vertical (9:16) – acotado a un ancho razonable para que no ocupe toda la pantalla */
+/* Portada del video: reemplaza el cuadro negro nativo antes de dar play
+   por algo con marca (degradé + botón), en vez de dejar que el navegador
+   muestre un rectángulo negro cuando no hay poster real disponible. */
+.cf-video-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Degradé oscuro neutro por defecto (no fucsia plano) para que el botón
+     de play siempre se lea bien encima */
+  background: linear-gradient(165deg, #1a1a1a 0%, #3a1a28 100%);
+  background-size: cover;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  z-index: 3;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+/* El video de "Conócenos en un minuto" usa la foto del equipo de fondo,
+   como una vista previa real en vez de un color plano */
+.quienes-video .cf-video-cover {
+  background-image:
+    linear-gradient(165deg, rgba(20,8,14,0.32) 0%, rgba(20,8,14,0.78) 100%),
+    url('../images/voluntarioss.webp');
+}
+.cf-video-play {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.95);
+  color: var(--fucsia);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 3px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.32);
+  transition: transform 0.25s cubic-bezier(.34,1.56,.64,1);
+}
+.cf-video-cover:hover .cf-video-play { transform: scale(1.1); }
+.cf-video-cover--oculto { opacity: 0; visibility: hidden; pointer-events: none; }
+
+/* Video vertical (9:16) – llena el marco de .quienes-video; el propio
+   ancho de esa tarjeta es lo que lo acota, no un max-width fijo acá */
 .video-vertical {
-  max-width: 340px;
+  max-width: 100%;
 }
 /* En el evento expandido, un poco más compacto */
 .video-evento {
@@ -524,11 +604,16 @@ p:last-child { margin-bottom: 0; }
 /* =====================================================================
    9. CÓMO TRABAJAMOS
    ===================================================================== */
-.section-como { background: var(--amarillo-pale); }
+.section-como {
+  background:
+    radial-gradient(560px circle at 92% 6%, rgba(214,0,110,0.05), transparent 62%),
+    var(--amarillo-pale);
+}
 .section-como h2 { color: var(--texto); }
 
 .como-texto {
   margin-bottom: 48px;
+  max-width: 680px;
 }
 .como-texto p {
   color: var(--texto-medio);
@@ -544,16 +629,24 @@ p:last-child { margin-bottom: 0; }
 /* =====================================================================
    10. TALLERES
    ===================================================================== */
-.section-talleres { background: var(--crema); }
+.section-talleres {
+  background:
+    radial-gradient(680px circle at 4% 102%, rgba(214,0,110,0.14), transparent 58%),
+    radial-gradient(560px circle at 98% -4%, rgba(242,194,0,0.24), transparent 55%),
+    linear-gradient(165deg, var(--amarillo-pale) 0%, var(--crema) 45%, var(--crema) 100%);
+}
 
 .filtros {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
   margin-bottom: 40px;
 }
 .filtro-btn {
-  padding: 8px 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px 10px 16px;
   border-radius: var(--radio-pill);
   font-family: var(--fuente-titulo);
   font-size: 0.78rem;
@@ -561,17 +654,31 @@ p:last-child { margin-bottom: 0; }
   color: var(--texto-medio);
   background: var(--blanco);
   border: 2px solid var(--borde);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
   transition: all var(--trans);
   letter-spacing: 0.01em;
 }
+.filtro-btn::before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--fucsia), #7C3AED);
+  flex-shrink: 0;
+}
+.filtro-btn[data-filtro="godoy-cruz"]::before { background: var(--fucsia); }
+.filtro-btn[data-filtro="lujan-de-cuyo"]::before { background: #7C3AED; }
 .filtro-btn.active,
 .filtro-btn:hover {
   background: var(--fucsia);
   color: var(--blanco);
   border-color: var(--fucsia);
-  box-shadow: 0 3px 12px rgba(214,0,110,0.25);
+  box-shadow: 0 6px 18px rgba(214,0,110,0.32);
   transform: translateY(-2px);
 }
+.filtro-btn.active::before,
+.filtro-btn:hover::before { background: var(--blanco); }
 .filtro-btn:active { transform: translateY(0) scale(0.96); transition-duration: 0.1s; }
 
 .talleres-grid {
@@ -1110,7 +1217,9 @@ body.modal-open { overflow: hidden; }
    14. VOLUNTARIOS
    ===================================================================== */
 .section-voluntarios {
-  background: linear-gradient(140deg, var(--fucsia) 0%, #9B004F 100%);
+  background:
+    radial-gradient(560px circle at 96% 4%, rgba(242,194,0,0.14), transparent 55%),
+    linear-gradient(140deg, var(--fucsia) 0%, #9B004F 100%);
 }
 
 .voluntarios-layout {
@@ -1373,7 +1482,11 @@ body.modal-open { overflow: hidden; }
 /* =====================================================================
    17. CONTACTO
    ===================================================================== */
-.section-contacto { background: var(--fucsia-pale); }
+.section-contacto {
+  background:
+    radial-gradient(520px circle at 100% 100%, rgba(242,194,0,0.12), transparent 55%),
+    var(--fucsia-pale);
+}
 .section-contacto h2 { color: var(--fucsia); }
 
 .contacto-content {
@@ -1531,12 +1644,86 @@ body.modal-open { overflow: hidden; }
   .nav-links  { display: flex; }
   .menu-toggle { display: none; }
 
-  /* Quiénes Somos: texto a la izquierda centrado vert., video a la derecha */
+  /* Hero a pantalla completa, sin franja de navbar y sin hueco al pie —
+     solo en desktop, para no gastar datos de más en mobile. */
+  .page-header {
+    min-height: 100vh;
+    padding: 0 0 120px;
+    display: flex;
+    align-items: flex-end;
+    background: #0e0508;
+  }
+  /* El video cubre TODA la pantalla (ancho y alto), sin franjas a los
+     costados — es la prioridad por sobre la nitidez: el archivo es de
+     baja resolución de origen (celular) así que estirado a pantalla
+     completa se va a ver borroso, es un límite físico del archivo. El
+     sharpen/contraste/saturación ayudan un poco pero no lo resuelven —
+     la mejora real depende de pasar el archivo por una IA de upscaling
+     de video antes de subirlo (fuera de este sitio). */
+  .hero-video {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    filter: url(#heroSharpen) contrast(1.06) saturate(1.14);
+  }
+  /* Oscurecido para que el texto quede legible, ya sea que caiga sobre el
+     video o sobre el fondo de los costados. */
+  .hero-video-overlay {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(100deg, rgba(10,4,8,0.55) 0%, rgba(10,4,8,0.32) 45%, rgba(10,4,8,0.30) 100%),
+                linear-gradient(0deg, rgba(10,4,8,0.55) 0%, transparent 30%);
+  }
+  /* Grano fotográfico muy sutil: agrega textura de alta frecuencia que
+     disimula el aspecto "blocky" del video estirado — un truco típico de
+     grading de video/foto, no agrega resolución real pero ayuda a que no
+     se note tanto. Estático (no animado) para no sumar peso ni CPU. */
+  .hero-video-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size: 180px 180px;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+  }
+  /* Navbar transparente mientras estamos arriba del todo (sobre el hero) y
+     sólida en cuanto se hace scroll — reutiliza la clase .scrolled que ya
+     agrega el JS a los 20px. Solo en desktop: en mobile no hay hero-video
+     y la navbar siempre necesita fondo sólido. */
+  #navbar:not(.scrolled) {
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-bottom-color: transparent;
+  }
+  #navbar:not(.scrolled) .nav-links a { color: rgba(255,255,255,0.92); }
+  #navbar:not(.scrolled) .nav-links a:hover,
+  #navbar:not(.scrolled) .nav-links a.active { background: rgba(255,255,255,0.16); color: var(--blanco); }
+  #navbar:not(.scrolled) .nav-links a.active::after { background: var(--blanco); }
+
+  /* Quiénes Somos: texto a la izquierda, video a la derecha estirado a la
+     misma altura del texto (stretch, no center) para que no quede
+     desproporcionado — el <video> usa object-fit:cover para llenar ese
+     alto sin importar su relación de aspecto real. */
   .quienes-layout {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 344px;
     gap: 56px;
-    align-items: center;
+    align-items: stretch;
     padding: 64px 0;
+  }
+  .video-wrapper {
+    flex: 1;
+    min-height: 0;
+    aspect-ratio: auto;
+    max-height: none;
   }
 
   /* Talleres */
@@ -1812,51 +1999,6 @@ body.modal-open { overflow: hidden; }
 
 
 /* =====================================================================
-   26. CURSOR PERSONALIZADO
-   Solo en dispositivos con mouse real (nunca en touch). Un anillo que
-   sigue al cursor con una leve demora (lerp) y crece sobre elementos
-   interactivos; el punto central lo sigue exacto.
-   ===================================================================== */
-/* Los campos de formulario conservan el cursor nativo (I-beam) por
-   usabilidad; todo lo demás usa el cursor personalizado. */
-body.cf-cursor-on,
-body.cf-cursor-on *:not(input):not(textarea):not(select) { cursor: none !important; }
-
-.cf-cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 34px; height: 34px;
-  margin: -17px 0 0 -17px;
-  border: 1.5px solid var(--fucsia);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate3d(-100px, -100px, 0);
-  transition: width 0.25s cubic-bezier(.22,1,.36,1), height 0.25s cubic-bezier(.22,1,.36,1),
-              margin 0.25s cubic-bezier(.22,1,.36,1), background 0.25s ease, border-color 0.25s ease;
-  will-change: transform;
-}
-.cf-cursor-dot {
-  position: fixed;
-  top: 0; left: 0;
-  width: 5px; height: 5px;
-  margin: -2.5px 0 0 -2.5px;
-  background: var(--fucsia);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate3d(-100px, -100px, 0);
-  will-change: transform;
-}
-.cf-cursor.cf-cursor--hover {
-  width: 58px; height: 58px;
-  margin: -29px 0 0 -29px;
-  background: rgba(214,0,110,0.1);
-  border-color: transparent;
-}
-
-
-/* =====================================================================
    27. TEXTO QUE SE ARMA PALABRA POR PALABRA (split-text reveal)
    Generado en JS (ver initSplitText en main.js): cada palabra queda
    envuelta en dos spans, el externo recorta el overflow y el interno
@@ -1890,50 +2032,6 @@ body.cf-cursor-on *:not(input):not(textarea):not(select) { cursor: none !importa
   display: inline-block;
   transition: transform 0.3s cubic-bezier(.22,1,.36,1);
 }
-
-
-/* =====================================================================
-   29. CORTINA DE REVELADO EN FOTOS/VIDEO
-   Un velo fucsia que barre la imagen de lado a lado al entrar en vista,
-   como si se corriera una cortina. Se dispara junto con el reveal normal
-   (misma clase .visible), sin pisar la animación propia del elemento
-   porque corre en un pseudo-elemento aparte.
-   ===================================================================== */
-.como-foto, .quienes-video .video-wrapper {
-  position: relative;
-  overflow: hidden;
-}
-.como-foto::after, .quienes-video .video-wrapper::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, var(--fucsia), var(--fucsia-dark));
-  transform: scaleX(0);
-  transform-origin: left;
-  z-index: 2;
-  pointer-events: none;
-}
-.como-foto.visible::after,
-.quienes-video.visible .video-wrapper::after {
-  animation: cf-curtain 0.9s cubic-bezier(.76,0,.24,1) both;
-}
-@keyframes cf-curtain {
-  0%      { transform: scaleX(0); transform-origin: left; }
-  50%     { transform: scaleX(1); transform-origin: left; }
-  50.01%  { transform-origin: right; }
-  100%    { transform: scaleX(0); transform-origin: right; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .como-foto.visible::after,
-  .quienes-video.visible .video-wrapper::after { animation: none; display: none; }
-}
-
-
-/* =====================================================================
-   30. PARALLAX SUAVE EN FOTOS DE TARJETAS (hover, solo con mouse)
-   ===================================================================== */
-.taller-foto img, .evento-thumb img { transition: transform 0.5s ease; }
-.cf-parallax-active img { transition: transform 0.08s linear; }
 
 
 /* =====================================================================
