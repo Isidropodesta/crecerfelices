@@ -416,20 +416,6 @@ p:last-child { margin-bottom: 0; }
   position: relative;
 }
 
-/* Divisor orgánico entre el hero y el contenido, en vez del corte recto.
-   SVG real (no CSS mask: no pintaba blanco sólido de forma confiable),
-   como último hijo de .page-header, anclado a su borde inferior. */
-.hero-wave {
-  display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 56px;
-  z-index: 2;
-  pointer-events: none;
-}
 
 /* Page header – primera impresión */
 .page-header {
