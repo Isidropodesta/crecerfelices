@@ -68,7 +68,7 @@ input, textarea, select { font-family: inherit; font-size: 1rem; }
 h1, h2, h3, h4 {
   font-family: var(--fuente-titulo);
   line-height: 1.2;
-  font-weight: 800;
+  font-weight: 700;
 }
 h1 { font-size: clamp(2.4rem, 6vw, 4.4rem); color: var(--texto); }
 h2 { font-size: clamp(1.9rem, 4vw, 2.8rem); color: var(--fucsia); }
@@ -82,7 +82,7 @@ h3 { font-size: clamp(1.1rem, 2.5vw, 1.35rem); color: var(--texto); }
 }
 
 .lead {
-  font-size: 1.08rem;
+  font-size: 1.2rem;
   font-weight: 600;
   line-height: 1.8;
   color: var(--texto);
@@ -94,11 +94,21 @@ p:last-child { margin-bottom: 0; }
   display: block;
   font-family: var(--fuente-titulo);
   font-size: 0.67rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--fucsia);
   margin-bottom: 12px;
+}
+
+/* S1 usa .label-seccion como título de sección (no tiene h2 propio) */
+.section-quienes .label-seccion {
+  font-size: clamp(1.9rem, 4vw, 2.25rem);
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  margin-bottom: 20px;
 }
 .label-seccion.light { color: rgba(255,255,255,0.7); }
 
@@ -960,7 +970,7 @@ body.modal-open { overflow: hidden; }
 .testimonio-autor strong {
   font-family: var(--fuente-titulo);
   font-size: 0.88rem;
-  font-weight: 800;
+  font-weight: 700;
   color: var(--fucsia);
 }
 .testimonio-autor span {
@@ -1056,7 +1066,7 @@ body.modal-open { overflow: hidden; }
 }
 .form { display: flex; flex-direction: column; gap: 14px; }
 .form-group { display: flex; flex-direction: column; gap: 5px; }
-.form-group label { font-size: 0.8rem; font-weight: 800; color: var(--texto); }
+.form-group label { font-size: 0.8rem; font-weight: 700; color: var(--texto); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 .form input, .form select, .form textarea {
