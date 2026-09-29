@@ -12,6 +12,12 @@
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="heroSharpen" color-interpolation-filters="sRGB">
+    <feConvolveMatrix order="3" preserveAlpha="true" divisor="1" kernelMatrix="0 -1 0 -1 5 -1 0 -1 0"/>
+  </filter>
+</svg>
+
 <!-- =====================================================================
      NAVBAR FIJA
      ===================================================================== -->
@@ -61,6 +67,10 @@
 <section id="quienes-somos" class="section section-quienes" aria-labelledby="quienes-titulo">
 
   <div class="page-header">
+    <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="images/voluntarioss.jpeg">
+      <source src="videos/dia-del-nino-roadfilms-hero.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video-overlay"></div>
     <div class="container">
       <h1 class="page-title">Proyecto<br><span class="script-accent">Crecer Felices</span></h1>
       <p class="page-subtitle">Mendoza · Asociación Civil sin fines de lucro</p>
@@ -172,7 +182,7 @@
       <article class="evento-card reveal" data-modal="modal-bienvenida" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="evento-thumb">
           <!-- FOTO REAL: images/evento-bienvenida-1.jpg · Ver FOTOS.md – FOTO_E16 -->
-          <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80&auto=format&fit=crop" alt="Bienvenida a voluntarios [FOTO TEMPORAL]" loading="lazy">
+          <img src="images/GRA06110.jpg" alt="Bienvenida a voluntarios" loading="lazy">
         </div>
         <div class="evento-info">
           <h3>Bienvenida a voluntarios</h3>
@@ -185,7 +195,7 @@
       <article class="evento-card reveal reveal-delay-1" data-modal="modal-locro" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="evento-thumb">
           <!-- FOTO REAL: images/evento-locro-1.jpg · Ver FOTOS.md – FOTO_E10 -->
-          <img src="https://images.unsplash.com/photo-1547592166-23ac45744acd?w=600&q=80&auto=format&fit=crop" alt="Locro del 9 de Julio [FOTO TEMPORAL]" loading="lazy">
+          <img src="images/GRA07208.jpg" alt="Locro del 9 de Julio" loading="lazy">
         </div>
         <div class="evento-info">
           <h3>Locro del 9 de Julio</h3>
@@ -198,7 +208,7 @@
       <article class="evento-card reveal reveal-delay-2" data-modal="modal-dia-del-nino" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="evento-thumb">
           <!-- FOTO REAL: images/evento-dia-nino-1.jpg · Ver FOTOS.md – FOTO_E01 -->
-          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Día del Niño [FOTO TEMPORAL]" loading="lazy">
+          <img src="images/GRA06197.jpg" alt="Día del Niño" loading="lazy">
         </div>
         <div class="evento-info">
           <h3>Día del Niño</h3>
@@ -211,7 +221,7 @@
       <article class="evento-card reveal" data-modal="modal-salida-cae" role="button" tabindex="0" aria-haspopup="dialog">
         <div class="evento-thumb">
           <!-- FOTO REAL: images/evento-salida-cae.jpg -->
-          <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=600&q=80&auto=format&fit=crop" alt="Salida de los chicos del CAE [FOTO TEMPORAL]" loading="lazy">
+          <img src="images/GRA06838.jpg" alt="Salida de cada CAE" loading="lazy">
         </div>
         <div class="evento-info">
           <h3>Salida de cada CAE</h3>
