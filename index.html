@@ -251,16 +251,19 @@
       <h2 id="modal-bienvenida-titulo">Bienvenida a voluntarios</h2>
     </div>
     <div class="modal-body">
-      <!-- DESCRIPCIÓN: editá este texto libremente -->
-      <div class="modal-desc">
-        <p>El comienzo de cada ciclo anual trae consigo un momento especial: la bienvenida a los nuevos voluntarios. En este encuentro, quienes se suman por primera vez conocen el proyecto, los barrios donde trabajamos y al equipo con el que van a compartir el año.</p>
-        <p>Es un momento de presentaciones, de contar la historia del proyecto, y de generar el primer vínculo entre pares. Los que llevan más tiempo transmiten el espíritu; los nuevos traen energía fresca. Así se renueva el equipo año a año.</p>
-      </div>
-      <!-- FOTOS: reemplazar src por las reales. Ver FOTOS.md – FOTO_E16, E17, E18 -->
-      <div class="modal-fotos">
-        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80&auto=format&fit=crop" alt="Bienvenida a voluntarios [FOTO TEMPORAL]" loading="lazy">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80&auto=format&fit=crop" alt="Nuevos voluntarios [FOTO TEMPORAL]" loading="lazy">
-        <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?w=800&q=80&auto=format&fit=crop" alt="Grupo de voluntarios [FOTO TEMPORAL]" loading="lazy">
+      <div class="modal-evento-layout">
+        <div class="modal-desc">
+          <p>El comienzo de cada ciclo anual trae consigo un momento especial: la bienvenida a los nuevos voluntarios. En este encuentro, quienes se suman por primera vez conocen el proyecto, los barrios donde trabajamos y al equipo con el que van a compartir el año.</p>
+          <p>Es un momento de presentaciones, de contar la historia del proyecto, y de generar el primer vínculo entre pares. Los que llevan más tiempo transmiten el espíritu; los nuevos traen energía fresca. Así se renueva el equipo año a año.</p>
+        </div>
+        <div class="modal-video-col">
+          <div class="video-wrapper video-vertical">
+            <video controls playsinline preload="metadata"
+                   aria-label="Video de bienvenida a voluntarios">
+              <source src="videos/bienvenida-voluntarios.mp4#t=0.1" type="video/mp4">
+            </video>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -278,31 +281,20 @@
     </div>
 
     <div class="modal-body">
-
-      <div class="modal-desc">
-        <p>Cada 9 de Julio preparamos locro para toda la comunidad. Voluntarios, familias y vecinos de los barrios se reúnen a compartir la comida y festejar la fecha patria juntos.</p>
-        <p>Lo que empezó como una iniciativa pequeña se convirtió en uno de los eventos más esperados del año: una excusa para juntarnos, para que los chicos vean a sus voluntarios también en un contexto festivo, y para fortalecer el vínculo con cada barrio.</p>
-      </div>
-
-      <!-- Video izquierda + collage de fotos derecha -->
-      <div class="locro-layout">
-
-        <div class="locro-video">
-          <video controls playsinline preload="metadata" aria-label="Video del Locro del 9 de Julio">
-            <source src="videos/locro-9-de-julio.mp4" type="video/mp4">
-          </video>
+      <div class="modal-evento-layout">
+        <div class="modal-desc">
+          <p>Cada 9 de Julio preparamos locro para toda la comunidad. Voluntarios, familias y vecinos de los barrios se reúnen a compartir la comida y festejar la fecha patria juntos.</p>
+          <p>Lo que empezó como una iniciativa pequeña se convirtió en uno de los eventos más esperados del año: una excusa para juntarnos, para que los chicos vean a sus voluntarios también en un contexto festivo, y para fortalecer el vínculo con cada barrio.</p>
         </div>
-
-        <!-- Collage 2×2 con fotos reales del evento -->
-        <div class="locro-collage">
-          <img src="images/locro-1.jpeg" alt="Locro del 9 de Julio – grupo en la mesa" loading="lazy">
-          <img src="images/locro-3.jpeg" alt="Locro del 9 de Julio – disfraces gauchescos" loading="lazy">
-          <img src="images/locro-5.jpeg" alt="Locro del 9 de Julio – actividad interior" loading="lazy">
-          <img src="images/locro-6.jpeg" alt="Locro del 9 de Julio – grupo al aire libre" loading="lazy">
+        <div class="modal-video-col">
+          <div class="video-wrapper video-vertical">
+            <video controls playsinline preload="metadata"
+                   aria-label="Video del Locro del 9 de Julio">
+              <source src="videos/locro-9-de-julio.mp4#t=0.1" type="video/mp4">
+            </video>
+          </div>
         </div>
-
       </div>
-
     </div>
   </div>
 </div>
@@ -319,35 +311,20 @@
     </div>
 
     <div class="modal-body">
-
-      <!-- Texto descriptivo -->
-      <div class="modal-desc">
-        <p>El Día del Niño es uno de los momentos más esperados del año en cada taller. Los voluntarios preparan actividades y juegos especiales para el festejo.</p>
-        <p>El contexto es el de siempre, los chicos de siempre, pero con una energía distinta. Es un día en el que todo el esfuerzo del año vale la pena de un vistazo.</p>
-      </div>
-
-      <!-- Grilla uniforme 4 columnas: 2 videos + 5 fotos, todas las celdas iguales -->
-      <div class="nino-grid">
-
-        <div class="nino-cell">
-          <video controls playsinline preload="metadata" aria-label="De qué se trata el Día del Niño">
-            <source src="videos/un-dia-para-recordar.mp4" type="video/mp4">
-          </video>
+      <div class="modal-evento-layout">
+        <div class="modal-desc">
+          <p>El Día del Niño es uno de los momentos más esperados del año en cada taller. Los voluntarios preparan actividades y juegos especiales para el festejo.</p>
+          <p>El contexto es el de siempre, los chicos de siempre, pero con una energía distinta. Es un día en el que todo el esfuerzo del año vale la pena de un vistazo.</p>
         </div>
-
-        <div class="nino-cell"><img src="images/nino-1.jpeg" alt="Día del Niño – voluntarios disfrazados" loading="lazy"></div>
-        <div class="nino-cell"><img src="images/nino-3.jpeg" alt="Día del Niño – juego con cajas" loading="lazy"></div>
-
-        <div class="nino-cell">
-          <video controls playsinline preload="metadata" aria-label="Así fue el Día del Niño">
-            <source src="videos/un-dia-para-ellos.mp4" type="video/mp4">
-          </video>
+        <div class="modal-video-col">
+          <div class="video-wrapper video-vertical">
+            <video controls playsinline preload="metadata"
+                   aria-label="Video del Día del Niño">
+              <source src="videos/un-dia-para-recordar.mp4#t=0.1" type="video/mp4">
+            </video>
+          </div>
         </div>
-
-        <div class="nino-cell nino-cell--wide"><img src="images/nino-5.jpeg" alt="Día del Niño – show para los chicos" loading="lazy"></div>
-
       </div>
-
     </div>
   </div>
 </div>
@@ -363,16 +340,19 @@
       <h2 id="modal-salida-titulo">Salida de cada CAE</h2>
     </div>
     <div class="modal-body">
-      <!-- DESCRIPCIÓN: editá este texto libremente -->
-      <div class="modal-desc">
-        <p>Más allá de los talleres semanales, cada CAE organiza al menos una salida anual para sus chicos. Estas salidas son una oportunidad para que los niños y adolescentes vivan experiencias fuera del barrio: ir al parque, visitar un museo, conocer lugares de la ciudad que quizás nunca habían visto.</p>
-        <p>Para muchos chicos, es la primera vez que salen de su barrio para hacer algo recreativo. Esa mirada de asombro es difícil de olvidar.</p>
-      </div>
-      <!-- FOTOS: reemplazar src por las reales -->
-      <div class="modal-fotos">
-        <img src="https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=800&q=80&auto=format&fit=crop" alt="Salida del CAE [FOTO TEMPORAL]" loading="lazy">
-        <img src="https://images.unsplash.com/photo-1526976668912-1a811878dd37?w=800&q=80&auto=format&fit=crop" alt="Niños de paseo [FOTO TEMPORAL]" loading="lazy">
-        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80&auto=format&fit=crop" alt="Actividad de salida [FOTO TEMPORAL]" loading="lazy">
+      <div class="modal-evento-layout">
+        <div class="modal-desc">
+          <p>Más allá de los talleres semanales, cada CAE organiza al menos una salida anual para sus chicos. Estas salidas son una oportunidad para que los niños y adolescentes vivan experiencias fuera del barrio: ir al parque, visitar un museo, conocer lugares de la ciudad que quizás nunca habían visto.</p>
+          <p>Para muchos chicos, es la primera vez que salen de su barrio para hacer algo recreativo. Esa mirada de asombro es difícil de olvidar.</p>
+        </div>
+        <div class="modal-video-col">
+          <div class="video-wrapper video-vertical">
+            <video controls playsinline preload="metadata"
+                   aria-label="Video de salida de cada CAE">
+              <source src="videos/salida-cae-granja.mp4#t=0.1" type="video/mp4">
+            </video>
+          </div>
+        </div>
       </div>
     </div>
   </div>
