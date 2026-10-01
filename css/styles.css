@@ -570,35 +570,26 @@ p:last-child { margin-bottom: 0; }
    ===================================================================== */
 .section-eventos { background: var(--blanco); }
 
-/* Grid de tarjetas — cuadradas como los talleres */
 .eventos-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
 }
 
-/* Tarjeta cuadrada: imagen arriba, info abajo */
+/* Tarjeta 1:1 — foto a card completa */
 .evento-card {
-  background: var(--blanco);
-  border-radius: var(--radio);
+  position: relative;
+  border-radius: 14px;
   overflow: hidden;
-  border: 1.5px solid var(--borde);
-  box-shadow: 0 3px 14px var(--sombra);
+  aspect-ratio: 1 / 1;
   cursor: pointer;
   display: block;
-  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
-}
-.evento-card:hover {
-  transform: scale(1.03) translateY(-5px);
-  box-shadow: 0 14px 40px rgba(214,0,110,0.14);
-  border-color: var(--borde-fucsia);
 }
 .evento-card:focus-visible { outline: 3px solid var(--fucsia); outline-offset: 2px; }
 
 .evento-thumb {
-  position: relative;
-  aspect-ratio: 16/9;
-  overflow: hidden;
+  position: absolute;
+  inset: 0;
 }
 .evento-thumb img {
   width: 100%; height: 100%;
@@ -606,33 +597,77 @@ p:last-child { margin-bottom: 0; }
   display: block;
   transition: transform 0.5s ease;
 }
-.evento-card:hover .evento-thumb img { transform: scale(1.06); }
+.evento-card:hover .evento-thumb img { transform: scale(1.03); }
 
-.evento-info {
-  padding: 18px 20px 22px;
+/* Etiqueta arriba a la izquierda */
+.evento-label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  background: #F2C200;
+  color: #412402;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 100px;
+  pointer-events: none;
 }
-.evento-info h3 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-  color: var(--texto);
+
+/* Panel inferior sólido */
+.evento-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  background: rgba(110, 0, 60, 0.93);
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
-.evento-info > p {
-  font-size: 0.88rem;
-  color: var(--texto-medio);
-  margin: 0 0 10px;
+.evento-panel-text {
+  flex: 1;
+  min-width: 0;
+}
+.evento-panel-text h3 {
+  color: #fff;
+  font-size: 17px;
+  font-weight: 500;
+  margin: 0 0 2px;
+  white-space: nowrap;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
 }
-.evento-ver-mas {
-  display: inline-block;
-  font-family: var(--fuente-titulo);
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: var(--fucsia);
-  letter-spacing: 0.04em;
-  transition: gap var(--trans);
+.evento-panel-text p {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 12px;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Botón circular de play (decorativo — la tarjeta maneja el click) */
+.evento-play {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.25s ease;
+  pointer-events: none;
+}
+.evento-card:hover .evento-play { background: #F2C200; }
+
+@media (prefers-reduced-motion: reduce) {
+  .evento-thumb img,
+  .evento-play { transition: none; }
 }
 
 /* ── MODAL ── */
