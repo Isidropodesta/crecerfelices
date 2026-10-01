@@ -594,7 +594,7 @@ p:last-child { margin-bottom: 0; }
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   transition: box-shadow 0.3s ease;
 }
-/* La entrada la maneja js/eventos-animacion.js; sin JS las tarjetas se ven normales */
+/* La entrada la maneja js/tarjetas-animacion.js; sin JS las tarjetas se ven normales */
 .evento-card.reveal { opacity: 1; transform: none; }
 .evento-card:hover { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16); }
 .evento-card:focus-visible { outline: 3px solid var(--fucsia); outline-offset: 2px; }
