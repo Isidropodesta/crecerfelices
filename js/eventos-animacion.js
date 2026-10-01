@@ -5,7 +5,7 @@
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   const cards = [...grid.querySelectorAll('.evento-card')];
-  const mobile = window.matchMedia('(max-width: 899px)');
+  const mobile = window.matchMedia('(max-width: 599px)');
   const ROTACIONES = [-3, -1, 1, 3];
   const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 

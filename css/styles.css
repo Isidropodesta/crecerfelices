@@ -571,15 +571,16 @@ p:last-child { margin-bottom: 0; }
 .section-eventos { background: var(--blanco); }
 
 .eventos-grid {
-  --evento-ratio: 4 / 3;
+  --evento-ratio: 1 / 1;
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  max-width: 1300px;
-  margin: 0 auto;
 }
-@media (min-width: 900px) {
+@media (min-width: 600px) {
   .eventos-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1000px) {
+  .eventos-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
 /* Tarjeta 4/3 — foto completa con degradado inferior y solo título */
@@ -614,7 +615,7 @@ p:last-child { margin-bottom: 0; }
   position: absolute;
   left: 0; right: 0; bottom: 0;
   height: 40%;
-  padding: 24px;
+  padding: 16px;
   display: flex;
   align-items: flex-end;
   background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.35) 35%, rgba(0,0,0,0) 100%);
@@ -623,7 +624,7 @@ p:last-child { margin-bottom: 0; }
   margin: 0;
   color: #fff;
   font-family: 'Montserrat', sans-serif;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.2;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
@@ -633,8 +634,8 @@ p:last-child { margin-bottom: 0; }
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-@media (max-width: 600px) {
-  .evento-panel h3 { font-size: 22px; }
+@media (max-width: 599px) {
+  .evento-panel h3 { font-size: 18px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
