@@ -2,3 +2,7 @@
 node_modules/
 .superpowers/
 _originales/
+CLAUDE.md
+/*.png
+*.patch
+tmp/
