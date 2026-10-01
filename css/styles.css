@@ -768,6 +768,43 @@ p:last-child { margin-bottom: 0; }
 }
 .modal-fotos img:hover { transform: scale(1.03); }
 
+/* Modal: layout texto-izquierda / video-derecha (mismo patrón que .quienes-layout) */
+.modal-evento-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.modal-video-col {
+  display: flex;
+  justify-content: center;
+}
+.modal-video-col .video-vertical {
+  width: 100%;
+  max-width: 300px;
+  max-height: 70vh;
+  overflow: hidden;
+}
+.modal-video-col .video-vertical video {
+  width: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+}
+@media (min-width: 768px) {
+  .modal-evento-layout {
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    gap: 32px;
+    align-items: start;
+  }
+  .modal-video-col .video-vertical {
+    max-width: 260px;
+    max-height: none;
+  }
+  .modal-video-col .video-vertical video {
+    max-height: none;
+  }
+}
+
 /* Modal Día del Niño: grilla uniforme 4 columnas */
 .nino-grid {
   display: grid;
