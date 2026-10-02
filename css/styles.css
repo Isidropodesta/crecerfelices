@@ -951,91 +951,67 @@ body.modal-open { overflow: hidden; }
    13. TESTIMONIOS
    ===================================================================== */
 .section-testimonios {
-  background-color: #EFE6D8;
-  background-image: radial-gradient(rgba(120, 90, 50, 0.16) 1px, transparent 1.2px);
-  background-size: 22px 22px;
+  background: #F7F2EA;
   overflow-x: clip;
 }
 .section-testimonios h2 { color: var(--fucsia); }
 
 .testimonios-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
-  gap: 44px 34px;
+  grid-template-columns: 1fr;
+  gap: 48px 0;
   align-items: start;
-  padding: 26px 8px 0;
+  padding: 24px 0 8px;
 }
 .testimonio-card {
-  --rot: -1.2deg;
-  --cinta: rgba(214, 0, 110, 0.55);
+  --color: #FFF59A;
+  --rot: -4.5deg;
+  --cinta-rot: 4deg;
+  --dx: -8px;
+  --dy: 0px;
   position: relative;
+  aspect-ratio: 1 / 1;
   margin: 0;
-  padding: 34px 24px 22px;
-  color: var(--texto);
-  background:
-    linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0) 35%, rgba(90,60,20,0.05) 100%),
-    #FFFCF5;
-  border-radius: 3px;
-  box-shadow:
-    0 1px 2px rgba(50, 30, 10, 0.35),
-    0 18px 26px -10px rgba(50, 30, 10, 0.32);
+  padding: 36px 26px 22px;
+  background: var(--color);
+  color: #2B2B2B;
+  border-radius: 1px;
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.18);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 16px;
-  transform: rotate(var(--rot));
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transform: translate(var(--dx), var(--dy)) rotate(calc(var(--rot) / 2));
+  transition: transform 0.25s ease;
 }
-@media (min-width: 641px) {
-  .testimonio-card:nth-child(3n+2) { margin-top: 22px; }
-}
-.testimonio-card:nth-child(3n+2) { background-color: #FFE680; }
-.testimonio-card:nth-child(3n)   { background-color: #FFD3E6; }
-.testimonio-card:nth-child(3n+2),
-.testimonio-card:nth-child(3n) {
-  background-image:
-    linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 35%, rgba(90,60,20,0.06) 100%);
-}
+.testimonio-card:nth-child(even) { --dx: 8px; }
 
-.testimonio-card:nth-child(6n+1) { --rot: -1.4deg; }
-.testimonio-card:nth-child(6n+2) { --rot: 0.9deg; }
-.testimonio-card:nth-child(6n+3) { --rot: -0.6deg; }
-.testimonio-card:nth-child(6n+4) { --rot: 1.4deg; }
-.testimonio-card:nth-child(6n+5) { --rot: -1deg; }
-.testimonio-card:nth-child(6n)   { --rot: 0.5deg; }
+/* Orden de colores elegido para que ningún par de vecinos (1, 2 y 3 columnas) quede parecido */
+.testimonio-card:nth-child(8n+1) { --color: #FFF59A; --rot: -4.5deg; --cinta-rot: 5deg;  --ddy: -12px; --ddx: -10px; }
+.testimonio-card:nth-child(8n+2) { --color: #A9C4FF; --rot: 3deg;    --cinta-rot: -6deg; --ddy: 20px;  --ddx: 8px; }
+.testimonio-card:nth-child(8n+3) { --color: #C4F59A; --rot: -6deg;   --cinta-rot: 3deg;  --ddy: 6px;   --ddx: -4px; }
+.testimonio-card:nth-child(8n+4) { --color: #FFB3C1; --rot: 5.5deg;  --cinta-rot: -4deg; --ddy: 30px;  --ddx: 12px; }
+.testimonio-card:nth-child(8n+5) { --color: #FFC1A1; --rot: -2.5deg; --cinta-rot: 7deg;  --ddy: -20px; --ddx: 6px; }
+.testimonio-card:nth-child(8n+6) { --color: #D9B8FF; --rot: 6.5deg;  --cinta-rot: -2deg; --ddy: 12px;  --ddx: -14px; }
+.testimonio-card:nth-child(8n+7) { --color: #9AF0D6; --rot: -5deg;   --cinta-rot: 8deg;  --ddy: 36px;  --ddx: 4px; }
+.testimonio-card:nth-child(8n)   { --color: #FFB8F0; --rot: 2deg;    --cinta-rot: -7deg; --ddy: -6px;  --ddx: 10px; }
 
-/* Cinta washi (bordes dentados) */
+/* Cinta transparente */
 .testimonio-card::before {
   content: '';
   position: absolute;
-  top: -15px; left: 50%;
-  width: 96px; height: 30px;
-  margin-left: -48px;
-  background:
-    repeating-linear-gradient(90deg, rgba(255,255,255,0.18) 0 6px, transparent 6px 12px),
-    var(--cinta);
-  clip-path: polygon(3% 0, 0 12%, 3% 25%, 0 37%, 3% 50%, 0 62%, 3% 75%, 0 87%, 3% 100%, 97% 100%, 100% 87%, 97% 75%, 100% 62%, 97% 50%, 100% 37%, 97% 25%, 100% 12%, 97% 0);
-  transform: rotate(-3deg);
-}
-.testimonio-card:nth-child(even) { --cinta: rgba(242, 194, 0, 0.7); }
-.testimonio-card:nth-child(even)::before { transform: rotate(2.5deg); }
-
-/* Chinche en algunas notas (reemplaza la cinta) */
-.testimonio-card:nth-child(4n)::before {
-  top: -9px; left: 50%;
-  width: 20px; height: 20px;
-  margin-left: -10px;
-  background: radial-gradient(circle at 35% 30%, #ff6fb1 0 18%, var(--fucsia) 45%, #8a0045 100%);
-  clip-path: none;
-  border-radius: 50%;
-  box-shadow: 0 3px 4px rgba(50, 30, 10, 0.45);
-  transform: none;
+  top: -12px; left: 50%;
+  width: 52px; height: 24px;
+  margin-left: -26px;
+  background: rgba(200, 200, 200, 0.65);
+  transform: rotate(var(--cinta-rot));
 }
 
 .testimonio-comilla { display: none; }
 .testimonio-texto {
   margin: 0;
   font-size: 1.05rem;
-  line-height: 1.6;
+  line-height: 1.55;
   overflow-wrap: anywhere;
 }
 .testimonio-texto::before,
@@ -1055,24 +1031,28 @@ body.modal-open { overflow: hidden; }
   font-size: 1.3rem;
   line-height: 1.3;
   font-weight: 400;
-  color: var(--fucsia);
+  color: #2B2B2B;
 }
-.testimonio-datos span { font-size: 0.84rem; color: var(--texto-medio); }
+.testimonio-datos span { font-size: 0.84rem; color: #2B2B2B; }
 
-@media (max-width: 640px) {
-  .testimonio-card { transform: rotate(calc(var(--rot) / 2)); }
+@media (min-width: 641px) {
+  .testimonios-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
+    gap: 84px 56px;
+    padding: 40px 12px 40px;
+  }
+  .testimonio-card {
+    transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
+  }
+  .testimonio-card:nth-child(n) { --dx: var(--ddx); --dy: var(--ddy); }
 }
 @media (hover: hover) and (pointer: fine) {
   .testimonio-card:hover {
-    transform: rotate(calc(var(--rot) / 4)) translateY(-3px);
-    box-shadow:
-      0 1px 2px rgba(50, 30, 10, 0.35),
-      0 24px 30px -10px rgba(50, 30, 10, 0.36);
+    transform: translate(var(--dx), calc(var(--dy) - 3px)) rotate(calc(var(--rot) / 2));
   }
 }
 @media (prefers-reduced-motion: reduce) {
   .testimonio-card { transition: none; }
-  .testimonio-card:hover { transform: rotate(var(--rot)); }
 }
 
 .testimonios-cta { margin-top: 40px; text-align: center; }
