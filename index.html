@@ -366,7 +366,6 @@
   <form id="form-historia" novalidate>
     <button type="button" class="historia-cerrar" id="historia-cerrar" aria-label="Cerrar">&times;</button>
     <h3 id="historia-titulo">Contanos tu historia</h3>
-    <p class="historia-nota">Por favor, no nombres a los chicos. Revisamos cada mensaje antes de publicarlo.</p>
 
     <div class="historia-campo">
       <label for="h-nombre">Nombre (o nombre y apellido)</label>
@@ -377,12 +376,16 @@
       <label for="h-rol">Rol</label>
       <select id="h-rol" required>
         <option value="">Elegí una opción</option>
-        <option>Voluntario/a</option>
-        <option>Madre/Padre/Familia</option>
-        <option>Profesor/a</option>
-        <option>Referente de merendero o CAE</option>
-        <option>Otro</option>
+        <option>Voluntario</option>
+        <option>Maestro</option>
+        <option>Familiar</option>
+        <option value="otro">Otro vínculo</option>
       </select>
+    </div>
+
+    <div class="historia-campo" id="h-vinculo-wrap" hidden>
+      <label for="h-vinculo">¿Qué vínculo tenés con Crecer Felices?</label>
+      <input type="text" id="h-vinculo" maxlength="60" placeholder="Ej: vecina del barrio, ex voluntario, donante">
     </div>
 
     <div class="historia-campo">
@@ -812,11 +815,15 @@
     const frag = document.createDocumentFragment();
     data.forEach(t => {
       const card = el('figure', 'testimonio-card');
+      card.appendChild(el('span', 'testimonio-comilla', '“'));
       card.appendChild(el('blockquote', 'testimonio-texto', t.texto));
       const autor = el('figcaption', 'testimonio-autor');
-      autor.appendChild(el('strong', '', t.nombre));
+      autor.appendChild(el('span', 'testimonio-inicial', (t.nombre[0] || '?').toUpperCase()));
+      const datos = el('div', 'testimonio-datos');
+      datos.appendChild(el('strong', '', t.nombre));
       const meta = [t.rol, t.taller].filter(Boolean).join(' · ');
-      if (meta) autor.appendChild(el('span', '', meta));
+      if (meta) datos.appendChild(el('span', '', meta));
+      autor.appendChild(datos);
       card.appendChild(autor);
       frag.appendChild(card);
     });
@@ -840,6 +847,7 @@
 
   document.getElementById('btn-contanos').addEventListener('click', () => {
     form.reset();
+    document.getElementById('h-vinculo-wrap').hidden = true;
     contador.textContent = '0 / 400';
     setEstado('', true);
     enviar.disabled = false;
@@ -849,12 +857,16 @@
   });
   document.getElementById('historia-cerrar').addEventListener('click', () => modal.close());
   modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
+  document.getElementById('h-rol').addEventListener('change', e => {
+    document.getElementById('h-vinculo-wrap').hidden = e.target.value !== 'otro';
+  });
   texto.addEventListener('input', () => { contador.textContent = `${texto.value.length} / 400`; });
 
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const nombre = document.getElementById('h-nombre').value.trim();
-    const rol    = document.getElementById('h-rol').value;
+    const rolSel = document.getElementById('h-rol').value;
+    const rol    = rolSel === 'otro' ? document.getElementById('h-vinculo').value.trim() : rolSel;
     const taller = document.getElementById('h-taller').value;
     const msg    = texto.value.trim();
 
