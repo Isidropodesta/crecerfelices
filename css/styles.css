@@ -1002,8 +1002,8 @@ body.modal-open { overflow: hidden; }
   color: var(--fucsia);
   vertical-align: -0.3em;
 }
-.testimonio-texto::before { content: 'C'; margin-right: 2px; }
-.testimonio-texto::after  { content: 'D'; margin-left: 2px; }
+.testimonio-texto::before { content: '\201C'; margin-right: 2px; }
+.testimonio-texto::after  { content: '\201D'; margin-left: 2px; }
 .testimonio-autor { display: block; }
 .testimonio-datos { display: flex; flex-direction: column; gap: 2px; }
 .testimonio-datos strong {
