@@ -517,3 +517,108 @@ document.getElementById('tlBtnCancelar').addEventListener('click', tlResetForm);
 
 // Carga inicial de talleres
 tlCargar();
+
+/* =====================================================================
+   VOLUNTARIOS (inscripciones)
+   Todo texto del público se inserta con textContent. El DNI no se registra en consola.
+   ===================================================================== */
+
+let vData = [];
+
+const V_FECHA = new Intl.DateTimeFormat('es-AR', { dateStyle: 'short', timeStyle: 'short' });
+
+function vFechaNac(iso) {
+  const [a, m, d] = String(iso).split('-');
+  return `${d}/${m}/${a}`;
+}
+
+function vDato(etiqueta, valor) {
+  const linea = tEl('div', 'item-admin-sub');
+  linea.append(tEl('strong', '', etiqueta + ': '), document.createTextNode(valor || '—'));
+  return linea;
+}
+
+function vInterruptor(v) {
+  const label = tEl('label');
+  label.style.cssText = 'display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:0.82rem;cursor:pointer;';
+  const chk = document.createElement('input');
+  chk.type = 'checkbox';
+  chk.checked = v.estado === 'contactado';
+  chk.style.cssText = 'width:auto;accent-color:var(--fucsia);';
+  const txt = tEl('span', '', chk.checked ? 'Contactado' : 'Nuevo');
+  chk.addEventListener('change', async () => {
+    chk.disabled = true;
+    const nuevo = chk.checked ? 'contactado' : 'nuevo';
+    const { error } = await db.from('voluntarios_inscripciones').update({ estado: nuevo }).eq('id', v.id);
+    if (error) { chk.checked = !chk.checked; alert('Error al guardar el cambio.'); }
+    else { v.estado = nuevo; txt.textContent = chk.checked ? 'Contactado' : 'Nuevo'; }
+    chk.disabled = false;
+  });
+  label.append(chk, txt);
+  return label;
+}
+
+async function vEliminar(id) {
+  if (!confirm('¿Eliminar esta inscripción? No se puede deshacer.')) return;
+  const { error } = await db.from('voluntarios_inscripciones').delete().eq('id', id);
+  if (error) { alert('Error al eliminar la inscripción.'); return; }
+  vCargar();
+}
+
+function vPintar() {
+  const q = document.getElementById('vBuscar').value.trim().toLowerCase();
+  const taller = document.getElementById('vTaller').value;
+  const lista = vData.filter(v => (!taller || v.taller === taller) && (!q || v.nombre.toLowerCase().includes(q)));
+
+  document.getElementById('vResumen').textContent = `${lista.length} de ${vData.length} inscripciones`;
+  const cont = document.getElementById('vLista');
+  cont.replaceChildren();
+  if (!lista.length) {
+    const p = tEl('p', '', vData.length ? 'Ninguna inscripción coincide con el filtro.' : 'Todavía no hay inscripciones.');
+    p.style.cssText = 'color:var(--texto-suave);font-size:0.9rem;';
+    cont.appendChild(p);
+    return;
+  }
+
+  lista.forEach(v => {
+    const item = tEl('div', 'item-admin');
+    item.style.flexWrap = 'wrap';
+    const info = tEl('div', 'item-admin-info');
+    info.style.flex = '1 1 100%';
+    info.appendChild(tEl('div', 'item-admin-nombre', v.nombre));
+    info.append(
+      vDato('Taller', v.taller),
+      vDato('Celular', v.celular),
+      vDato('Mail', v.email),
+      vDato('Instagram', v.instagram),
+      vDato('Ocupación', v.ocupacion),
+      vDato('Fecha de nacimiento', vFechaNac(v.fecha_nacimiento)),
+      vDato('DNI', v.dni),
+      vDato('Inscripción', V_FECHA.format(new Date(v.created_at))),
+    );
+    item.appendChild(info);
+    const acc = tEl('div', 'item-admin-acciones');
+    acc.append(vInterruptor(v), tBoton('Eliminar', 'btn-peligro', () => vEliminar(v.id)));
+    item.appendChild(acc);
+    cont.appendChild(item);
+  });
+}
+
+async function vCargar() {
+  const { data, error } = await db
+    .from('voluntarios_inscripciones')
+    .select('id, nombre, dni, fecha_nacimiento, email, instagram, celular, ocupacion, taller, estado, created_at')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    document.getElementById('vLista').replaceChildren(tEl('p', 'msg-err', 'Error al cargar las inscripciones.'));
+    return;
+  }
+  vData = data;
+  vPintar();
+}
+
+document.getElementById('vBuscar').addEventListener('input', vPintar);
+document.getElementById('vTaller').addEventListener('change', vPintar);
+
+vCargar();

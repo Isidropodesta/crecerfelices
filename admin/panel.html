@@ -26,6 +26,7 @@
     <button class="panel-tab-btn active" data-tab="testimonios" role="tab">Testimonios</button>
     <button class="panel-tab-btn" data-tab="aliados"     role="tab">Aliados</button>
     <button class="panel-tab-btn" data-tab="talleres"    role="tab">Talleres</button>
+    <button class="panel-tab-btn" data-tab="voluntarios" role="tab">Voluntarios</button>
     <button class="panel-tab-btn" data-tab="eventos"     role="tab">Eventos</button>
   </nav>
 
@@ -179,6 +180,32 @@
 
       <h3 class="seccion-titulo">Talleres guardados</h3>
       <div id="tlLista" class="lista-items"></div>
+    </section>
+
+    <section class="tab-panel" id="tab-voluntarios">
+      <h2 class="seccion-titulo">Voluntarios — Inscripciones</h2>
+
+      <div class="form-admin" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;">
+        <div class="field">
+          <label for="vBuscar">Buscar por nombre</label>
+          <input type="search" id="vBuscar" autocomplete="off">
+        </div>
+        <div class="field">
+          <label for="vTaller">Taller</label>
+          <select id="vTaller">
+            <option value="">Todos</option>
+            <option>Mi Solcito</option>
+            <option>Picardías</option>
+            <option>Rinconcito de Luz</option>
+            <option>Multicolores</option>
+            <option>Mundo Explorador</option>
+            <option>Mi Angelito</option>
+          </select>
+        </div>
+      </div>
+
+      <p id="vResumen" style="color:var(--texto-suave);font-size:0.9rem;margin:0 0 12px;"></p>
+      <div id="vLista" class="lista-items"></div>
     </section>
 
     <section class="tab-panel" id="tab-eventos">

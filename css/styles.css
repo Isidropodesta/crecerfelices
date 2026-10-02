@@ -1144,7 +1144,8 @@ body.modal-open { overflow: hidden; }
   font-size: 0.95rem;
   line-height: 1.45;
 }
-.vol-opcion input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; accent-color: var(--fucsia); }
+.vol-page .vol-opcion input { width: 20px; height: 20px; padding: 0; margin: 2px 0 0; flex-shrink: 0; background: none; accent-color: var(--fucsia); }
+.vol-opcion span { min-width: 0; }
 .vol-opcion:has(input:checked) { border-color: var(--fucsia); background: var(--fucsia-pale); }
 .vol-page .form[hidden] { display: none; }
 .vol-trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
@@ -1536,15 +1537,15 @@ body.modal-open { overflow: hidden; }
     mix-blend-mode: overlay;
   }
   /* Navbar transparente sobre el hero */
-  #navbar:not(.scrolled) {
+  #navbar:not(.scrolled):not(.nav-solido) {
     background: transparent;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     border-bottom-color: transparent;
   }
-  #navbar:not(.scrolled) .nav-links a { color: rgba(255,255,255,0.92); }
-  #navbar:not(.scrolled) .nav-links a:hover,
-  #navbar:not(.scrolled) .nav-links a.active { background: rgba(255,255,255,0.16); color: var(--blanco); }
+  #navbar:not(.scrolled):not(.nav-solido) .nav-links a { color: rgba(255,255,255,0.92); }
+  #navbar:not(.scrolled):not(.nav-solido) .nav-links a:hover,
+  #navbar:not(.scrolled):not(.nav-solido) .nav-links a.active { background: rgba(255,255,255,0.16); color: var(--blanco); }
 
   /* Quiénes Somos: texto a la izquierda centrado vert., video a la derecha */
   .quienes-layout {
