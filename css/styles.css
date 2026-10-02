@@ -994,6 +994,16 @@ body.modal-open { overflow: hidden; }
   line-height: 1.6;
   overflow-wrap: anywhere;
 }
+.testimonio-texto::before,
+.testimonio-texto::after {
+  font-family: Georgia, serif;
+  font-size: 1.7em;
+  line-height: 0;
+  color: var(--fucsia);
+  vertical-align: -0.3em;
+}
+.testimonio-texto::before { content: 'C'; margin-right: 2px; }
+.testimonio-texto::after  { content: 'D'; margin-left: 2px; }
 .testimonio-autor { display: block; }
 .testimonio-datos { display: flex; flex-direction: column; gap: 2px; }
 .testimonio-datos strong {
