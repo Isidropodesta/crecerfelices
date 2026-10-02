@@ -753,7 +753,8 @@
       const autor = el('figcaption', 'testimonio-autor');
       const datos = el('div', 'testimonio-datos');
       datos.appendChild(el('strong', '', t.nombre));
-      const meta = [t.rol, t.taller].filter(Boolean).join(' · ');
+      const cap = x => (x || '').trim().replace(/^./, c => c.toUpperCase());
+      const meta = [cap(t.rol), cap(t.taller)].filter(Boolean).join(' · ');
       if (meta) datos.appendChild(el('span', '', meta));
       autor.appendChild(datos);
       card.appendChild(autor);
