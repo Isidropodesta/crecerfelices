@@ -27,94 +27,36 @@ async function subirImagen(archivo, carpeta) {
 
 /* =====================================================================
    TESTIMONIOS
+   Todo texto del público se inserta con textContent, nunca innerHTML.
    ===================================================================== */
 
-let tEditandoId      = null;
-let tEditandoFotoUrl = null;
+let tEditandoId = null;
+
+const T_SOSPECHOSO = /https?:|www\.|\.com\b|\.net\b|\.ru\b|\.ar\/|bit\.ly|wa\.me|t\.me|@\w|casino|apuesta|bitcoin|crypto|viagra|pr[eé]stamo|ganá dinero|ganar dinero|click aqu[ií]/i;
+
+function tEl(tag, clase, texto) {
+  const e = document.createElement(tag);
+  if (clase) e.className = clase;
+  if (texto !== undefined) e.textContent = texto;
+  return e;
+}
+
+function tBoton(texto, clase, onClick) {
+  const b = tEl('button', clase, texto);
+  b.type = 'button';
+  b.addEventListener('click', onClick);
+  return b;
+}
 
 function tResetForm() {
-  tEditandoId      = null;
-  tEditandoFotoUrl = null;
-  document.getElementById('tFormTitulo').textContent  = 'Agregar testimonio';
-  document.getElementById('tNombre').value            = '';
-  document.getElementById('tRol').value               = '';
-  document.getElementById('tTexto').value             = '';
-  document.getElementById('tOrden').value             = '0';
-  document.getElementById('tActivo').checked          = true;
-  document.getElementById('tFoto').value              = '';
-  const prev = document.getElementById('tFotoPreview');
-  prev.src = ''; prev.style.display = 'none';
-  document.getElementById('tBtnCancelar').style.display = 'none';
+  tEditandoId = null;
+  document.getElementById('tForm').style.display = 'none';
 }
 
-async function tCargar() {
-  const lista = document.getElementById('tLista');
-  lista.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Cargando…</p>';
-
-  const { data, error } = await db
-    .from('testimonios')
-    .select('*')
-    .order('orden')
-    .order('created_at');
-
-  if (error) {
-    lista.innerHTML = '<p class="msg-err">Error al cargar los testimonios.</p>';
-    return;
-  }
-  if (!data.length) {
-    lista.innerHTML = '<p style="color:var(--texto-suave);font-size:0.9rem;">Todavía no hay testimonios. Usá el formulario de arriba para agregar el primero.</p>';
-    return;
-  }
-
-  window._tData = data;
-
-  lista.innerHTML = data.map(t => `
-    <div class="item-admin">
-      ${t.foto_url
-        ? `<img src="${t.foto_url}" style="width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid var(--gris-borde);flex-shrink:0;" alt="">`
-        : `<div style="width:52px;height:52px;border-radius:50%;background:var(--fucsia);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;flex-shrink:0;">${(t.nombre[0]||'?').toUpperCase()}</div>`
-      }
-      <div class="item-admin-info">
-        <div class="item-admin-nombre">${t.nombre}</div>
-        <div class="item-admin-sub">${t.rol || '—'}</div>
-      </div>
-      <div class="item-admin-acciones">
-        <span class="${t.activo ? 'badge-activo' : 'badge-inactivo'}">${t.activo ? 'Visible' : 'Oculto'}</span>
-        <button class="btn-secundario" data-id="${t.id}" data-accion="editar">Editar</button>
-        <button class="btn-peligro"    data-id="${t.id}" data-accion="eliminar">Eliminar</button>
-      </div>
-    </div>
-  `).join('');
-
-  lista.querySelectorAll('button[data-accion]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (btn.dataset.accion === 'editar')   tIniciarEdicion(btn.dataset.id);
-      if (btn.dataset.accion === 'eliminar') tEliminar(btn.dataset.id);
-    });
-  });
-}
-
-function tIniciarEdicion(id) {
-  const t = (window._tData || []).find(x => x.id === id);
-  if (!t) return;
-
-  tEditandoId      = id;
-  tEditandoFotoUrl = t.foto_url || null;
-
-  document.getElementById('tFormTitulo').textContent  = 'Editar testimonio';
-  document.getElementById('tNombre').value            = t.nombre;
-  document.getElementById('tRol').value               = t.rol || '';
-  document.getElementById('tTexto').value             = t.texto;
-  document.getElementById('tOrden').value             = t.orden;
-  document.getElementById('tActivo').checked          = t.activo;
-  document.getElementById('tFoto').value              = '';
-
-  const prev = document.getElementById('tFotoPreview');
-  if (t.foto_url) { prev.src = t.foto_url; prev.style.display = 'block'; }
-  else              { prev.style.display = 'none'; }
-
-  document.getElementById('tBtnCancelar').style.display = '';
-  document.getElementById('tForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+async function tActualizar(id, cambios) {
+  const { error } = await db.from('testimonios').update(cambios).eq('id', id);
+  if (error) { alert('Error: ' + error.message); return false; }
+  return true;
 }
 
 async function tEliminar(id) {
@@ -124,59 +66,148 @@ async function tEliminar(id) {
   tCargar();
 }
 
-document.getElementById('tFoto').addEventListener('change', (e) => {
-  const archivo = e.target.files[0];
-  const prev    = document.getElementById('tFotoPreview');
-  if (archivo) { prev.src = URL.createObjectURL(archivo); prev.style.display = 'block'; }
-  else          { prev.style.display = 'none'; }
-});
+function tTarjeta(t, acciones) {
+  const item = tEl('div', 'item-admin');
+  item.style.flexWrap = 'wrap';
+
+  const info = tEl('div', 'item-admin-info');
+  const nombre = tEl('div', 'item-admin-nombre', t.nombre);
+  if (t.es_maqueta) {
+    const tag = tEl('span', 'badge-inactivo', 'Maqueta');
+    tag.style.marginLeft = '8px';
+    nombre.appendChild(tag);
+  }
+  if (t.estado === 'pendiente' && T_SOSPECHOSO.test(`${t.nombre} ${t.texto} ${t.rol || ''} ${t.taller || ''}`)) {
+    const alerta = tEl('span', 'badge-inactivo', '⚠ Revisar: link o palabra sospechosa');
+    alerta.style.marginLeft = '8px';
+    alerta.style.background = '#FFF3C0';
+    alerta.style.color = '#7a5b00';
+    nombre.appendChild(alerta);
+  }
+  info.appendChild(nombre);
+  info.appendChild(tEl('div', 'item-admin-sub', [t.rol, t.taller].filter(Boolean).join(' · ') || '—'));
+  const msg = tEl('div', 'item-admin-sub', t.texto);
+  msg.style.marginTop = '6px';
+  msg.style.whiteSpace = 'pre-wrap';
+  info.appendChild(msg);
+  item.appendChild(info);
+
+  const acc = tEl('div', 'item-admin-acciones');
+  acciones.forEach(a => acc.appendChild(a));
+  item.appendChild(acc);
+  return item;
+}
+
+function tInterruptor(t) {
+  const label = tEl('label');
+  label.style.cssText = 'display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:0.82rem;cursor:pointer;';
+  const chk = document.createElement('input');
+  chk.type = 'checkbox';
+  chk.checked = t.visible;
+  chk.style.cssText = 'width:auto;accent-color:var(--fucsia);';
+  const txt = tEl('span', '', t.visible ? 'Visible' : 'Oculto');
+  chk.addEventListener('change', async () => {
+    chk.disabled = true;
+    const ok = await tActualizar(t.id, { visible: chk.checked });
+    if (ok) { t.visible = chk.checked; txt.textContent = chk.checked ? 'Visible' : 'Oculto'; }
+    else chk.checked = !chk.checked;
+    chk.disabled = false;
+  });
+  label.append(chk, txt);
+  return label;
+}
+
+function tPintar(contenedorId, titulo, lista, vacio, fnAcciones) {
+  const cont = document.getElementById(contenedorId);
+  cont.replaceChildren();
+  const h = tEl('h3', 'seccion-titulo', `${titulo} (${lista.length})`);
+  cont.appendChild(h);
+  if (!lista.length) {
+    const p = tEl('p', '', vacio);
+    p.style.cssText = 'color:var(--texto-suave);font-size:0.9rem;';
+    cont.appendChild(p);
+    return;
+  }
+  const wrap = tEl('div', 'lista-items');
+  lista.forEach(t => wrap.appendChild(tTarjeta(t, fnAcciones(t))));
+  cont.appendChild(wrap);
+}
+
+async function tCargar() {
+  const { data, error } = await db
+    .from('testimonios')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    const c = document.getElementById('tPendientes');
+    c.replaceChildren(tEl('p', 'msg-err', 'Error al cargar los testimonios.'));
+    return;
+  }
+
+  window._tData = data;
+  const editar = t => tBoton('Editar', 'btn-secundario', () => tIniciarEdicion(t.id));
+  const eliminar = t => tBoton('Eliminar', 'btn-peligro', () => tEliminar(t.id));
+
+  tPintar('tPendientes', 'Pendientes', data.filter(t => t.estado === 'pendiente'),
+    'No hay testimonios esperando aprobación.',
+    t => [
+      tBoton('Aprobar', 'btn-primario', async () => { if (await tActualizar(t.id, { estado: 'aprobado', visible: true })) tCargar(); }),
+      tBoton('Rechazar', 'btn-peligro', async () => { if (await tActualizar(t.id, { estado: 'rechazado', visible: false })) tCargar(); }),
+      editar(t),
+    ]);
+
+  tPintar('tAprobados', 'Aprobados', data.filter(t => t.estado === 'aprobado'),
+    'Todavía no hay testimonios aprobados.',
+    t => [tInterruptor(t), editar(t), eliminar(t)]);
+
+  tPintar('tRechazados', 'Rechazados', data.filter(t => t.estado === 'rechazado'),
+    'No hay testimonios rechazados.',
+    t => [
+      tBoton('Aprobar', 'btn-secundario', async () => { if (await tActualizar(t.id, { estado: 'aprobado', visible: true })) tCargar(); }),
+      eliminar(t),
+    ]);
+}
+
+function tIniciarEdicion(id) {
+  const t = (window._tData || []).find(x => x.id === id);
+  if (!t) return;
+  tEditandoId = id;
+  document.getElementById('tNombre').value = t.nombre;
+  document.getElementById('tRol').value    = t.rol || '';
+  document.getElementById('tTaller').value = t.taller || '';
+  document.getElementById('tTexto').value  = t.texto;
+  document.getElementById('tForm').style.display = '';
+  document.getElementById('tForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
 
 document.getElementById('tBtnGuardar').addEventListener('click', async () => {
   const nombre = document.getElementById('tNombre').value.trim();
   const texto  = document.getElementById('tTexto').value.trim();
-
   if (!nombre || !texto) {
     mostrarMsg('tMsg', 'El nombre y el texto son obligatorios.', 'err');
+    return;
+  }
+  if (texto.length > 400) {
+    mostrarMsg('tMsg', 'El texto no puede pasar de 400 caracteres.', 'err');
     return;
   }
 
   const btn = document.getElementById('tBtnGuardar');
   btn.disabled = true; btn.textContent = 'Guardando…';
 
-  try {
-    let foto_url = tEditandoFotoUrl;
-    const archivo = document.getElementById('tFoto').files[0];
-    if (archivo) foto_url = await subirImagen(archivo, 'testimonios');
-
-    const datos = {
-      nombre,
-      rol:      document.getElementById('tRol').value.trim() || null,
-      texto,
-      foto_url: foto_url || null,
-      orden:    parseInt(document.getElementById('tOrden').value) || 0,
-      activo:   document.getElementById('tActivo').checked,
-    };
-
-    const { error } = tEditandoId
-      ? await db.from('testimonios').update(datos).eq('id', tEditandoId)
-      : await db.from('testimonios').insert(datos);
-
-    if (error) throw new Error(error.message);
-
-    mostrarMsg('tMsg', tEditandoId ? '✅ Testimonio actualizado.' : '✅ Testimonio agregado.', 'ok');
-    tResetForm();
-    tCargar();
-
-  } catch (e) {
-    mostrarMsg('tMsg', '❌ Error: ' + e.message, 'err');
-  } finally {
-    btn.disabled = false; btn.textContent = 'Guardar';
-  }
+  const ok = await tActualizar(tEditandoId, {
+    nombre,
+    texto,
+    rol:    document.getElementById('tRol').value.trim() || null,
+    taller: document.getElementById('tTaller').value.trim() || null,
+  });
+  btn.disabled = false; btn.textContent = 'Guardar cambios';
+  if (ok) { tResetForm(); tCargar(); }
 });
 
 document.getElementById('tBtnCancelar').addEventListener('click', tResetForm);
 
-// Carga inicial (testimonios es el tab activo por defecto)
 tCargar();
 
 /* =====================================================================

@@ -344,19 +344,82 @@
 
 
 <!-- =====================================================================
-     SECCIÓN 6: TESTIMONIOS DE VOLUNTARIOS
+     SECCIÓN 6: TESTIMONIOS
      ===================================================================== -->
 <section id="testimonios" class="section section-testimonios" aria-labelledby="test-titulo">
   <div class="container">
 
     <div class="section-header reveal">
       <span class="label-seccion">En palabras de ellos</span>
-      <h2 id="test-titulo">Lo que dicen los voluntarios</h2>
+      <h2 id="test-titulo">Historias que nos acompañan</h2>
     </div>
 
     <div class="testimonios-grid" id="testimonios-grid"></div>
+
+    <div class="testimonios-cta">
+      <button type="button" class="btn btn-fucsia" id="btn-contanos">Contanos tu historia</button>
+    </div>
   </div>
 </section>
+
+<dialog class="modal-historia" id="modal-historia" aria-labelledby="historia-titulo">
+  <form id="form-historia" novalidate>
+    <button type="button" class="historia-cerrar" id="historia-cerrar" aria-label="Cerrar">&times;</button>
+    <h3 id="historia-titulo">Contanos tu historia</h3>
+    <p class="historia-nota">Por favor, no nombres a los chicos. Revisamos cada mensaje antes de publicarlo.</p>
+
+    <div class="historia-campo">
+      <label for="h-nombre">Nombre (o nombre y apellido)</label>
+      <input type="text" id="h-nombre" maxlength="80" required autocomplete="name">
+    </div>
+
+    <div class="historia-campo">
+      <label for="h-rol">Rol</label>
+      <select id="h-rol" required>
+        <option value="">Elegí una opción</option>
+        <option>Voluntario/a</option>
+        <option>Madre/Padre/Familia</option>
+        <option>Profesor/a</option>
+        <option>Referente de merendero o CAE</option>
+        <option>Otro</option>
+      </select>
+    </div>
+
+    <div class="historia-campo">
+      <label for="h-taller">Taller o merendero</label>
+      <select id="h-taller" required>
+        <option value="">Elegí una opción</option>
+        <option>Mi Solcito</option>
+        <option>Picardías</option>
+        <option>Rinconcito de Luz</option>
+        <option>Multicolores</option>
+        <option>Mundo Explorador</option>
+        <option>Mi Angelito</option>
+        <option>Otro</option>
+      </select>
+    </div>
+
+    <div class="historia-campo">
+      <label for="h-texto">Tu mensaje</label>
+      <textarea id="h-texto" rows="5" maxlength="400" required></textarea>
+      <span class="historia-contador" id="h-contador" aria-live="polite">0 / 400</span>
+    </div>
+
+    <div class="historia-trampa" aria-hidden="true">
+      <label for="h-web">No completar este campo</label>
+      <input type="text" id="h-web" name="web" tabindex="-1" autocomplete="off">
+    </div>
+
+    <label class="historia-check">
+      <input type="checkbox" id="h-ok" required>
+      <span>Acepto que se publiquen mi nombre y mi mensaje en el sitio.</span>
+    </label>
+
+    <p class="historia-estado" id="historia-estado" role="status"></p>
+
+    <button type="submit" class="btn btn-fucsia" id="historia-enviar">Enviar</button>
+  </form>
+</dialog>
 
 
 <!-- =====================================================================
@@ -724,37 +787,100 @@
   }).join('');
 })();
 
-/* Carga testimonios desde Supabase y los renderiza en el sitio público */
+/* Testimonios: lectura pública (solo aprobados y visibles) y formulario con moderación.
+   Todo texto de usuario entra con textContent. */
 (async function() {
   const grid = document.getElementById('testimonios-grid');
   if (!grid) return;
 
+  const el = (tag, cls, txt) => {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (txt !== undefined) e.textContent = txt;
+    return e;
+  };
+
   const { data, error } = await db
     .from('testimonios')
-    .select('id, nombre, rol, texto, foto_url')
-    .eq('activo', true)
+    .select('id, nombre, rol, taller, texto')
+    .eq('estado', 'aprobado')
+    .eq('visible', true)
     .order('orden')
     .order('created_at');
 
-  if (error || !data || !data.length) return;
+  if (!error && data && data.length) {
+    const frag = document.createDocumentFragment();
+    data.forEach(t => {
+      const card = el('figure', 'testimonio-card');
+      card.appendChild(el('blockquote', 'testimonio-texto', t.texto));
+      const autor = el('figcaption', 'testimonio-autor');
+      autor.appendChild(el('strong', '', t.nombre));
+      const meta = [t.rol, t.taller].filter(Boolean).join(' · ');
+      if (meta) autor.appendChild(el('span', '', meta));
+      card.appendChild(autor);
+      frag.appendChild(card);
+    });
+    grid.replaceChildren(frag);
+  }
 
-  grid.innerHTML = data.map(t => `
-    <div class="testimonio-card">
-      <div class="testimonio-avatar">
-        ${t.foto_url
-          ? `<img src="${t.foto_url}" alt="${t.nombre}" loading="lazy">`
-          : `<div class="testimonio-iniciales">${(t.nombre[0] || '?').toUpperCase()}</div>`
-        }
-      </div>
-      <blockquote class="testimonio-texto">
-        <p>"${t.texto}"</p>
-      </blockquote>
-      <footer class="testimonio-autor">
-        <strong>${t.nombre}</strong>
-        ${t.rol ? `<span>${t.rol}</span>` : ''}
-      </footer>
-    </div>
-  `).join('');
+  const modal    = document.getElementById('modal-historia');
+  const form     = document.getElementById('form-historia');
+  const estado   = document.getElementById('historia-estado');
+  const texto    = document.getElementById('h-texto');
+  const contador = document.getElementById('h-contador');
+  const enviar   = document.getElementById('historia-enviar');
+  const CLAVE    = 'cf_historia_ultimo_envio';
+  const ESPERA   = 60000;
+  let abiertoEn  = 0;
+
+  const setEstado = (msg, ok) => {
+    estado.textContent = msg;
+    estado.className = 'historia-estado' + (msg ? (ok ? ' ok' : ' err') : '');
+  };
+
+  document.getElementById('btn-contanos').addEventListener('click', () => {
+    form.reset();
+    contador.textContent = '0 / 400';
+    setEstado('', true);
+    enviar.disabled = false;
+    form.classList.remove('enviado');
+    abiertoEn = Date.now();
+    modal.showModal();
+  });
+  document.getElementById('historia-cerrar').addEventListener('click', () => modal.close());
+  modal.addEventListener('click', e => { if (e.target === modal) modal.close(); });
+  texto.addEventListener('input', () => { contador.textContent = `${texto.value.length} / 400`; });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const nombre = document.getElementById('h-nombre').value.trim();
+    const rol    = document.getElementById('h-rol').value;
+    const taller = document.getElementById('h-taller').value;
+    const msg    = texto.value.trim();
+
+    if (!nombre || !rol || !taller || !msg) return setEstado('Completá todos los campos.', false);
+    if (!document.getElementById('h-ok').checked) return setEstado('Necesitamos tu consentimiento para publicar.', false);
+
+    const exito = 'Gracias, lo vamos a revisar antes de publicarlo.';
+    if (document.getElementById('h-web').value || Date.now() - abiertoEn < 3000) {
+      form.classList.add('enviado');
+      return setEstado(exito, true);
+    }
+
+    let ultimo = 0;
+    try { ultimo = Number(localStorage.getItem(CLAVE)) || 0; } catch (_) {}
+    if (Date.now() - ultimo < ESPERA) return setEstado('Esperá un minuto antes de enviar otro mensaje.', false);
+
+    enviar.disabled = true;
+    const { error: err } = await db.from('testimonios').insert({ nombre, rol, taller, texto: msg });
+    if (err) {
+      enviar.disabled = false;
+      return setEstado('No pudimos enviarlo. Probá de nuevo en un rato.', false);
+    }
+    try { localStorage.setItem(CLAVE, String(Date.now())); } catch (_) {}
+    form.classList.add('enviado');
+    setEstado(exito, true);
+  });
 })();
 </script>
 

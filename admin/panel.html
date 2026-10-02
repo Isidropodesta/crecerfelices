@@ -35,52 +35,40 @@
     <section class="tab-panel active" id="tab-testimonios">
       <h2 class="seccion-titulo">Testimonios</h2>
 
-      <!-- Formulario agregar / editar -->
-      <div class="form-admin" id="tForm">
-        <h3 id="tFormTitulo">Agregar testimonio</h3>
+      <div class="form-admin" id="tForm" style="display:none;">
+        <h3>Editar testimonio</h3>
 
         <div class="field">
           <label for="tNombre">Nombre *</label>
-          <input type="text" id="tNombre" placeholder="Ej: María G.">
+          <input type="text" id="tNombre" maxlength="80">
         </div>
 
         <div class="field">
-          <label for="tRol">Rol / descripción</label>
-          <input type="text" id="tRol" placeholder="Ej: Voluntaria en Mi Solcito · 2 años">
+          <label for="tRol">Rol</label>
+          <input type="text" id="tRol" maxlength="60">
         </div>
 
         <div class="field">
-          <label for="tTexto">Texto del testimonio *</label>
-          <textarea id="tTexto" rows="4" placeholder="Lo que dice esta persona sobre el proyecto…"></textarea>
+          <label for="tTaller">Taller o merendero</label>
+          <input type="text" id="tTaller" maxlength="60">
         </div>
 
         <div class="field">
-          <label for="tFoto">Foto (opcional)</label>
-          <input type="file" id="tFoto" accept="image/*">
-          <img id="tFotoPreview" style="display:none;width:70px;height:70px;border-radius:50%;object-fit:cover;margin-top:10px;border:2px solid var(--gris-borde);" alt="Preview">
-        </div>
-
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:end;">
-          <div class="field">
-            <label for="tOrden">Orden (menor = primero)</label>
-            <input type="number" id="tOrden" value="0" min="0">
-          </div>
-          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.82rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--texto-suave);padding-bottom:12px;">
-            <input type="checkbox" id="tActivo" checked style="width:auto;accent-color:var(--fucsia);"> Visible en el sitio
-          </label>
+          <label for="tTexto">Mensaje * (máx. 400)</label>
+          <textarea id="tTexto" rows="4" maxlength="400"></textarea>
         </div>
 
         <p id="tMsg" style="display:none;"></p>
 
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button id="tBtnGuardar"  class="btn-primario">Guardar</button>
-          <button id="tBtnCancelar" class="btn-secundario" style="display:none;">Cancelar edición</button>
+          <button id="tBtnGuardar"  class="btn-primario">Guardar cambios</button>
+          <button id="tBtnCancelar" class="btn-secundario">Cancelar</button>
         </div>
       </div>
 
-      <!-- Lista de testimonios guardados -->
-      <h3 class="seccion-titulo">Testimonios guardados</h3>
-      <div id="tLista" class="lista-items"></div>
+      <div id="tPendientes"></div>
+      <div id="tAprobados"></div>
+      <div id="tRechazados"></div>
     </section>
 
     <section class="tab-panel" id="tab-aliados">

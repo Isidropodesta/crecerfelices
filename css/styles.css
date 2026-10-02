@@ -950,85 +950,110 @@ body.modal-open { overflow: hidden; }
 /* =====================================================================
    13. TESTIMONIOS
    ===================================================================== */
-.section-testimonios { background: var(--fucsia-pale); }
+.section-testimonios { background: #F7F2EA; }
 .section-testimonios h2 { color: var(--fucsia); }
 
 .testimonios-grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 22px;
+  align-items: start;
 }
 .testimonio-card {
-  background: var(--blanco);
-  border-radius: var(--radio);
-  padding: 28px 26px;
-  border-left: 4px solid var(--fucsia);
-  box-shadow: 0 3px 16px rgba(214,0,110,0.08);
+  margin: 0;
+  background: #FFFDF9;
+  border: 1px solid var(--borde);
+  border-radius: 20px 20px 20px 4px;
+  padding: 30px 26px 24px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  transition: transform var(--trans), box-shadow var(--trans);
-}
-.testimonio-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 32px rgba(214,0,110,0.13);
-}
-
-.testimonio-avatar {
-  width: 62px; height: 62px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid var(--fucsia-light);
-  flex-shrink: 0;
-}
-.testimonio-avatar img {
-  width: 100%; height: 100%;
-  object-fit: cover;
-}
-.testimonio-iniciales {
-  width: 100%; height: 100%;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--fucsia);
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.5rem;
-  font-family: var(--fuente-titulo);
-}
-
-.testimonio-texto p {
-  font-size: 0.96rem;
-  font-style: italic;
-  color: var(--texto-medio);
-  line-height: 1.75;
-  margin: 0;
+  gap: 20px;
   position: relative;
 }
-.testimonio-texto p::before {
-  content: '\201C';
-  font-size: 3rem;
-  line-height: 0;
-  vertical-align: -0.7rem;
-  color: var(--fucsia);
-  opacity: 0.3;
-  font-family: Georgia, serif;
-  margin-right: 4px;
+.testimonio-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 26px;
+  width: 44px; height: 5px;
+  background: var(--amarillo);
+  border-radius: 0 0 4px 4px;
 }
-
+.testimonio-texto {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.7;
+  color: var(--texto);
+  overflow-wrap: anywhere;
+}
 .testimonio-autor {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--borde-fucsia);
 }
 .testimonio-autor strong {
   font-family: var(--fuente-titulo);
-  font-size: 0.88rem;
+  font-size: 0.95rem;
   font-weight: 800;
   color: var(--fucsia);
 }
 .testimonio-autor span {
-  font-size: 0.78rem;
-  color: var(--texto-suave);
+  font-size: 0.84rem;
+  color: var(--texto-medio);
 }
+
+.testimonios-cta { margin-top: 40px; text-align: center; }
+
+/* Modal "Contanos tu historia" */
+.modal-historia {
+  border: none;
+  border-radius: 20px;
+  padding: 0;
+  width: min(520px, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  background: #FFFDF9;
+  color: var(--texto);
+  margin: auto;
+  overflow: auto;
+}
+.modal-historia::backdrop { background: rgba(26,26,26,0.55); }
+.modal-historia form { padding: 30px 26px 26px; display: flex; flex-direction: column; gap: 16px; position: relative; }
+.modal-historia h3 { font-size: 1.4rem; color: var(--fucsia); padding-right: 36px; }
+.historia-cerrar {
+  position: absolute; top: 14px; right: 16px;
+  width: 36px; height: 36px;
+  font-size: 1.7rem; line-height: 1;
+  color: var(--texto-medio);
+  border-radius: 50%;
+}
+.historia-cerrar:hover { background: var(--crema); }
+.historia-nota { font-size: 0.9rem; color: var(--texto-medio); background: var(--amarillo-pale); border-left: 4px solid var(--amarillo); padding: 10px 12px; border-radius: 6px; }
+.historia-campo { display: flex; flex-direction: column; gap: 6px; }
+.historia-campo label { font-weight: 700; font-size: 0.88rem; }
+.historia-campo input,
+.historia-campo select,
+.historia-campo textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background: #fff;
+  font-size: 1rem;
+}
+.historia-campo input:focus,
+.historia-campo select:focus,
+.historia-campo textarea:focus { outline: none; border-color: var(--fucsia); }
+.historia-campo textarea { resize: vertical; min-height: 110px; }
+.historia-contador { align-self: flex-end; font-size: 0.78rem; color: var(--texto-suave); }
+.historia-trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.historia-check { display: flex; gap: 10px; align-items: flex-start; font-size: 0.88rem; cursor: pointer; }
+.historia-check input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--fucsia); flex-shrink: 0; }
+.historia-estado { min-height: 1.2em; font-size: 0.92rem; font-weight: 700; }
+.historia-estado.ok  { color: #1b7a3a; }
+.historia-estado.err { color: #b3261e; }
+.modal-historia form.enviado > :not(.historia-estado):not(.historia-cerrar):not(h3) { display: none; }
+.modal-historia form.enviado .historia-trampa { display: block; }
 
 
 /* =====================================================================
@@ -1427,7 +1452,6 @@ body.modal-open { overflow: hidden; }
   .talleres-grid    { grid-template-columns: repeat(2, 1fr); }
   .colaborar-grid   { grid-template-columns: repeat(2, 1fr); }
   .alianzas-grid { grid-template-columns: repeat(3, 1fr); }
-  .testimonios-grid { grid-template-columns: repeat(2, 1fr); }
   .pilares-grid     { grid-template-columns: repeat(2, 1fr); }
 
   .galeria-grid {
@@ -1517,7 +1541,6 @@ body.modal-open { overflow: hidden; }
   }
 
   /* Testimonios */
-  .testimonios-grid { grid-template-columns: repeat(3, 1fr); }
 
   /* Voluntarios */
   .voluntarios-layout { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
