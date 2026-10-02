@@ -960,25 +960,23 @@ body.modal-open { overflow: hidden; }
 }
 .testimonio-card {
   margin: 0;
-  border-radius: 28px;
-  padding: 30px 26px 26px;
+  border-radius: 22px;
+  padding: 28px 26px 24px;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  background: var(--fucsia);
-  color: #fff;
+  background: #fff;
+  color: var(--texto);
+  border: 1px solid var(--borde);
 }
-.testimonio-card:nth-child(3n+2) { background: var(--amarillo); color: var(--texto); }
-.testimonio-card:nth-child(3n)   { background: #fff; color: var(--texto); box-shadow: inset 0 0 0 2px var(--fucsia); }
 
 .testimonio-comilla {
   font-family: Georgia, serif;
   font-size: 4.5rem;
   line-height: 0.6;
   height: 32px;
-  opacity: 0.55;
+  color: var(--fucsia);
 }
-.testimonio-card:nth-child(3n) .testimonio-comilla { color: var(--fucsia); opacity: 1; }
 
 .testimonio-texto {
   margin: 0;
@@ -998,16 +996,14 @@ body.modal-open { overflow: hidden; }
   flex-shrink: 0;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  background: #fff;
+  background: #F7F2EA;
   color: var(--fucsia);
   font-family: var(--fuente-titulo);
   font-weight: 800;
 }
-.testimonio-card:nth-child(3n+2) .testimonio-inicial { background: var(--fucsia); color: #fff; }
-.testimonio-card:nth-child(3n)   .testimonio-inicial { background: var(--amarillo); color: var(--texto); }
 .testimonio-datos { display: flex; flex-direction: column; min-width: 0; }
-.testimonio-datos strong { font-family: var(--fuente-titulo); font-size: 0.95rem; font-weight: 800; }
-.testimonio-datos span { font-size: 0.82rem; opacity: 0.9; }
+.testimonio-datos strong { font-family: var(--fuente-titulo); font-size: 0.95rem; font-weight: 800; color: var(--fucsia); }
+.testimonio-datos span { font-size: 0.82rem; color: var(--texto-medio); }
 
 .testimonios-cta { margin-top: 40px; text-align: center; }
 
@@ -1026,22 +1022,19 @@ body.modal-open { overflow: hidden; }
 .modal-historia::backdrop { background: rgba(26,26,26,0.55); }
 .modal-historia form { display: flex; flex-direction: column; gap: 16px; padding: 0 26px 26px; position: relative; }
 .modal-historia h3 {
-  margin: 0 -26px;
-  padding: 26px 64px 22px 26px;
-  background: var(--fucsia);
-  color: #fff;
+  margin: 0;
+  padding: 28px 56px 0 0;
+  color: var(--fucsia);
   font-size: 1.35rem;
 }
 .historia-cerrar {
-  position: absolute; top: 18px; right: 18px;
+  position: absolute; top: 20px; right: 18px;
   width: 36px; height: 36px;
   font-size: 1.6rem; line-height: 1;
-  color: #fff;
+  color: var(--texto-medio);
   border-radius: 50%;
-  background: rgba(255,255,255,0.18);
 }
-.historia-cerrar:hover { background: rgba(255,255,255,0.32); }
-.modal-historia h3 + .historia-campo { margin-top: 6px; }
+.historia-cerrar:hover { background: rgba(0,0,0,0.06); }
 .historia-campo { display: flex; flex-direction: column; gap: 6px; }
 .historia-campo[hidden] { display: none; }
 .historia-campo label { font-weight: 700; font-size: 0.88rem; }
@@ -1050,14 +1043,14 @@ body.modal-open { overflow: hidden; }
 .historia-campo textarea {
   width: 100%;
   padding: 12px 14px;
-  border: 2px solid transparent;
-  border-radius: 14px;
+  border: 1.5px solid var(--borde);
+  border-radius: 12px;
   background: #fff;
   font-size: 1rem;
 }
 .historia-campo input:focus,
 .historia-campo select:focus,
-.historia-campo textarea:focus { outline: none; border-color: var(--amarillo); }
+.historia-campo textarea:focus { outline: none; border-color: var(--fucsia); }
 .historia-campo textarea { resize: vertical; min-height: 110px; }
 .historia-contador { align-self: flex-end; font-size: 0.78rem; color: var(--texto-medio); }
 .historia-trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
