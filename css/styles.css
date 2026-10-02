@@ -1072,76 +1072,91 @@ body.modal-open { overflow: hidden; }
 
 
 /* =====================================================================
-   14. VOLUNTARIOS
+   14. VOLUNTARIOS (bloque de la home + página /voluntarios/)
    ===================================================================== */
 .section-voluntarios {
-  background: linear-gradient(140deg, var(--fucsia) 0%, #9B004F 100%);
+  background: var(--fucsia);
+  padding: 64px 0;
 }
-
 .voluntarios-layout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
+  gap: 36px;
+  align-items: center;
 }
-
-.vol-intro { color: rgba(255,255,255,0.82); font-size: 1rem; margin-bottom: 32px; }
-.vol-items { display: flex; flex-direction: column; gap: 22px; margin-bottom: 36px; }
-
-.vol-item {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
+.vol-logo {
+  display: inline-flex;
+  background: var(--blanco);
+  border-radius: 16px;
+  padding: 8px 16px;
+  margin-bottom: 28px;
 }
-.vol-num {
-  font-family: var(--fuente-titulo);
-  font-size: 1.9rem;
+.vol-logo img { height: 48px; width: auto; }
+.vol-titulo {
   font-weight: 900;
-  color: rgba(255,255,255,0.18);
-  line-height: 1;
-  flex-shrink: 0;
-  min-width: 44px;
-}
-.vol-item strong {
-  display: block;
-  color: var(--blanco);
-  font-size: 0.95rem;
-  margin-bottom: 4px;
-}
-.vol-item p {
-  color: rgba(255,255,255,0.72);
-  font-size: 0.88rem;
+  font-size: clamp(2.6rem, 9vw, 4.6rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
   margin: 0;
 }
-
-.proceso-label {
-  font-family: var(--fuente-titulo);
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.55);
-  margin-bottom: 14px;
-}
-.proceso-pasos { display: flex; flex-direction: column; gap: 10px; }
-.proceso-pasos li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.vol-texto {
   color: var(--blanco);
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  margin: 18px 0 30px;
+  max-width: 30ch;
 }
-.proceso-pasos span {
-  display: flex; align-items: center; justify-content: center;
-  width: 28px; height: 28px;
-  background: var(--amarillo);
-  color: var(--texto);
-  border-radius: 50%;
-  font-family: var(--fuente-titulo);
-  font-weight: 900;
-  font-size: 0.78rem;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(242,194,0,0.4);
+.vol-foto {
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+}
+.vol-foto img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+
+.vol-page { padding: calc(var(--navbar-h) + 28px) 0 72px; background: var(--fondo); }
+.vol-page-inner { max-width: 720px; }
+.vol-volver {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--fucsia);
+  margin-bottom: 20px;
+}
+.vol-volver:hover { text-decoration: underline; }
+.vol-page h1 {
+  font-size: clamp(1.9rem, 6vw, 2.8rem);
+  color: var(--fucsia);
+  margin-bottom: 24px;
+}
+.vol-texto-intro { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; color: var(--texto-medio); }
+.vol-page .form-card { box-shadow: 0 6px 28px var(--sombra); border: 1px solid var(--borde); }
+.vol-page .form input { font-size: 1rem; }
+.vol-talleres { border: none; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.vol-talleres legend { font-size: 0.8rem; font-weight: 800; margin-bottom: 8px; padding: 0; }
+.vol-opcion {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border: 1.5px solid var(--borde);
+  border-radius: var(--radio-sm);
+  background: var(--crema);
+  cursor: pointer;
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+.vol-opcion input { width: 20px; height: 20px; margin-top: 2px; flex-shrink: 0; accent-color: var(--fucsia); }
+.vol-opcion:has(input:checked) { border-color: var(--fucsia); background: var(--fucsia-pale); }
+.vol-page .form[hidden] { display: none; }
+.vol-trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.vol-gracias { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; padding: 12px 0; }
+.vol-gracias[hidden] { display: none; }
+.vol-gracias h2 { font-size: 1.6rem; }
+.vol-gracias p { color: var(--texto-medio); }
+
+@media (min-width: 900px) {
+  .section-voluntarios { padding: 88px 0; }
+  .voluntarios-layout { grid-template-columns: 1.1fr 0.9fr; gap: 64px; }
+  .vol-foto { aspect-ratio: 3 / 4; max-height: 560px; justify-self: end; width: 100%; }
 }
 
 /* Formularios (compartido entre Voluntarios y Contacto) */
@@ -1557,8 +1572,6 @@ body.modal-open { overflow: hidden; }
 
   /* Testimonios */
 
-  /* Voluntarios */
-  .voluntarios-layout { grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
 
   /* Colaborar */
   .colaborar-grid { grid-template-columns: repeat(3, 1fr); }

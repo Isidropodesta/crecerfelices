@@ -359,21 +359,6 @@ function manejarEnvio(form, submitBtn, successEl, errorEl) {
   });
 }
 
-// Formulario de voluntarios
-(function initFormVoluntarios() {
-  const form      = document.getElementById('formVoluntarios');
-  if (!form) return;
-
-  const submitBtn = form.querySelector('[type="submit"]');
-  const successEl = form.querySelector('.form-success');
-  const errorEl   = form.querySelector('.form-error');
-
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-    manejarEnvio(form, submitBtn, successEl, errorEl);
-  });
-})();
-
 // Formulario de contacto
 (function initFormContacto() {
   const form      = document.getElementById('formContacto');
