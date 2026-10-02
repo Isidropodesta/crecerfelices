@@ -959,27 +959,35 @@ body.modal-open { overflow: hidden; }
 .testimonios-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 48px 0;
+  gap: 40px 0;
   align-items: start;
   padding: 24px 0 8px;
 }
 .testimonio-card {
   --color: #FFF59A;
-  --rot: -4.5deg;
-  --cinta-rot: 4deg;
+  --rot: -3deg;
+  --tr: 6deg;
+  --tw: 56px;
+  --tl: 40%;
+  --w: 94%;
+  --z: 1;
   --dx: -8px;
   --dy: 0px;
   position: relative;
-  aspect-ratio: 1 / 1;
+  z-index: var(--z);
+  justify-self: center;
+  width: var(--w);
   margin: 0;
-  padding: 36px 26px 22px;
-  background: var(--color);
+  padding: 22px 22px 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.03)),
+    var(--color);
   color: #2B2B2B;
+  font-family: 'Caveat', 'Segoe Script', 'Bradley Hand', 'Comic Sans MS', cursive;
   border-radius: 1px;
-  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.18);
+  box-shadow: 3px 5px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   gap: 16px;
   transform: translate(var(--dx), var(--dy)) rotate(calc(var(--rot) / 2));
   transition: transform 0.25s ease;
@@ -987,64 +995,70 @@ body.modal-open { overflow: hidden; }
 .testimonio-card:nth-child(even) { --dx: 8px; }
 
 /* Orden de colores elegido para que ningún par de vecinos (1, 2 y 3 columnas) quede parecido */
-.testimonio-card:nth-child(8n+1) { --color: #FFF59A; --rot: -4.5deg; --cinta-rot: 5deg;  --ddy: -12px; --ddx: -10px; }
-.testimonio-card:nth-child(8n+2) { --color: #A9C4FF; --rot: 3deg;    --cinta-rot: -6deg; --ddy: 20px;  --ddx: 8px; }
-.testimonio-card:nth-child(8n+3) { --color: #C4F59A; --rot: -6deg;   --cinta-rot: 3deg;  --ddy: 6px;   --ddx: -4px; }
-.testimonio-card:nth-child(8n+4) { --color: #FFB3C1; --rot: 5.5deg;  --cinta-rot: -4deg; --ddy: 30px;  --ddx: 12px; }
-.testimonio-card:nth-child(8n+5) { --color: #FFC1A1; --rot: -2.5deg; --cinta-rot: 7deg;  --ddy: -20px; --ddx: 6px; }
-.testimonio-card:nth-child(8n+6) { --color: #D9B8FF; --rot: 6.5deg;  --cinta-rot: -2deg; --ddy: 12px;  --ddx: -14px; }
-.testimonio-card:nth-child(8n+7) { --color: #9AF0D6; --rot: -5deg;   --cinta-rot: 8deg;  --ddy: 36px;  --ddx: 4px; }
-.testimonio-card:nth-child(8n)   { --color: #FFB8F0; --rot: 2deg;    --cinta-rot: -7deg; --ddy: -6px;  --ddx: 10px; }
+.testimonio-card:nth-child(8n+1) { --color: #FFF59A; --rot: -3deg;   --tr: 6deg;   --tw: 56px; --tl: 40%; --w: 94%;  --z: 2; --ddx: -12px; --ddy: -24px; }
+.testimonio-card:nth-child(8n+2) { --color: #A9C4FF; --rot: 2deg;    --tr: -8deg;  --tw: 44px; --tl: 62%; --w: 88%;  --z: 1; --ddx: 10px;  --ddy: 20px; }
+.testimonio-card:nth-child(8n+3) { --color: #C4F59A; --rot: -4deg;   --tr: -38deg; --tw: 60px; --tl: 50%; --w: 100%; --z: 3; --ddx: -6px;  --ddy: -4px; }
+.testimonio-card:nth-child(8n+4) { --color: #FFB3C1; --rot: 3.5deg;  --tr: 4deg;   --tw: 50px; --tl: 30%; --w: 90%;  --z: 1; --ddx: 14px;  --ddy: 40px; }
+.testimonio-card:nth-child(8n+5) { --color: #FFC1A1; --rot: -1.5deg; --tr: 9deg;   --tw: 66px; --tl: 70%; --w: 86%;  --z: 2; --ddx: 6px;   --ddy: -30px; }
+.testimonio-card:nth-child(8n+6) { --color: #D9B8FF; --rot: 4deg;    --tr: 38deg;  --tw: 54px; --tl: 50%; --w: 97%;  --z: 3; --ddx: -14px; --ddy: 14px; }
+.testimonio-card:nth-child(8n+7) { --color: #9AF0D6; --rot: -3.5deg; --tr: -10deg; --tw: 42px; --tl: 55%; --w: 92%;  --z: 1; --ddx: 4px;   --ddy: 44px; }
+.testimonio-card:nth-child(8n)   { --color: #FFB8F0; --rot: 1.5deg;  --tr: 7deg;   --tw: 68px; --tl: 35%; --w: 89%;  --z: 2; --ddx: 12px;  --ddy: -12px; }
 
 /* Cinta transparente */
 .testimonio-card::before {
   content: '';
   position: absolute;
-  top: -12px; left: 50%;
-  width: 52px; height: 24px;
-  margin-left: -26px;
+  z-index: 1;
+  top: -11px; left: var(--tl);
+  width: var(--tw); height: 22px;
+  margin-left: calc(var(--tw) / -2);
   background: rgba(200, 200, 200, 0.65);
-  transform: rotate(var(--cinta-rot));
+  transform: rotate(var(--tr));
+}
+/* En dos de cada ocho, la cinta va en una esquina superior, en diagonal */
+.testimonio-card:nth-child(8n+3)::before { top: -3px; left: -8px; margin-left: 0; }
+.testimonio-card:nth-child(8n+6)::before { top: -3px; left: auto; right: -8px; margin-left: 0; }
+
+/* Franja adhesiva del post-it */
+.testimonio-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 14px;
+  background: rgba(0, 0, 0, 0.04);
+  pointer-events: none;
 }
 
 .testimonio-comilla { display: none; }
 .testimonio-texto {
   margin: 0;
-  font-size: 1.05rem;
-  line-height: 1.55;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  font-weight: 500;
   overflow-wrap: anywhere;
 }
-.testimonio-texto::before,
-.testimonio-texto::after {
-  font-family: Georgia, serif;
-  font-size: 1.7em;
-  line-height: 0;
-  color: var(--fucsia);
-  vertical-align: -0.3em;
-}
-.testimonio-texto::before { content: '\201C'; margin-right: 2px; }
-.testimonio-texto::after  { content: '\201D'; margin-left: 2px; }
 .testimonio-autor { display: block; }
-.testimonio-datos { display: flex; flex-direction: column; gap: 3px; }
+.testimonio-datos { display: flex; flex-direction: column; gap: 2px; }
 .testimonio-datos strong {
-  font-family: var(--fuente-script);
-  font-size: 1.3rem;
-  line-height: 1.3;
-  font-weight: 400;
+  font-family: inherit;
+  font-size: 1.7rem;
+  line-height: 1.15;
+  font-weight: 700;
   color: #2B2B2B;
 }
-.testimonio-datos span { font-size: 0.84rem; color: #2B2B2B; }
+.testimonio-datos span { font-size: 1.2rem; font-weight: 500; line-height: 1.2; color: #2B2B2B; }
 
 @media (min-width: 641px) {
   .testimonios-grid {
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
-    gap: 84px 56px;
+    gap: 40px 36px;
     padding: 40px 12px 40px;
   }
-  .testimonio-card {
-    transform: translate(var(--dx), var(--dy)) rotate(var(--rot));
-  }
+  .testimonio-card { transform: translate(var(--dx), var(--dy)) rotate(var(--rot)); }
   .testimonio-card:nth-child(n) { --dx: var(--ddx); --dy: var(--ddy); }
+  .testimonio-texto { font-size: 1.4rem; }
+  .testimonio-card:nth-child(8n+3)::before { left: -18px; }
+  .testimonio-card:nth-child(8n+6)::before { right: -18px; }
 }
 @media (hover: hover) and (pointer: fine) {
   .testimonio-card:hover {
