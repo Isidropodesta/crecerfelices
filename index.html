@@ -815,10 +815,8 @@
     const frag = document.createDocumentFragment();
     data.forEach(t => {
       const card = el('figure', 'testimonio-card');
-      card.appendChild(el('span', 'testimonio-comilla', '“'));
       card.appendChild(el('blockquote', 'testimonio-texto', t.texto));
       const autor = el('figcaption', 'testimonio-autor');
-      autor.appendChild(el('span', 'testimonio-inicial', (t.nombre[0] || '?').toUpperCase()));
       const datos = el('div', 'testimonio-datos');
       datos.appendChild(el('strong', '', t.nombre));
       const meta = [t.rol, t.taller].filter(Boolean).join(' · ');

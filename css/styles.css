@@ -954,55 +954,54 @@ body.modal-open { overflow: hidden; }
 .section-testimonios h2 { color: var(--fucsia); }
 
 .testimonios-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 290px), 1fr));
-  gap: 20px;
+  columns: 290px 3;
+  column-gap: 26px;
+  padding: 10px 0;
 }
 .testimonio-card {
-  margin: 0;
-  border-radius: 22px;
-  padding: 28px 26px 24px;
+  break-inside: avoid;
+  margin: 0 0 30px;
+  padding: 34px 24px 22px;
+  background: #FFFDF9;
+  color: var(--texto);
+  border-radius: 4px 4px 18px 4px;
+  box-shadow: 0 1px 2px rgba(60,40,10,0.12), 0 8px 18px rgba(60,40,10,0.10);
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  background: #fff;
-  color: var(--texto);
-  border: 1px solid var(--borde);
+  gap: 16px;
+  transform: rotate(-1.2deg);
 }
+.testimonio-card:nth-child(3n+2) { background: #FFF3C0; transform: rotate(1deg); }
+.testimonio-card:nth-child(3n)   { background: #FFE4F0; transform: rotate(-0.4deg); }
+.testimonio-card:nth-child(4n)   { transform: rotate(1.4deg); }
 
-.testimonio-comilla {
-  font-family: Georgia, serif;
-  font-size: 4.5rem;
-  line-height: 0.6;
-  height: 32px;
-  color: var(--fucsia);
+.testimonio-card::before {
+  content: '';
+  position: absolute;
+  top: -12px; left: 50%;
+  width: 84px; height: 24px;
+  margin-left: -42px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  transform: rotate(-2deg);
 }
-
+.testimonio-comilla { display: none; }
 .testimonio-texto {
   margin: 0;
-  flex: 1;
   font-size: 1.05rem;
-  line-height: 1.65;
+  line-height: 1.6;
   overflow-wrap: anywhere;
 }
-.testimonio-autor {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: 6px;
-}
-.testimonio-inicial {
-  width: 42px; height: 42px;
-  flex-shrink: 0;
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  background: #F7F2EA;
+.testimonio-autor { display: block; }
+.testimonio-datos { display: flex; flex-direction: column; gap: 2px; }
+.testimonio-datos strong {
+  font-family: var(--fuente-script);
+  font-size: 1.15rem;
+  font-weight: 400;
   color: var(--fucsia);
-  font-family: var(--fuente-titulo);
-  font-weight: 800;
 }
-.testimonio-datos { display: flex; flex-direction: column; min-width: 0; }
-.testimonio-datos strong { font-family: var(--fuente-titulo); font-size: 0.95rem; font-weight: 800; color: var(--fucsia); }
 .testimonio-datos span { font-size: 0.82rem; color: var(--texto-medio); }
 
 .testimonios-cta { margin-top: 40px; text-align: center; }
