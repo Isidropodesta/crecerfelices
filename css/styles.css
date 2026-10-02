@@ -789,19 +789,34 @@ p:last-child { margin-bottom: 0; }
   max-height: 70vh;
   object-fit: contain;
 }
+/* Escritorio: texto y video del mismo alto; --video-h la escribe js/modal-eventos.js al abrir el modal */
 @media (min-width: 768px) {
   .modal-evento-layout {
     display: grid;
-    grid-template-columns: 1fr 260px;
-    gap: 32px;
-    align-items: start;
+    grid-template-columns: minmax(0, 520px) auto;
+    column-gap: 56px;
+    justify-content: center;
+    align-items: stretch;
   }
+  .modal-desc,
+  .modal-video-col { align-self: center; }
+  .modal-desc p {
+    font-size: 19px;
+    line-height: 1.85;
+    margin-bottom: 18px;
+  }
+  .modal-desc p:last-child { margin-bottom: 0; }
   .modal-video-col .video-vertical {
-    max-width: 260px;
+    width: clamp(190px, calc(var(--video-h, 370px) * 0.62), 270px);
+    height: var(--video-h, 370px);
+    max-width: none;
     max-height: none;
   }
   .modal-video-col .video-vertical video {
+    height: 100%;
     max-height: none;
+    object-fit: cover;
+    object-position: center;
   }
 }
 
