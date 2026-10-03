@@ -1131,7 +1131,7 @@ body.modal-open { overflow: hidden; }
    ===================================================================== */
 .section-voluntarios {
   background: #F7F2EA;
-  padding: 56px 0;
+  padding: 88px 0 56px;
 }
 .vol-cta {
   display: grid;
@@ -1140,47 +1140,37 @@ body.modal-open { overflow: hidden; }
   align-items: center;
 }
 
-/* Filas de fotos que se mueven solas */
+/* Ventana de fotos: corta en seco en los bordes */
 .vol-cta-fotos {
+  --foto: 150px;
+  --sep: 12px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--sep);
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  min-width: 0;
 }
 .vol-fila { overflow: hidden; }
 .vol-pista {
-  --foto: 130px;
-  --sep: 12px;
   display: flex;
   width: max-content;
-  animation: vol-mover 40s linear infinite;
+  animation: vol-deslizar 40s linear infinite;
   will-change: transform;
 }
-.vol-pista.inversa { animation-direction: reverse; }
 .vol-copia { display: flex; }
 .vol-foto-item {
-  position: relative;
   flex: 0 0 auto;
   width: var(--foto);
   height: var(--foto);
   margin-right: var(--sep);
-  border-radius: 16px;
+  border-radius: 22px;
   overflow: hidden;
   background: var(--crema-oscura);
 }
-.vol-foto-item img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.vol-foto-item.zoom img {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: auto; height: 325%;
-  max-width: none;
-  transform: translate(-50%, -50%);
-}
-@keyframes vol-mover {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+.vol-foto-item img { width: 100%; height: 100%; object-fit: cover; }
+@keyframes vol-deslizar {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
 }
 @media (hover: hover) and (pointer: fine) {
   .vol-cta-fotos:hover .vol-pista { animation-play-state: paused; }
@@ -1201,14 +1191,12 @@ body.modal-open { overflow: hidden; }
 }
 .vol-cta-linea {
   font-size: 1.125rem;
+  line-height: 1.5;
   color: #484848;
-  margin: 14px 0 28px;
+  margin: 18px 0 28px;
 }
 .vol-cta-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 190px;
+  display: inline-block;
   padding: 14px 34px;
   border-radius: 999px;
   background: var(--fucsia);
@@ -1223,12 +1211,15 @@ body.modal-open { overflow: hidden; }
   .vol-cta-btn:hover { background: #B80060; }
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1000px) {
   .section-voluntarios { padding: 80px 0; }
-  .vol-cta { grid-template-columns: 1fr 1fr; gap: 48px; }
-  .vol-cta-fotos { gap: 16px; }
-  .vol-pista { --foto: 190px; --sep: 16px; }
+  .vol-cta { grid-template-columns: 480px 1fr; gap: 48px; }
+  .vol-cta-fotos { --foto: 200px; --sep: 20px; }
   .vol-cta-titulo { font-size: 3.25rem; }
+}
+@media (min-width: 1200px) {
+  .vol-cta { grid-template-columns: 580px 1fr; }
+  .vol-cta-fotos { --foto: 240px; }
 }
 
 .vol-page { padding: calc(var(--navbar-h) + 28px) 0 72px; background: var(--fondo); }

@@ -35,7 +35,7 @@
       <li><a href="#quienes-somos">Quiénes somos</a></li>
       <li><a href="#talleres">Talleres</a></li>
       <li><a href="#eventos">Eventos</a></li>
-      <li><a href="/voluntarios/">Voluntarios</a></li>
+      <li><a href="#voluntarios">Voluntarios</a></li>
       <li><a href="#colaborar">Colaborar</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
@@ -52,7 +52,7 @@
       <li><a href="#quienes-somos" class="mobile-link">Quiénes somos</a></li>
       <li><a href="#talleres" class="mobile-link">Talleres</a></li>
       <li><a href="#eventos" class="mobile-link">Eventos</a></li>
-      <li><a href="/voluntarios/" class="mobile-link">Voluntarios</a></li>
+      <li><a href="#voluntarios" class="mobile-link">Voluntarios</a></li>
       <li><a href="#colaborar" class="mobile-link">Colaborar</a></li>
       <li><a href="#contacto" class="mobile-link">Contacto</a></li>
       <li><a href="#colaborar" class="btn btn-donar mobile-btn-donar">Donar</a></li>
@@ -437,7 +437,7 @@
       <div class="vol-cta-texto">
         <h2 id="vol-titulo" class="vol-cta-titulo">Sumate como voluntario.</h2>
         <p class="vol-cta-linea">Una vez por semana, los chicos nos esperan.</p>
-        <a href="/voluntarios/" class="vol-cta-btn" aria-label="Inscribirme"><span aria-hidden="true">Inscribirme</span></a>
+        <a href="/voluntarios/" class="vol-cta-btn">Inscribirme</a>
       </div>
 
     </div>
@@ -622,7 +622,7 @@
         <li><a href="#como-trabajamos">Cómo trabajamos</a></li>
         <li><a href="#talleres">Talleres</a></li>
         <li><a href="#eventos">Eventos</a></li>
-        <li><a href="/voluntarios/">Voluntarios</a></li>
+        <li><a href="#voluntarios">Voluntarios</a></li>
         <li><a href="#colaborar">Colaborar</a></li>
       </ul>
     </nav>
@@ -829,21 +829,22 @@
 <script>
 /* =====================================================================
    FOTOS DE VOLUNTARIOS: reemplazar acá.
-   Lista única. La primera mitad va en la fila de arriba y la segunda en la de abajo
-   (8 fotos = 4 por fila; 10 fotos = 5 por fila). Alternar los eventos entre filas.
-   - src: ruta de la imagen (cuadrada queda mejor).
+   Lista única: la primera mitad va en la fila de arriba y la segunda en la de abajo
+   (8 fotos = 4 por fila; 10 fotos = 5 por fila). Las dos filas se deslizan hacia la derecha.
+   - src: ruta de la imagen.
    - alt: descripción corta y real.
-   - zoom: true solo para fotos horizontales con franjas negras arriba y abajo.
+   - pos: object-position para que no se corten cabezas (x y). Las fotos con franjas negras
+     arriba y abajo necesitan un y entre 39 % y 60 % (según la foto).
    ===================================================================== */
 const FOTOS_VOLUNTARIOS = [
-  { src: 'images/locro-1.jpeg', alt: 'Voluntarios compartiendo la mesa en el locro del 9 de Julio' },
-  { src: 'images/nino-1.jpeg',  alt: 'Cielo y montañas durante el festejo del Día del Niño' },
-  { src: 'images/locro-3.jpeg', alt: 'Voluntarios con ponchos y pañuelos en el locro del 9 de Julio' },
-  { src: 'images/nino-2.jpeg',  alt: 'Chicos jugando al aire libre en el Día del Niño', zoom: true },
-  { src: 'images/nino-3.jpeg',  alt: 'Un chico y un voluntario en un juego del Día del Niño' },
-  { src: 'images/locro-5.jpeg', alt: 'Voluntarios armando el locro del 9 de Julio' },
-  { src: 'images/nino-4.jpeg',  alt: 'Chicos abrazados durante el Día del Niño', zoom: true },
-  { src: 'images/locro-6.jpeg', alt: 'Voluntarios posando frente a la casa en el locro del 9 de Julio' },
+  { src: 'images/locro-3.jpeg',           alt: 'Voluntarios con ponchos posando juntos en el locro del 9 de Julio',   pos: '50% 50%' },
+  { src: 'images/taller-mi-angelito.jpeg', alt: 'Dos voluntarios con sus credenciales acompañando una actividad en el taller Mi Angelito', pos: '50% 46%' },
+  { src: 'images/locro-1.jpeg',           alt: 'Voluntarios compartiendo la mesa en el locro del 9 de Julio',          pos: '30% 50%' },
+  { src: 'images/nino-3.jpeg',            alt: 'Dos voluntarios acompañando un juego en el Día del Niño',              pos: '50% 42%' },
+  { src: 'images/locro-6.jpeg',           alt: 'Grupo de voluntarios posando frente a la casa en el locro',            pos: '45% 50%' },
+  { src: 'images/locro-5.jpeg',           alt: 'Voluntarios con ponchos armando el locro alrededor de una mesa',       pos: '85% 50%' },
+  { src: 'images/locro-4.jpeg',           alt: 'Voluntarios abrazados posando en el salón del locro',                  pos: '50% 50%' },
+  { src: 'images/locro-2.jpeg',           alt: 'Foto grupal de voluntarios en el locro del 9 de Julio',                pos: '55% 50%' },
 ];
 
 (function () {
@@ -853,62 +854,35 @@ const FOTOS_VOLUNTARIOS = [
   const mitad = Math.ceil(FOTOS_VOLUNTARIOS.length / 2);
   const filas = [FOTOS_VOLUNTARIOS.slice(0, mitad), FOTOS_VOLUNTARIOS.slice(mitad)];
 
-  function foto(f, duplicada) {
+  function foto(f, i, duplicada) {
     const item = document.createElement('div');
-    item.className = 'vol-foto-item' + (f.zoom ? ' zoom' : '');
+    item.className = 'vol-foto-item';
     const img = document.createElement('img');
     img.src = f.src;
     img.alt = duplicada ? '' : f.alt;
-    img.width = 190;
-    img.height = 190;
-    img.loading = 'lazy';
+    img.width = 240;
+    img.height = 240;
+    img.loading = !duplicada && i < 3 ? 'eager' : 'lazy';
     img.decoding = 'async';
+    img.style.objectPosition = f.pos;
     item.appendChild(img);
     return item;
   }
 
-  filas.forEach((fotos, i) => {
+  filas.forEach(fotos => {
     const fila = document.createElement('div');
     fila.className = 'vol-fila';
     const pista = document.createElement('div');
-    pista.className = 'vol-pista' + (i === 1 ? ' inversa' : '');
-    pista.style.animationDuration = fotos.length * 10 + 's';
-    fotos.forEach(f => pista.appendChild(foto(f, false)));
+    pista.className = 'vol-pista';
+    fotos.forEach((f, i) => pista.appendChild(foto(f, i, false)));
     const copia = document.createElement('div');
     copia.className = 'vol-copia';
     copia.setAttribute('aria-hidden', 'true');
-    fotos.forEach(f => copia.appendChild(foto(f, true)));
+    fotos.forEach((f, i) => copia.appendChild(foto(f, i, true)));
     pista.appendChild(copia);
     fila.appendChild(pista);
     cont.appendChild(fila);
   });
-})();
-
-/* Botón: las letras se mezclan un instante y se acomodan (solo con mouse) */
-(function () {
-  const btn = document.querySelector('.vol-cta-btn');
-  if (!btn) return;
-  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-  const span = btn.querySelector('span');
-  const final = span.textContent;
-  const letras = 'abcdefghijklmnopqrstuvwxyz';
-  let timer = null;
-
-  btn.addEventListener('mouseenter', () => {
-    clearInterval(timer);
-    const inicio = performance.now();
-    timer = setInterval(() => {
-      const p = Math.min((performance.now() - inicio) / 500, 1);
-      const fijas = Math.floor(p * final.length);
-      span.textContent = Array.from(final, (c, i) =>
-        i < fijas ? c : letras[Math.floor(Math.random() * letras.length)]
-      ).join('');
-      if (p >= 1) { clearInterval(timer); span.textContent = final; }
-    }, 40);
-  });
-  btn.addEventListener('mouseleave', () => { clearInterval(timer); span.textContent = final; });
 })();
 </script>
 

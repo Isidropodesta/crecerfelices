@@ -55,17 +55,14 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/REEMPLAZAR_CON_TU_
   const navLinks  = document.querySelectorAll('.nav-links a');
   const OFFSET    = 100;
 
-  const observerNav = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(a => a.classList.remove('active'));
-        const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
-    });
-  }, { threshold: 0.35, rootMargin: `-${OFFSET}px 0px 0px 0px` });
-
-  sections.forEach(s => observerNav.observe(s));
+  // La sección actual es la última cuyo borde superior ya pasó la barra
+  function marcarActivo() {
+    let actual = null;
+    sections.forEach(s => { if (s.getBoundingClientRect().top <= OFFSET) actual = s; });
+    navLinks.forEach(a => a.classList.toggle('active', !!actual && a.getAttribute('href') === `#${actual.id}`));
+  }
+  window.addEventListener('scroll', marcarActivo, { passive: true });
+  marcarActivo();
 })();
 
 
