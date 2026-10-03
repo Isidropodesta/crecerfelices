@@ -430,17 +430,14 @@
      ===================================================================== -->
 <section id="voluntarios" class="section section-voluntarios" aria-labelledby="vol-titulo">
   <div class="container">
-    <div class="voluntarios-layout">
+    <div class="vol-cta">
 
-      <div class="voluntarios-info">
-        <span class="vol-logo"><img src="images/logo-crecer-felices.png" alt="Proyecto Crecer Felices" width="160" height="56"></span>
-        <h2 id="vol-titulo" class="light vol-titulo">Sumate como voluntario.</h2>
-        <p class="vol-texto">Un rato por semana con los chicos de nuestros talleres.</p>
-        <a href="/voluntarios/" class="btn btn-white">Quiero sumarme →</a>
-      </div>
+      <div class="vol-cta-fotos" id="vol-fotos"></div>
 
-      <div class="vol-foto">
-        <img src="images/taller-picardias.jpeg" alt="Una voluntaria compartiendo una actividad con chicos en el taller" width="736" height="1600" loading="lazy" decoding="async">
+      <div class="vol-cta-texto">
+        <h2 id="vol-titulo" class="vol-cta-titulo">Sumate como voluntario.</h2>
+        <p class="vol-cta-linea">Una vez por semana, los chicos nos esperan.</p>
+        <a href="/voluntarios/" class="vol-cta-btn" aria-label="Inscribirme"><span aria-hidden="true">Inscribirme</span></a>
       </div>
 
     </div>
@@ -826,6 +823,92 @@
     form.classList.add('enviado');
     setEstado(exito, true);
   });
+})();
+</script>
+
+<script>
+/* =====================================================================
+   FOTOS DE VOLUNTARIOS: reemplazar acá.
+   Lista única. La primera mitad va en la fila de arriba y la segunda en la de abajo
+   (8 fotos = 4 por fila; 10 fotos = 5 por fila). Alternar los eventos entre filas.
+   - src: ruta de la imagen (cuadrada queda mejor).
+   - alt: descripción corta y real.
+   - zoom: true solo para fotos horizontales con franjas negras arriba y abajo.
+   ===================================================================== */
+const FOTOS_VOLUNTARIOS = [
+  { src: 'images/locro-1.jpeg', alt: 'Voluntarios compartiendo la mesa en el locro del 9 de Julio' },
+  { src: 'images/nino-1.jpeg',  alt: 'Cielo y montañas durante el festejo del Día del Niño' },
+  { src: 'images/locro-3.jpeg', alt: 'Voluntarios con ponchos y pañuelos en el locro del 9 de Julio' },
+  { src: 'images/nino-2.jpeg',  alt: 'Chicos jugando al aire libre en el Día del Niño', zoom: true },
+  { src: 'images/nino-3.jpeg',  alt: 'Un chico y un voluntario en un juego del Día del Niño' },
+  { src: 'images/locro-5.jpeg', alt: 'Voluntarios armando el locro del 9 de Julio' },
+  { src: 'images/nino-4.jpeg',  alt: 'Chicos abrazados durante el Día del Niño', zoom: true },
+  { src: 'images/locro-6.jpeg', alt: 'Voluntarios posando frente a la casa en el locro del 9 de Julio' },
+];
+
+(function () {
+  const cont = document.getElementById('vol-fotos');
+  if (!cont) return;
+
+  const mitad = Math.ceil(FOTOS_VOLUNTARIOS.length / 2);
+  const filas = [FOTOS_VOLUNTARIOS.slice(0, mitad), FOTOS_VOLUNTARIOS.slice(mitad)];
+
+  function foto(f, duplicada) {
+    const item = document.createElement('div');
+    item.className = 'vol-foto-item' + (f.zoom ? ' zoom' : '');
+    const img = document.createElement('img');
+    img.src = f.src;
+    img.alt = duplicada ? '' : f.alt;
+    img.width = 190;
+    img.height = 190;
+    img.loading = 'lazy';
+    img.decoding = 'async';
+    item.appendChild(img);
+    return item;
+  }
+
+  filas.forEach((fotos, i) => {
+    const fila = document.createElement('div');
+    fila.className = 'vol-fila';
+    const pista = document.createElement('div');
+    pista.className = 'vol-pista' + (i === 1 ? ' inversa' : '');
+    pista.style.animationDuration = fotos.length * 10 + 's';
+    fotos.forEach(f => pista.appendChild(foto(f, false)));
+    const copia = document.createElement('div');
+    copia.className = 'vol-copia';
+    copia.setAttribute('aria-hidden', 'true');
+    fotos.forEach(f => copia.appendChild(foto(f, true)));
+    pista.appendChild(copia);
+    fila.appendChild(pista);
+    cont.appendChild(fila);
+  });
+})();
+
+/* Botón: las letras se mezclan un instante y se acomodan (solo con mouse) */
+(function () {
+  const btn = document.querySelector('.vol-cta-btn');
+  if (!btn) return;
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const span = btn.querySelector('span');
+  const final = span.textContent;
+  const letras = 'abcdefghijklmnopqrstuvwxyz';
+  let timer = null;
+
+  btn.addEventListener('mouseenter', () => {
+    clearInterval(timer);
+    const inicio = performance.now();
+    timer = setInterval(() => {
+      const p = Math.min((performance.now() - inicio) / 500, 1);
+      const fijas = Math.floor(p * final.length);
+      span.textContent = Array.from(final, (c, i) =>
+        i < fijas ? c : letras[Math.floor(Math.random() * letras.length)]
+      ).join('');
+      if (p >= 1) { clearInterval(timer); span.textContent = final; }
+    }, 40);
+  });
+  btn.addEventListener('mouseleave', () => { clearInterval(timer); span.textContent = final; });
 })();
 </script>
 

@@ -1130,42 +1130,106 @@ body.modal-open { overflow: hidden; }
    14. VOLUNTARIOS (bloque de la home + página /voluntarios/)
    ===================================================================== */
 .section-voluntarios {
-  background: var(--fucsia);
-  padding: 64px 0;
+  background: #F7F2EA;
+  padding: 56px 0;
 }
-.voluntarios-layout {
+.vol-cta {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 36px;
+  gap: 32px;
   align-items: center;
 }
-.vol-logo {
-  display: inline-flex;
-  background: var(--blanco);
-  border-radius: 16px;
-  padding: 8px 16px;
-  margin-bottom: 28px;
+
+/* Filas de fotos que se mueven solas */
+.vol-cta-fotos {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
 }
-.vol-logo img { height: 48px; width: auto; }
-.vol-titulo {
-  font-weight: 900;
-  font-size: clamp(2.6rem, 9vw, 4.6rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
+.vol-fila { overflow: hidden; }
+.vol-pista {
+  --foto: 130px;
+  --sep: 12px;
+  display: flex;
+  width: max-content;
+  animation: vol-mover 40s linear infinite;
+  will-change: transform;
+}
+.vol-pista.inversa { animation-direction: reverse; }
+.vol-copia { display: flex; }
+.vol-foto-item {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--foto);
+  height: var(--foto);
+  margin-right: var(--sep);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--crema-oscura);
+}
+.vol-foto-item img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.vol-foto-item.zoom img {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: auto; height: 325%;
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+@keyframes vol-mover {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (hover: hover) and (pointer: fine) {
+  .vol-cta-fotos:hover .vol-pista { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vol-pista { animation: none; }
+}
+
+/* Texto */
+.vol-cta-titulo {
+  font-family: var(--fuente-titulo);
+  font-weight: 800;
+  font-size: 2.125rem;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: #2B2B2B;
   margin: 0;
 }
-.vol-texto {
-  color: var(--blanco);
-  font-size: 1.15rem;
-  margin: 18px 0 30px;
-  max-width: 30ch;
+.vol-cta-linea {
+  font-size: 1.125rem;
+  color: #484848;
+  margin: 14px 0 28px;
 }
-.vol-foto {
-  border-radius: 24px;
-  overflow: hidden;
-  aspect-ratio: 1 / 1;
+.vol-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 190px;
+  padding: 14px 34px;
+  border-radius: 999px;
+  background: var(--fucsia);
+  color: #fff;
+  font-family: var(--fuente-titulo);
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s ease;
 }
-.vol-foto img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.vol-cta-btn:focus-visible { outline: 3px solid #2B2B2B; outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .vol-cta-btn:hover { background: #B80060; }
+}
+
+@media (min-width: 900px) {
+  .section-voluntarios { padding: 80px 0; }
+  .vol-cta { grid-template-columns: 1fr 1fr; gap: 48px; }
+  .vol-cta-fotos { gap: 16px; }
+  .vol-pista { --foto: 190px; --sep: 16px; }
+  .vol-cta-titulo { font-size: 3.25rem; }
+}
 
 .vol-page { padding: calc(var(--navbar-h) + 28px) 0 72px; background: var(--fondo); }
 .vol-page-inner { max-width: 720px; }
@@ -1208,12 +1272,6 @@ body.modal-open { overflow: hidden; }
 .vol-gracias[hidden] { display: none; }
 .vol-gracias h2 { font-size: 1.6rem; }
 .vol-gracias p { color: var(--texto-medio); }
-
-@media (min-width: 900px) {
-  .section-voluntarios { padding: 88px 0; }
-  .voluntarios-layout { grid-template-columns: 1.1fr 0.9fr; gap: 64px; }
-  .vol-foto { aspect-ratio: 3 / 4; max-height: 560px; justify-self: end; width: 100%; }
-}
 
 /* Formularios (compartido entre Voluntarios y Contacto) */
 .form-card {
